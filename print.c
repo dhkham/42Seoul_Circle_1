@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/28 13:13:38 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/28 15:30:17 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int print_s(t_flags *flags, char *s)
 // print_x도 10진수를 16진수로 출력
 // print_p는 print_x 함수를 호출하고, 앞에 0x를 붙여야 한다.
 
-int ft_nbrlen(long n, int base)
+int nbrlen(long n, int base)
 {
     int len;
 
@@ -112,35 +112,9 @@ int ft_nbrlen(long n, int base)
 }
 
 // integer to string (+ base conversion to octal, decimal, hexadecimal)
-char    *ft_itoa_base(char *type, int base)
+char    *ft_itoa_base(unsigned int x, int base)
 {
-    char    *str;
-    int     i;
-    int     len;
-    int     sign;
-    long    n;
-
-    sign = 1;
-    i = 0;
-    n = (long)type;
-    if (n < 0)
-    {
-        sign = -1;
-        n *= -1;
-    }
-    len = ft_nbrlen(n, base);
-    if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
-        return (NULL);
-    str[len] = '\0';
-    while (len--)
-    {
-        str[len] = n % base + '0';
-        if (str[len] > '9')
-            str[len] += 39;
-        n /= base;
-    }
-    if (sign == -1)
-        str[0] = '-';
+	char    *str;
     return (str);
 }
 
@@ -171,7 +145,7 @@ int print_x(t_flags *flags, unsigned int x)
     return (count);
 }
 
-int ft_print_uu(t_flags *flags, unsigned int u)
+int print_uu(t_flags *flags, unsigned int u)
 {
     int count;
     char *str;
@@ -193,7 +167,7 @@ int ft_print_uu(t_flags *flags, unsigned int u)
     return (count);
 }
 
-int ft_print_d(t_flags *flags, int d)
+int print_d(t_flags *flags, int d)
 {
     int count;
     char *str;
@@ -229,15 +203,15 @@ int print_p(t_flags *flags, unsigned long long p)
         count += print_x(flags, p); // write address first, then print spaces depending on width
         while (flags->width-- > count)
         {
-            write(1, " ", 1);
+            write(1, "H", 1);
             count++;
         }
     }
     else // right justify (default)
     {
-        while (flags->width-- > count)
+        while (flags->width-- > count) // flags->width-- > length of address + 2
         {
-            write(1, " ", 1);
+            write(1, "H", 1);
             count++;
         }
         write(1, "0x", 2);
@@ -247,7 +221,7 @@ int print_p(t_flags *flags, unsigned long long p)
     return (count);
 }
 
-int print_id(t_flags *flags, int d)
+int print_di(t_flags *flags, int d)
 {
     int count;
 
@@ -290,7 +264,7 @@ int print_u(t_flags *flags, unsigned int u)
     count = 0;
     if (flags->minus == 1) // - : 왼쪽 정렬
     {
-        count += print_uu(flags, u);
+        count += print_u(flags, u);
         while (flags->width-- > count)
         {
             write(1, " ", 1);
@@ -304,8 +278,61 @@ int print_u(t_flags *flags, unsigned int u)
             write(1, " ", 1);
             count++;
         }
-        count += print_uu(flags, u);
+        count += print_u(flags, u);
     }
     return (count);
 }
 
+int	print_percent(t_flags *flags)
+{
+	int count;
+
+	count = 0;
+	if (flags->minus == 1) // - : 왼쪽 정렬
+	{
+		write(1, "%", 1);
+		count++;
+		while (flags->width-- > count)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+	}
+	else
+	{
+		while (flags->width-- > count)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+		write(1, "%", 1);
+		count++;
+	}
+	return (count);
+}
+
+int	print_xx(t_flags *flags, unsigned int x)
+{
+	int count;
+
+	count = 0;
+	if (flags->minus == 1) // - : 왼쪽 정렬
+	{
+		count += print_x(flags, x);
+		while (flags->width-- > count)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+	}
+	else
+	{
+		while (flags->width-- > count)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+		count += print_x(flags, x);
+	}
+	return (count);
+}

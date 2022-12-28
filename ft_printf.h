@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:34:35 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/28 13:41:55 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/28 15:05:01 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int     print_u(t_flags *flags, unsigned int u);
 int     print_x(t_flags *flags, unsigned int x);
 int     print_xx(t_flags *flags, unsigned int xx);
 int     print_percent(t_flags *flags);
-
-
-
-
+int		ft_nbrlen(long n, int base);
+char    *ft_itoa_base(unsigned int, int base);
 #endif

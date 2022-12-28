@@ -17,6 +17,6 @@ int main()
 
     // example of %p in printf
     int num = 10;
-    printf("%20p", &num);
-
+    //printf("%20p", &num);
+	ft_printf("%20p", &num);
 }
