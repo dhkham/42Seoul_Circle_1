@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/28 15:53:19 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/30 14:56:23 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int main()
 	//printf("hello%c", 'a');
 	//ft_printf("hello%c", 'a');
 	//int num = 10;
-    printf("%c %c\n", 'a', 'b');
-	ft_printf("%c %c", 'a', 'b');
+    //printf("%c %c\n", 'a', 'b');
+	//ft_printf("%c %c", 'a', 'b');
+	printf("%%\n");
+	ft_printf("%%\n");
 	return (0);
 }
 

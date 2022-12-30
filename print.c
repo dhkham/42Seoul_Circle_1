@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/28 15:30:17 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/30 14:53:44 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ int print_s(t_flags *flags, char *s)
 
 // 여기부터 보기!
 
-// 주소는 16진수로 출력
-// print_x도 10진수를 16진수로 출력
-// print_p는 print_x 함수를 호출하고, 앞에 0x를 붙여야 한다.
+// print_x: print an integer value as a hexadecimal (base 16) number.
+// print_p calls print_x +add "0x" in front
 
 int nbrlen(long n, int base)
 {
@@ -203,7 +202,7 @@ int print_p(t_flags *flags, unsigned long long p)
         count += print_x(flags, p); // write address first, then print spaces depending on width
         while (flags->width-- > count)
         {
-            write(1, "H", 1);
+            write(1, " ", 1);
             count++;
         }
     }
@@ -211,7 +210,7 @@ int print_p(t_flags *flags, unsigned long long p)
     {
         while (flags->width-- > count) // flags->width-- > length of address + 2
         {
-            write(1, "H", 1);
+            write(1, " ", 1);
             count++;
         }
         write(1, "0x", 2);
