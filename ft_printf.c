@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/30 14:56:23 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/30 19:41:54 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,42 @@
 #include "stdio.h"
 int main()
 {
+	// UB 고려 / 출력값 길이 어떻게 해줄지?? / \n ? \n도 count에 포함되는 듯...
+
 	// printf("hello%+010.3f\n", 3.14159265);  => "hello+00003.142"
 	
-	//printf("hello%c", 'a');
-	//ft_printf("hello%c", 'a');
-	//int num = 10;
-    //printf("%c %c\n", 'a', 'b');
-	//ft_printf("%c %c", 'a', 'b');
-	printf("%%\n");
-	ft_printf("%%\n");
-	return (0);
+	// printf("hello%c", 'a');
+	// ft_printf("hello%c", 'a');
+	// int num = 10;
+
+	// int res = printf("%10c\n", 'a');
+	// printf("res:%d", res);
+	// printf("%010c\n", 'a');
+	// ft_printf("%010c\n", 'a');
+	
+	// << %c >>
+	// printf("%-10.0c\n", 'a');
+	// ft_printf("%-10.0c\n", 'a');
+	// 
+	// 
+
+	// << %s >>
+	// char *str = "Hello";
+  	// int a = printf("pf:%-11.4s\n", str);
+	// printf("%d\n", a);
+	// printf("pf:%11.4s\n", str);
+	// ft_printf("ft:%-11.4s\n", str);
+	// ft_printf("ft:%11.4s\n", str);
+	// NULL 처리
+	// printf("%10.s\n", NULL);
+	// ft_printf("%10.s\n", NULL);
+	
+	// << %% >>
+	// printf("%010%\n");
+	// ft_printf("%010%\n");
+	
+	// << %id >>
+	printf("%d\n", 1);
 }
 
 int	ft_printf(const char *format, ...)
@@ -82,7 +108,7 @@ void ft_init_flags(t_flags *flags)
 {
     flags->minus = 0; //- : left align
     flags->zero = 0; //0 : pad w/ 0
-    flags->dot = 0; //. : for precision
+    //flags->dot = 0; //. : for precision
     flags->hash = 0; //# : hexadecimal: 0x/0X, octal: 0
     //flags->space = 0; //' ' : space
     flags->plus = 0; //+ : sign (+, -)
@@ -96,8 +122,8 @@ void ft_parse_flags(t_flags *flags, const char **format)
         flags->minus = 1;
     else if (**format == '0') // 0 : pad w/ 0
         flags->zero = 1;
-    else if (**format == '.') // . : for precision
-        flags->dot = 1;
+    // else if (**format == '.') // . : for precision
+    //     flags->dot = 1;
     else if (**format == '#') // # : hexadecimal: 0x/0X, octal: 0
         flags->hash = 1;
     //else if (**format == ' ') // ' ' : space
@@ -106,23 +132,21 @@ void ft_parse_flags(t_flags *flags, const char **format)
         flags->plus = 1;
     else if (ft_isdigit(**format)) // width : minimum num of characters to be printed
     {
-        flags->width = (flags->width * 10) + ft_atoi(*format);
+        flags->width = ft_atoi(*format);
         while (ft_isdigit(**format))
             (*format)++;
         (*format)--; // points to last digit of width (before "." or type) => needed b/c while loop increments format at the end
     }
-    
     // 문제 . 다음에 두자리 이상 올 때 위에 width 에서 걸려버림
     else if (**format == '.') // precision : num of digits printed after decimal point for floating point
     {
-        flags->dot = 1;
+        //flags->dot = 1;
         (*format)++; // move to next character
         flags->precision = 0;
+		flags->precision = ft_atoi(*format);
+		//printf("ft_atoi:%d", ft_atoi(*format));
         while (ft_isdigit(**format))
-        {
-            flags->precision = (flags->precision * 10) + ft_atoi(*format); // 1. (0*10)+3=3 // 2. (3*10) + 1=31
             (*format)++;
-        }
         (*format)--; // points to last digit of precision (before type) => needed b/c while loop increments format at the end
     }
     (*format)++; // check next character
@@ -140,7 +164,7 @@ int ft_parse_type(t_flags *flags, const char **format, va_list ap)
     else if (**format == 'p') // pointer
         count += print_p(flags, va_arg(ap, unsigned long long));
     else if (**format == 'i' || **format == 'd') // decimal integer
-        count += print_di(flags, va_arg(ap, int));
+        count += print_id(flags, va_arg(ap, int));
     else if (**format == 'u') // unsigned decimal integer
         count += print_u(flags, va_arg(ap, unsigned int));
     else if (**format == 'x') // hexadecimal (lowercase)

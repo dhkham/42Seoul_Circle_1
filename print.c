@@ -6,13 +6,13 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/30 14:53:44 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/30 19:42:21 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int print_c(t_flags *flags, int c) // what about spaces? (undefined bahavior ???)
+int print_c(t_flags *flags, int c) // UB: precision, 0, +, #, space
 {
     int count;
 
@@ -40,23 +40,15 @@ int print_c(t_flags *flags, int c) // what about spaces? (undefined bahavior ???
     return (count);
 }
 
-int print_s(t_flags *flags, char *s)
+int print_s(t_flags *flags, char *s) // UB: 0, +, #, space (and empty string?)
 {
     int count;
 
     count = 0;
-    // if (s == NULL)
-    //     s = "(null)";
+    if (s == NULL)
+        s = "";
     if (flags->minus == 1) // left justify
     {
-        // char string[] = "Hi, I'm kham!";
-        // printf("%s\n", "good"); 
-        // printf("%6.8s\n", "good"); 
-        // printf("%4.8s\n", string); 
-
-        //good          =>    
-        //  good        => length 4 < min 6 (=width) -> add 2 spaces
-        //Hi, I'm.      => length 13 > max 8 (=precision) -> print 8 characters
         while (*s && flags->precision--) // write s first, considering precision(max length)
         {
             write(1, s++, 1);
@@ -70,22 +62,24 @@ int print_s(t_flags *flags, char *s)
     }
     else // right justify (default)
     {
-        //while (flags->width-- > count && flags->precision--) // add spaces first, considering width and precision
-        // 문자열 길이(5:hello)가 width(6:최소길이) 보다 작을 때 -> width - 문자열 길이 만큼 공백 추가
-        while (flags->width-- > ft_strlen(s)) // add spaces first, considering width
-        {
-            write(1, " ", 1);
-            count++;
-        }
-        while (*s && flags->precision--) // write s after adding spaces, considering precision(max length)
+		// Hello 출력
+		// 11.4 => 공백 7칸, 출력 4칸 (flags->precision >= ft_strlen(s): width - strlen 만큼 공백 출력)
+		// 11.6 => 공백 6칸, 출력 5칸 (flags->precision < ft_strlen(s): width - precision 만큼 공백 출력)
+		int var_for_space;
+		if (flags->precision >= ft_strlen(s))
+			var_for_space = ft_strlen(s);
+		else
+			var_for_space = flags->precision;
+		while (flags->width-- > var_for_space)
+		{
+        	write(1, " ", 1);
+        	count++;
+		}
+        while (*s && flags->precision--) // write s after adding spaces
         {
             write(1, s++, 1);
             count++;
         }
-        // {
-        //     write(1, s++, 1);
-        //     count++;
-        // }
     }
     return (count);
 }
@@ -113,8 +107,7 @@ int nbrlen(long n, int base)
 // integer to string (+ base conversion to octal, decimal, hexadecimal)
 char    *ft_itoa_base(unsigned int x, int base)
 {
-	char    *str;
-    return (str);
+	
 }
 
 int print_x(t_flags *flags, unsigned int x)
@@ -220,12 +213,12 @@ int print_p(t_flags *flags, unsigned long long p)
     return (count);
 }
 
-int print_di(t_flags *flags, int d)
+int print_id(t_flags *flags, int d)
 {
     int count;
 
     count = 0;
-    if (flags->minus == 1) // - : 왼쪽 정렬
+    if (flags->minus == 1) // - : left justify
     {
         if (d < 0)
         {
@@ -239,7 +232,7 @@ int print_di(t_flags *flags, int d)
             count++;
         }
     }
-    else
+    else // right justify (default)
     {
         while (flags->width-- > count)
         {
@@ -282,34 +275,6 @@ int print_u(t_flags *flags, unsigned int u)
     return (count);
 }
 
-int	print_percent(t_flags *flags)
-{
-	int count;
-
-	count = 0;
-	if (flags->minus == 1) // - : 왼쪽 정렬
-	{
-		write(1, "%", 1);
-		count++;
-		while (flags->width-- > count)
-		{
-			write(1, " ", 1);
-			count++;
-		}
-	}
-	else
-	{
-		while (flags->width-- > count)
-		{
-			write(1, " ", 1);
-			count++;
-		}
-		write(1, "%", 1);
-		count++;
-	}
-	return (count);
-}
-
 int	print_xx(t_flags *flags, unsigned int x)
 {
 	int count;
@@ -332,6 +297,39 @@ int	print_xx(t_flags *flags, unsigned int x)
 			count++;
 		}
 		count += print_x(flags, x);
+	}
+	return (count);
+}
+
+int	print_percent(t_flags *flags)
+{
+	int count;
+	char *	space_or_zero;
+
+	count = 0;
+	if (flags->zero == 1)
+		space_or_zero = "0";
+	else
+		space_or_zero = " ";
+	if (flags->minus == 1) // - : left justify
+	{
+		write(1, "%", 1);
+		count++;
+		while (flags->width-- > count)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+	}
+	else
+	{
+		while (flags->width-- > 1) // reserve one space for "%"
+		{
+			write(1, space_or_zero, 1);
+			count++;
+		}
+		write(1, "%", 1);
+		count++;
 	}
 	return (count);
 }
