@@ -1,22 +1,48 @@
-#include "stdio.h"
-#include "string.h"
-#include "ft_printf.h"
+NAME 		= push_swap.a
 
-int main()
-{
-    // double num = 65.34;
-    // printf("% f\n", num);
-    // printf("% 05d\n", num);
-    // printf("%+5d\n", num);
-    // printf("%+-10d\n", 123);  // prints "+123      "
-    // printf("hello%+011.9f%c\n", 3.14159265,'a');  // prints "hello+00003.142"
-    // printf("%-10s %5d\n", "Hello", 123);  // prints "Hello      123"
-    // printf("%6s", "hello");
-    // char *str = "hello";
-    // ft_strlen(str);
+CC 			= cc
+# CFLAGS 		= -Wall -Wextra -Werror
+AR          = ar -rcs
+RM          = rm -f
+LIBS		= libft/libft.a
+SRCS		= push_swap.c push_swap_utils.c linked_list.c linked_list2.c \
+			division_num.c push_swap_pasing.c push_swap_utils2.c \
+			command/command_base.c command/command.c command/command2.c \
+			command/command3.c sort_dir_check.c
+SRCS_BONUS  =
 
-    // example of %p in printf
-    int num = 10;
-    //printf("%20p", &num);
-	ft_printf("%20p", &num);
-}
+OBJS        = $(SRCS:.c=.o) $(LIBS)
+OBJS_BONUS  = $(SRCS_BONUS:.c=.o)
+
+ifdef WITH_BONUS
+	OBJECTS = $(OBJS_BONUS)
+else
+	OBJECTS = $(OBJS)
+endif
+
+all: $(NAME)
+
+$(NAME): $(OBJECTS)
+	$(AR) $@ $^
+
+$(LIBS) :
+	make -C libft all
+
+bonus:
+	@make WITH_BONUS=1 all
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:      
+	$(RM) $(OBJS) $(OBJS_BONUS)
+	make -C libft clean
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: 
+	make fclean
+	make all
+
+.PHONY: all clean fclean re bonus

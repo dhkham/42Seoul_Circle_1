@@ -1,45 +1,30 @@
-NAME			=	libftprintf.a
+NAME 		= libftprintf.a
+CC 			= cc
+CFLAGS 		= -Wall -Wextra -Werror
+AR          = ar -rcs
+RM          = rm -f
+SRCS		= ft_printf.c print.c ft_atoi.c ft_isdigit.c ft_strchr.c ft_strlen.c
+OBJS        = $(SRCS:.c=.o)
+OBJECTS 	= $(OBJS)
 
-CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror
-AR				=	ar
-ARFLAGS 		=	rcs
-RM				=	rm -rf
+all: $(NAME)
 
-SRC				=	ft_printf
-SRCS 			=	$(addsuffix .c, $(SRC))
+$(NAME): $(OBJECTS)
+	$(AR) $@ $^
 
-OBJ_DIR			=	obj
-OBJS			=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
 
-LIBFT_PATH		=	./libft
-LIBFT			=	$(LIBFT_PATH)/libft.a
+clean:      
+	$(RM) $(OBJS)
 
-$(OBJ_DIR)/%.o:		%.c
-					$(CC) $(CFLAGS) -c $< -o $@
+fclean: clean
+	$(RM) $(NAME)
 
-all:				$(NAME)
+re: 
+	make fclean
+	make all
 
-bonus:				all
+bonus: all
 
-$(NAME):			$(LIBFT) $(OBJ_DIR) $(OBJS)
-				cp	$(LIBFT) $(NAME)
-					$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-
-$(LIBFT):
-					make -C $(LIBFT_PATH) all
-
-$(OBJ_DIR):
-					mkdir -p $(OBJ_DIR)
-
-clean:
-					make -C $(LIBFT_PATH) clean
-					$(RM) $(OBJ_DIR)
-
-fclean:				clean
-					make -C $(LIBFT_PATH) fclean
-					$(RM) $(NAME)
-
-re:					fclean all
-
-.PHONY:				all bonus clean fclean re libft
+.PHONY: all clean fclean re bonus
