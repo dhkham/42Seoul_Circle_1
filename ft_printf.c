@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/30 21:49:32 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 16:08:33 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@
 // 	ft_printf("%-+5d %d\n", 11, 2);
 // }
 
+// int ft = ft_printf("ft:%s\n", "");
 int	ft_printf(const char *format, ...)
 {
     va_list ap;
@@ -141,9 +142,8 @@ void ft_parse_flags(t_flags *flags, const char **format)
     {
         //flags->dot = 1;
         (*format)++; // move to next character
-        flags->precision = 0;
+        //flags->precision = 0;
 		flags->precision = ft_atoi(*format);
-		//printf("ft_atoi:%d", ft_atoi(*format));
         while (ft_isdigit(**format))
             (*format)++;
         (*format)--; // points to last digit of precision (before type) => needed b/c while loop increments format at the end

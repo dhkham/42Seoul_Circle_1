@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/30 21:03:40 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 16:52:59 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,36 @@ int print_c(t_flags *flags, int c) // UB: precision, 0, +, #, space
 int print_s(t_flags *flags, char *s) // UB: 0, +, #, space (and empty string?)
 {
     int count;
-
+	int num_spaces;
+	
     count = 0;
-    if (s == NULL)
-        s = "";
+	if (s == NULL)
+	{
+		s = "(null)";
+		num_spaces = 6;
+	}
     if (flags->minus == 1) // left justify
     {
         while (*s && flags->precision--) // write s first, considering precision(max length)
         {
             write(1, s++, 1);
-            count++;
+            count++; //3
         }
-        while (flags->width-- > count) // add spaces after s, considering width(only if width > count)
+        while (flags->width > count) // add spaces after s, considering width(only if width > count)
         {
-            write(1, " ", 1);
+            write(1, " ", 1); //13
             count++;
         }
     }
     else // right justify (default)
     {
-		// Hello 출력
-		// 11.4 => 공백 7칸, 출력 4칸 (flags->precision >= ft_strlen(s): width - strlen 만큼 공백 출력)
-		// 11.6 => 공백 6칸, 출력 5칸 (flags->precision < ft_strlen(s): width - precision 만큼 공백 출력)
-		int var_for_space;
-		if (flags->precision >= (int)ft_strlen(s))
-			var_for_space = (int)ft_strlen(s);
-		else
-			var_for_space = flags->precision;
-		while (flags->width-- > var_for_space)
+		if (flags->precision >= (int)ft_strlen(s) || flags->precision == -1)
+			num_spaces = (int)ft_strlen(s); // 11.6 or 11. : 문자열만큼 남겨두고 공백 출력
+		if (flags->precision < (int)ft_strlen(s) && flags->precision != -1)
+			num_spaces = flags->precision; // 11.4 : 정밀도만큼 남겨두고 공백 출력
+		if (flags->precision == 0) //3.0 : 너비만큼 공백출력
+			num_spaces = 0;
+		while (flags->width > num_spaces++)
 		{
         	write(1, " ", 1);
         	count++;
@@ -212,12 +214,7 @@ int print_id(t_flags *flags, int d)
 		space_or_zero = "0";
 	else
 		space_or_zero = " ";
-	if (d < 0)
-    {
-        write(1, "-", 1);
-        count++;
-	}
-	else if (flags->plus == 1)
+	if (flags->plus == 1)
 	{
 		write(1, "+", 1);
 		count++;
@@ -229,19 +226,26 @@ int print_id(t_flags *flags, int d)
 	}
     if (flags->minus == 1) // - : left justify
     {
-        count += print_int(flags, d);
-        while (flags->width-- > count)
+        if (d < 0)
+        {
+            write(1, "-", 1);
+            count++;
+        }
+		count += print_int(flags, d); // 여기서 33이 출력되어버리는 문제 발생
+        while (flags->width > ++count) // width = 7 count = 3
         {
             write(1, " ", 1);
-            count++;
+            //count++;
         }
     }
     else // right justify (default)
     {
-        while (flags->width-- > count)
+		//count += print_int(flags, d);
+		printf("count: %d", count);
+        while (flags->width > count++) // 7 - 2(=33의 길이) 만큼 출력
         {
             write(1, space_or_zero, 1);
-            count++;
+            //count++;
         }
         if (d < 0)
         {

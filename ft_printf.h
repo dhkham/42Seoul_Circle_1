@@ -6,12 +6,14 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:34:35 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/30 22:06:54 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 14:53:00 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
+
+# include <stdio.h> // !!! 지 워 라 D E L E T E !!!
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -50,5 +52,6 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
