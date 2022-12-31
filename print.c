@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/31 16:52:59 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 17:48:02 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,13 +207,8 @@ char    *ft_itoa_base(unsigned int x, int base)
 int print_id(t_flags *flags, int d)
 {
     int count;
-	char *	space_or_zero;
 
 	count = 0;
-	if (flags->zero == 1)
-		space_or_zero = "0";
-	else
-		space_or_zero = " ";
 	if (flags->plus == 1)
 	{
 		write(1, "+", 1);
@@ -241,18 +236,18 @@ int print_id(t_flags *flags, int d)
     else // right justify (default)
     {
 		//count += print_int(flags, d);
-		printf("count: %d", count);
+		count = ft_strlen(ft_itoa_base(d, 10));
+		printf("count : %d", count);
         while (flags->width > count++) // 7 - 2(=33의 길이) 만큼 출력
-        {
-            write(1, space_or_zero, 1);
-            //count++;
-        }
+            write(1, " ", 1);
+		count--;
         if (d < 0)
         {
             write(1, "-", 1);
             count++;
         }
-        count += print_int(flags, d);
+		//printf("count : %d", count);
+        print_int(flags, d);
     }
     return (count);
 }
