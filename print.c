@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/31 17:48:02 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 19:51:24 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,40 +91,55 @@ int print_s(t_flags *flags, char *s) // UB: 0, +, #, space (and empty string?)
 // print_x: print an integer value as a hexadecimal (base 16) number.
 // print_p calls print_x +add "0x" in front
 
-int nbrlen(long n, int base)
+int		get_length(int value, int base)
 {
-    int len;
+	int	ret;
 
-    len = 0;
-    if (n == 0)
-        return (1);
-    while (n)
-    {
-        n /= base;
-        len++;
-    }
-    return (len);
-}
-
-// integer to string (+ base conversion to octal, decimal, hexadecimal)
-char    *ft_itoa_base(unsigned int x, int base)
-{
-	char    *str;
-	int     len;
-	char    *base_str;
-
-	base_str = "0123456789abcdef";
-	len = nbrlen(x, base);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	str[len] = '\0';
-	while (len--)
+	ret = 0;
+	if (value == 0)
+		return (1);
+	if (value < 0 && base == 10)
+		++ret;
+	while (value != 0)
 	{
-		str[len] = base_str[x % base];
-		x /= base;
+		value = value / base;
+		ret++;
 	}
-	return (str);
+	return (ret);
 }
 
+char	*ft_itoa_base(int value, int base)
+{
+	int neg;
+	char *num;
+	int	len;
+	long  value_cpy;
+	char	buff[16] = "0123456789ABCDEF";
+	
+	neg = 0;
+	len = get_length(value, base);
+	num = (char *)malloc(sizeof(*num) * (len));
+	if (!num)
+		return (NULL);
+	num[len] = '\0';
+	value_cpy = value;
+	if (value_cpy < 0)
+	{
+		if (base == 10)
+			neg = 1;
+		value_cpy = value_cpy * -1;
+	}
+	while (--len)
+	{
+		num[len] = buff[value_cpy % base];
+		value_cpy = value_cpy / base;
+	}
+	if (neg == 1)
+		num[0] = '-';
+	else
+		num[len] = buff[value_cpy % base];
+	return (num);
+}
 // int print_x(t_flags *flags, unsigned int x)
 // {
 //     int count;
@@ -207,6 +222,7 @@ char    *ft_itoa_base(unsigned int x, int base)
 int print_id(t_flags *flags, int d)
 {
     int count;
+	char *str;
 
 	count = 0;
 	if (flags->plus == 1)
@@ -235,19 +251,21 @@ int print_id(t_flags *flags, int d)
     }
     else // right justify (default)
     {
-		//count += print_int(flags, d);
-		count = ft_strlen(ft_itoa_base(d, 10));
-		printf("count : %d", count);
-        while (flags->width > count++) // 7 - 2(=33의 길이) 만큼 출력
+		str = ft_itoa_base(d, 10);
+		count = ft_strlen(str); // -216: '-'까지 총 4자리
+		//printf("count : %d\n", count);
+		if (flags->precision != -1 && d < 0)
+			count += (flags->precision - count) + 1;
+		else
+			count += (flags->precision - count);
+		while (flags->width > count++) // 10 > 4
             write(1, " ", 1);
 		count--;
+		//printf("count : %d\n", count);
         if (d < 0)
-        {
             write(1, "-", 1);
-            count++;
-        }
-		//printf("count : %d", count);
         print_int(flags, d);
+		free(str); // ???
     }
     return (count);
 }

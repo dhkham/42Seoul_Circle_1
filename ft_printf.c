@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/31 16:08:33 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 19:10:08 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int ft_parse_type(t_flags *flags, const char **format, va_list ap)
     //     count += print_p(flags, va_arg(ap, unsigned long long));
     else if (**format == 'i' || **format == 'd') // decimal integer
         count += print_id(flags, va_arg(ap, int));
-    // else if (**format == 'u') // unsigned decimal integer
+	// else if (**format == 'u') // unsigned decimal integer
     //     count += print_u(flags, va_arg(ap, unsigned int));
     // else if (**format == 'x') // hexadecimal (lowercase)
     //     count += print_x(flags, va_arg(ap, unsigned int));

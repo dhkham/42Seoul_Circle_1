@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:34:35 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/31 14:53:00 by dkham            ###   ########.fr       */
+/*   Updated: 2022/12/31 18:59:51 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		print_int(t_flags *flags, int d);
 //int     print_xx(t_flags *flags, unsigned int xx);
 int     print_percent(t_flags *flags);
 int		ft_nbrlen(long n, int base);
-char    *ft_itoa_base(unsigned int, int base);
+char    *ft_itoa_base(int, int base);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 char	*ft_strchr(const char *s, int c);
