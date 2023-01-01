@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 16:47:03 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 18:48:15 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,15 @@ int	print_c(t_flags *flags, int c)
 	count = 0;
 	if (flags->minus == 1)
 	{
-		write(1, &c, 1);
-		count++;
+		count += write(1, &c, 1);
 		while (flags->width-- > 1)
-		{
-			write(1, " ", 1);
-			count++;
-		}
+			count += write(1, " ", 1);
 	}
 	else
 	{
 		while (flags->width-- > 1)
-		{
-			write(1, " ", 1);
-			count++;
-		}
-		write(1, &c, 1);
-		count++;
+			count += write(1, " ", 1);
+		count += write(1, &c, 1);
 	}
 	return (count);
 }
@@ -43,45 +35,38 @@ int	print_c(t_flags *flags, int c)
 int	print_s(t_flags *flags, char *s)
 {
 	int	count;
-	int	num_spaces;
+	int	space_for_string;
 
 	count = 0;
 	if (s == NULL)
-	{
 		s = "(null)";
-		num_spaces = 6;
-	}
 	if (flags->minus == 1)
 	{
 		while (*s && flags->precision--)
-		{
-			write(1, s++, 1);
-			count++;
-		}
+			count += write(1, s++, 1);
 		while (flags->width > count)
-		{
-			write(1, " ", 1);
-			count++;
-		}
+			count += write(1, " ", 1);
 	}
 	else
 	{
-		if (flags->precision >= (int)ft_strlen(s) || flags->precision == -1)
-			num_spaces = (int)ft_strlen(s);
-		if (flags->precision < (int)ft_strlen(s) && flags->precision != -1)
-			num_spaces = flags->precision;
-		if (flags->precision == 0)
-			num_spaces = 0;
-		while (flags->width > num_spaces++)
-		{
-			write(1, " ", 1);
-			count++;
-		}
+		space_for_string = (int)ft_strlen(s);
+		if (flags->dot == 1 && flags->precision == 0)
+			space_for_string = 0;
+		else if (flags->dot == 1 && flags->precision < (int)ft_strlen(s))
+			space_for_string = flags->precision;
+		// else if (flags->dot == 1 && flags->precision >= (int)ft_strlen(s))
+		// 	space_for_string = (int)ft_strlen(s);
+		
+		// if (flags->precision >= (int)ft_strlen(s) || flags->precision == -1)
+		// 	space_for_string = (int)ft_strlen(s); 
+		// if (flags->precision < (int)ft_strlen(s) && flags->precision != -1)
+		// 	space_for_string = flags->precision; // 해결
+		// if (flags->precision == 0) // 해결
+		// 	space_for_string = 0;
+		while (flags->width-- > space_for_string)
+			count += write(1, " ", 1);
 		while (*s && flags->precision--)
-		{
-			write(1, s++, 1);
-			count++;
-		}
+			count += write(1, s++, 1);
 	}
 	return (count);
 }
@@ -108,7 +93,6 @@ char	*ft_itoa_base(int value, int base)
 	int		neg;
 	char	*num;
 	int		len;
-	long	value_cpy;
 
 	neg = 0;
 	len = get_length(value, base);

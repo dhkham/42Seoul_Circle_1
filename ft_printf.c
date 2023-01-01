@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 15:42:21 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 19:00:47 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int	ft_vprintf(const char *format, va_list ap)
 	int	count;
 
 	count = 0;
-	if (*format == '%')
+	while (*format)
 	{
+		if (*format == '%')
+		{
+			format++;
+			count += ft_parse(&format, ap);
+		}
+		else
+			count += write(1, format, 1);
 		format++;
-		count += ft_parse(&format, ap);
 	}
-	else
-	{
-		write(1, format, 1);
-		count++;
-	}
-	format++;
 	return (count);
 }
 
@@ -77,6 +77,7 @@ void	ft_parse_flags(t_flags *flags, const char **format)
 	}
 	else if (**format == '.')
 	{
+		flags->dot = 1;
 		flags->precision = ft_atoi(*++format);
 		while (ft_isdigit(**format))
 			(*format)++;
