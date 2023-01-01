@@ -21,7 +21,7 @@ int main()
 // 	printf("pf:%d | ft:%d\n", pf3, ft3);
 
 //printf("%x", 257);
-	printf("%s", ft_itoa_base(-156, 16));
+	printf("%s", ft_itoa_base(156, 16));
 
 // di 전반적인 구조에 대해 다시 생각해봐야...
 	// int pf = printf   ("pf:%05i\n", 33); // => 해결 중

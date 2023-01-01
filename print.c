@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 16:17:05 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 16:47:03 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	get_length(int value, int base)
 	length = 0;
 	if (value == 0)
 		return (1);
-	if (value < 0) //&& base == 10)
+	if (value < 0)
 		++length;
 	while (value != 0)
 	{
@@ -112,26 +112,22 @@ char	*ft_itoa_base(int value, int base)
 
 	neg = 0;
 	len = get_length(value, base);
-	//printf("%d", len);
 	num = malloc(sizeof(char) * (len + 1));
 	if (!num)
 		return (NULL);
 	num[len] = '\0';
-	value_cpy = value;
-	if (value_cpy < 0)
-	{//if (base == 10)
-		//neg = 1;
-		num[0] = '-';
-		value_cpy = value_cpy * -1;
-	}
-	while (len)
+	if (value < 0)
 	{
-		len--;
-		num[len] = "0123456789ABCDEF"[value_cpy % base];
-		value_cpy = value_cpy / base;
+		value = value * -1;
+		neg = 1;
 	}
-	// if (neg == 1)
-	// 	num[0] = '-';
+	while (len--)
+	{
+		num[len] = "0123456789ABCDEF"[value % base];
+		value = value / base;
+	}
+	if (neg == 1)
+		num[0] = '-';
 	return (num);
 }
 // int print_x(t_flags *flags, unsigned int x)
