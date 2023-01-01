@@ -6,97 +6,91 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/31 21:11:52 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 14:22:33 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int print_c(t_flags *flags, int c) // UB: precision, 0, +, #, space
+int	print_c(t_flags *flags, int c)
 {
-    int count;
+	int	count;
 
-    count = 0;
-    if (flags->minus == 1) // left justify
-    {
-        write(1, &c, 1); // print c first, then print spaces depending on width
-        count++;
-        while (flags->width-- > 1) // if width is 3, print 2 spaces after c
-        {
-            write(1, " ", 1);
-            count++;
-        }
-    }
-    else // right justify (default)
-    {
-        while (flags->width-- > 1) // print spaces first depending on width, then print c
-        {
-            write(1, " ", 1);
-            count++;
-        }
-        write(1, &c, 1);
-        count++;
-    }
-    return (count);
+	count = 0;
+	if (flags->minus == 1)
+	{
+		write(1, &c, 1);
+		count++;
+		while (flags->width-- > 1)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+	}
+	else
+	{
+		while (flags->width-- > 1)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+		write(1, &c, 1);
+		count++;
+	}
+	return (count);
 }
 
-int print_s(t_flags *flags, char *s) // UB: 0, +, #, space (and empty string?)
+int	print_s(t_flags *flags, char *s)
 {
-    int count;
-	int num_spaces;
-	
-    count = 0;
+	int	count;
+	int	num_spaces;
+
+	count = 0;
 	if (s == NULL)
 	{
 		s = "(null)";
 		num_spaces = 6;
 	}
-    if (flags->minus == 1) // left justify
-    {
-        while (*s && flags->precision--) // write s first, considering precision(max length)
-        {
-            write(1, s++, 1);
-            count++; //3
-        }
-        while (flags->width > count) // add spaces after s, considering width(only if width > count)
-        {
-            write(1, " ", 1); //13
-            count++;
-        }
-    }
-    else // right justify (default)
-    {
+	if (flags->minus == 1)
+	{
+		while (*s && flags->precision--)
+		{
+			write(1, s++, 1);
+			count++;
+		}
+		while (flags->width > count)
+		{
+			write(1, " ", 1);
+			count++;
+		}
+	}
+	else
+	{
 		if (flags->precision >= (int)ft_strlen(s) || flags->precision == -1)
-			num_spaces = (int)ft_strlen(s); // 11.6 or 11. : 문자열만큼 남겨두고 공백 출력
+			num_spaces = (int)ft_strlen(s);
 		if (flags->precision < (int)ft_strlen(s) && flags->precision != -1)
-			num_spaces = flags->precision; // 11.4 : 정밀도만큼 남겨두고 공백 출력
-		if (flags->precision == 0) //3.0 : 너비만큼 공백출력
+			num_spaces = flags->precision;
+		if (flags->precision == 0)
 			num_spaces = 0;
 		while (flags->width > num_spaces++)
 		{
-        	write(1, " ", 1);
-        	count++;
+			write(1, " ", 1);
+			count++;
 		}
-        while (*s && flags->precision--) // write s after adding spaces
-        {
-            write(1, s++, 1);
-            count++;
-        }
-    }
-    return (count);
+		while (*s && flags->precision--)
+		{
+			write(1, s++, 1);
+			count++;
+		}
+	}
+	return (count);
 }
 
-// 여기부터 보기!
-
-// print_x: print an integer value as a hexadecimal (base 16) number.
-// print_p calls print_x +add "0x" in front
-
-int		get_length(int value, int base)
+int	get_length(int value, int base)
 {
 	int	ret;
 
 	ret = 0;
-	//("value: %d", value);
 	if (value == 0)
 		return (1);
 	if (value < 0 && base == 10)
@@ -111,13 +105,13 @@ int		get_length(int value, int base)
 
 char	*ft_itoa_base(int value, int base)
 {
-	int neg;
-	char *num;
-	int	len;
-	long  value_cpy;
-	char	buff[16] = "0123456789ABCDEF";
-	
-	//printf("value: %d", value);
+	int		neg;
+	char	*num;
+	int		len;
+	long	value_cpy;
+	char	buff[16];
+
+	buff[16] = "0123456789ABCDEF";
 	neg = 0;
 	len = get_length(value, base);
 	num = (char *)malloc(sizeof(*num) * (len));

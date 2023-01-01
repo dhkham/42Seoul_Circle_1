@@ -6,171 +6,108 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2022/12/31 19:10:08 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 14:03:02 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-// gcc ft_printf.c print.c ./libft/*.c
-
-// #include "stdio.h"
-// int main()
-// {
-// 	// UB 고려 / 출력값 길이 어떻게 해줄지?? / \n ? \n도 count에 포함되는 듯...
-
-// 	// printf("hello%+010.3f\n", 3.14159265);  => "hello+00003.142"
-	
-// 	// printf("hello%c", 'a');
-// 	// ft_printf("hello%c", 'a');
-// 	// int num = 10;
-
-// 	// int res = printf("%10c\n", 'a');
-// 	// printf("res:%d", res);
-// 	// printf("%010c\n", 'a');
-// 	// ft_printf("%010c\n", 'a');
-	
-// 	// << %c >>
-// 	// printf("%010c\n", 'a');
-// 	// ft_printf("%010c\n", 'a');
-
-// 	// << %s >>
-// 	// char *str = "Hello";
-//   	// int a = printf("pf:%-11.4s\n", str);
-// 	// printf("%d\n", a);
-// 	// printf("pf:%11.4s\n", str);
-// 	// ft_printf("ft:%-11.4s\n", str);
-// 	// ft_printf("ft:%11.4s\n", str);
-// 	// NULL 처리
-// 	// printf("%10.s\n", NULL);
-// 	// ft_printf("%10.s\n", NULL);
-	
-// 	// << %% >>
-// 	// printf("%010%\n");
-// 	// ft_printf("%010%\n");
-	
-// 	// << %id >>
-// 	printf("%-+5d %d\n", 11, 2);
-// 	ft_printf("%-+5d %d\n", 11, 2);
-// }
-
-// int ft = ft_printf("ft:%s\n", "");
 int	ft_printf(const char *format, ...)
 {
-    va_list ap;
-    int     count;
+	va_list	ap;
+	int		count;
 
-    va_start(ap, format);
-    count = ft_vprintf(format, ap);
-    va_end(ap);
-    return (count);
+	va_start(ap, format);
+	count = ft_vprintf(format, ap);
+	va_end(ap);
+	return (count);
 }
 
-int ft_vprintf(const char *format, va_list ap)
+int	ft_vprintf(const char *format, va_list ap)
 {
-    int count;
+	int	count;
 
-    count = 0;
-    while (*format) // loop thru format (= the " " part of printf, e.g., "hello%+010.3f\n")
-    {     
-        if (*format == '%')
-        {
-            format++; // move to next character after % sign
-            count += ft_parse(&format, ap); // parse after % sign
-        }
-        else
-        {
-            write(1, format, 1); // if no % sign, just print out characters (e.g., hello)
-            count++; // count number of characters printed
-        }
-        format++; // move to next character
-    }
-    return (count);
+	count = 0;
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			count += ft_parse(&format, ap);
+		}
+		else
+		{
+			write(1, format, 1);
+			count++;
+		}
+		format++;
+	}
+	return (count);
 }
 
-// %[flags(-, 0, ., #, ' ', +)][width][.precision]type(c, s, p, i, d, u, x, X, %)
-int ft_parse(const char **format, va_list ap)
+int	ft_parse(const char **format, va_list ap)
 {
-    t_flags flags;
-    int     count;
-    
-    count = 0; //     printf("hello%+010.3f\n", 3.14159265);  => "hello+00003.142"
-    ft_init_flags(&flags); // initialize flags struct
-    while(ft_strchr("-0.# +123456789", **format)) // check for flags/width/precision after % sign
-        ft_parse_flags(&flags, format); // parse flags
-    if(ft_strchr("cspdiuxX%", **format))
-        count += ft_parse_type(&flags, format, ap); // parse type
-    return (count);
+	t_flags	flags;
+	int		count;
+
+	count = 0;
+	ft_init_flags(&flags);
+	while (ft_strchr("-0.# +123456789", **format))
+		ft_parse_flags(&flags, format);
+	if (ft_strchr("cspdiuxX%", **format))
+		count += ft_parse_type(&flags, format, ap);
+	return (count);
 }
 
-// check for flags after % sign (types are handled in ft_parse_type)
-void ft_init_flags(t_flags *flags)
+void	ft_parse_flags(t_flags *flags, const char **format)
 {
-    flags->minus = 0; //- : left align
-    flags->zero = 0; //0 : pad w/ 0
-    //flags->dot = 0; //. : for precision
-    flags->hash = 0; //# : hexadecimal: 0x/0X, octal: 0
-    flags->space = 0; //' ' : space
-    flags->plus = 0; //+ : sign (+, -)
-    flags->width = 0; //width : minimum num of characters to be printed
-    flags->precision = -1; //precision : num of digits printed after decimal point for floating point numbers
+	if (**format == '-')
+		flags->minus = 1;
+	else if (**format == '0')
+		flags->zero = 1;
+	else if (**format == '#')
+		flags->hash = 1;
+	else if (**format == ' ')
+		flags->space = 1;
+	else if (**format == '+')
+		flags->plus = 1;
+	else if (ft_isdigit(**format))
+	{
+		flags->width = ft_atoi(*format);
+		while (ft_isdigit(**format))
+			(*format)++;
+		(*format)--;
+	}
+	else if (**format == '.')
+	{
+		flags->precision = ft_atoi(*++format);
+		while (ft_isdigit(**format))
+			(*format)++;
+		(*format)--;
+	}
+	(*format)++;
 }
 
-void ft_parse_flags(t_flags *flags, const char **format)
+int	ft_parse_type(t_flags *flags, const char **format, va_list ap)
 {
-    if (**format == '-') // - : left align
-        flags->minus = 1;
-    else if (**format == '0') // 0 : pad w/ 0
-        flags->zero = 1;
-    // else if (**format == '.') // . : for precision
-    //     flags->dot = 1;
-    else if (**format == '#') // # : hexadecimal: 0x/0X, octal: 0
-        flags->hash = 1;
-    else if (**format == ' ') // ' ' : space
-        flags->space = 1;
-    else if (**format == '+') // + : sign (+ or -)
-        flags->plus = 1;
-    else if (ft_isdigit(**format)) // width : minimum num of characters to be printed
-    {
-        flags->width = ft_atoi(*format);
-        while (ft_isdigit(**format))
-            (*format)++;
-        (*format)--; // points to last digit of width (before "." or type) => needed b/c while loop increments format at the end
-    }
-    // 문제 . 다음에 두자리 이상 올 때 위에 width 에서 걸려버림
-    else if (**format == '.') // precision : num of digits printed after decimal point for floating point
-    {
-        //flags->dot = 1;
-        (*format)++; // move to next character
-        //flags->precision = 0;
-		flags->precision = ft_atoi(*format);
-        while (ft_isdigit(**format))
-            (*format)++;
-        (*format)--; // points to last digit of precision (before type) => needed b/c while loop increments format at the end
-    }
-    (*format)++; // check next character
-}
+	int	count;
 
-int ft_parse_type(t_flags *flags, const char **format, va_list ap)
-{
-    int count;
-
-    count = 0;
-    if (**format == 'c') // character
-        count += print_c(flags, va_arg(ap, int));
-    else if (**format == 's') // string
-        count += print_s(flags, va_arg(ap, char *));
-    // else if (**format == 'p') // pointer
+	count = 0;
+	if (**format == 'c')
+		count += print_c(flags, va_arg(ap, int));
+	else if (**format == 's')
+		count += print_s(flags, va_arg(ap, char *));
+    // else if (**format == 'p')
     //     count += print_p(flags, va_arg(ap, unsigned long long));
-    else if (**format == 'i' || **format == 'd') // decimal integer
-        count += print_id(flags, va_arg(ap, int));
-	// else if (**format == 'u') // unsigned decimal integer
+	else if (**format == 'i' || **format == 'd')
+		count += print_id(flags, va_arg(ap, int));
+	// else if (**format == 'u')
     //     count += print_u(flags, va_arg(ap, unsigned int));
-    // else if (**format == 'x') // hexadecimal (lowercase)
+    // else if (**format == 'x')
     //     count += print_x(flags, va_arg(ap, unsigned int));
-    // else if (**format == 'X') // hexadecimal (uppercase)
+    // else if (**format == 'X')
     //     count += print_xx(flags, va_arg(ap, unsigned int));
-    else if (**format == '%') // % character
-        count += print_percent(flags);
-    return (count);
+	else if (**format == '%')
+		count += print_percent(flags);
+	return (count);
 }
