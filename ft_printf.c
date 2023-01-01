@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 14:03:02 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 15:42:21 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,17 @@ int	ft_vprintf(const char *format, va_list ap)
 	int	count;
 
 	count = 0;
-	while (*format)
+	if (*format == '%')
 	{
-		if (*format == '%')
-		{
-			format++;
-			count += ft_parse(&format, ap);
-		}
-		else
-		{
-			write(1, format, 1);
-			count++;
-		}
 		format++;
+		count += ft_parse(&format, ap);
 	}
+	else
+	{
+		write(1, format, 1);
+		count++;
+	}
+	format++;
 	return (count);
 }
 

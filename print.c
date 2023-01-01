@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 14:22:33 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/01 16:17:05 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,19 @@ int	print_s(t_flags *flags, char *s)
 
 int	get_length(int value, int base)
 {
-	int	ret;
+	int	length;
 
-	ret = 0;
+	length = 0;
 	if (value == 0)
 		return (1);
-	if (value < 0 && base == 10)
-		++ret;
+	if (value < 0) //&& base == 10)
+		++length;
 	while (value != 0)
 	{
 		value = value / base;
-		ret++;
+		length++;
 	}
-	return (ret);
+	return (length);
 }
 
 char	*ft_itoa_base(int value, int base)
@@ -109,31 +109,29 @@ char	*ft_itoa_base(int value, int base)
 	char	*num;
 	int		len;
 	long	value_cpy;
-	char	buff[16];
 
-	buff[16] = "0123456789ABCDEF";
 	neg = 0;
 	len = get_length(value, base);
-	num = (char *)malloc(sizeof(*num) * (len));
+	//printf("%d", len);
+	num = malloc(sizeof(char) * (len + 1));
 	if (!num)
 		return (NULL);
 	num[len] = '\0';
 	value_cpy = value;
 	if (value_cpy < 0)
-	{
-		if (base == 10)
-			neg = 1;
+	{//if (base == 10)
+		//neg = 1;
+		num[0] = '-';
 		value_cpy = value_cpy * -1;
 	}
-	while (--len)
+	while (len)
 	{
-		num[len] = buff[value_cpy % base];
+		len--;
+		num[len] = "0123456789ABCDEF"[value_cpy % base];
 		value_cpy = value_cpy / base;
 	}
-	if (neg == 1)
-		num[0] = '-';
-	else
-		num[len] = buff[value_cpy % base];
+	// if (neg == 1)
+	// 	num[0] = '-';
 	return (num);
 }
 // int print_x(t_flags *flags, unsigned int x)

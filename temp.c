@@ -20,11 +20,14 @@ int main()
 // 	int ft3 = ft_printf("ft:%10.2d\n", 216);
 // 	printf("pf:%d | ft:%d\n", pf3, ft3);
 
+//printf("%x", 257);
+	printf("%s", ft_itoa_base(-156, 16));
 
 // di 전반적인 구조에 대해 다시 생각해봐야...
-	int pf = printf   ("pf:%05i\n", 33); // => 해결 중
-	int ft = ft_printf("ft:%05i\n", 33);
-	printf("pf:%d | ft:%d\n", pf, ft);
+	// int pf = printf   ("pf:%05i\n", 33); // => 해결 중
+	// int ft = ft_printf("ft:%05i\n", 33);
+	// printf("pf:%d | ft:%d\n", pf, ft);
+
 // - [OUTPUT] ft_printf("%-7i", 33) => 메모리 문제??
 // - [OUTPUT] ft_printf("%-7i", -14)
 // - [OUTPUT] ft_printf("%-3i", 0)
