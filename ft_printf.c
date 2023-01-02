@@ -6,12 +6,12 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/02 21:29:53 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 21:30:44 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-// hi
+// hi bye
 int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
