@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 18:48:15 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 09:14:02 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	print_c(t_flags *flags, int c)
 	return (count);
 }
 
+// consider 0 UB 
 int	print_s(t_flags *flags, char *s)
 {
 	int	count;

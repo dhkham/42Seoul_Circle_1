@@ -21,10 +21,24 @@ int main()
 // 	printf("pf:%d | ft:%d\n", pf3, ft3);
 
 //printf("%x", 257);
-int pf = printf("pf:%.7s\n", "hello");
-int ft = ft_printf("ft:%.7s\n", "hello");
 
-printf("pf:%d || ft:%d", pf, ft);
+// int pf = printf("pf:%7.4s\n", "hello");
+// int ft = ft_printf("ft:%7.4s\n", "hello"); // . 이 나오면 무한루프 (해결?)
+
+// printf("pf:%d || ft:%d\n", pf, ft);
+
+int pf = printf("pf:%7.7s%7.7s\n", "hello", "world");
+int ft = ft_printf("ft:%7.7s%7.7s\n", "hello", "world");
+
+printf("pf:%d || ft:%d\n", pf, ft);
+
+// printf("pf: %s %s ", "", "-");
+// char *ptr = ft_strchr("-0.# +123456789", '.');
+// if (ptr == NULL) {
+//   printf("Character not found\n");
+// } else {
+//   printf("Character found at index %ld\n", ptr - "-0.# +123456789");
+// }
 
 // di 전반적인 구조에 대해 다시 생각해봐야...
 	// int pf = printf   ("pf:%05i\n", 33); // => 해결 중

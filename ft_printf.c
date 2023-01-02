@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 19:00:47 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 09:55:20 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	ft_vprintf(const char *format, va_list ap)
 	int	count;
 
 	count = 0;
-	while (*format)
+	while (*format) // *format is the first character of the string.
 	{
 		if (*format == '%')
 		{
 			format++;
-			count += ft_parse(&format, ap);
+			count += ft_parse(&format, ap); // &format is the address of the first character of the string.
 		}
 		else
 			count += write(1, format, 1);
@@ -62,6 +62,15 @@ void	ft_parse_flags(t_flags *flags, const char **format)
 		flags->minus = 1;
 	else if (**format == '0')
 		flags->zero = 1;
+	else if (**format == '.')
+	{
+		flags->dot = 1;
+		(*format)++;
+		flags->precision = ft_atoi(*format);
+		while (ft_isdigit(**format))
+			(*format)++;
+		(*format)--;
+	}
 	else if (**format == '#')
 		flags->hash = 1;
 	else if (**format == ' ')
@@ -71,14 +80,6 @@ void	ft_parse_flags(t_flags *flags, const char **format)
 	else if (ft_isdigit(**format))
 	{
 		flags->width = ft_atoi(*format);
-		while (ft_isdigit(**format))
-			(*format)++;
-		(*format)--;
-	}
-	else if (**format == '.')
-	{
-		flags->dot = 1;
-		flags->precision = ft_atoi(*++format);
 		while (ft_isdigit(**format))
 			(*format)++;
 		(*format)--;
@@ -94,8 +95,11 @@ int	ft_parse_type(t_flags *flags, const char **format, va_list ap)
 	if (**format == 'c')
 		count += print_c(flags, va_arg(ap, int));
 	else if (**format == 's')
+	{
 		count += print_s(flags, va_arg(ap, char *));
-    // else if (**format == 'p')
+		printf("")
+	}
+	// else if (**format == 'p')
     //     count += print_p(flags, va_arg(ap, unsigned long long));
 	else if (**format == 'i' || **format == 'd')
 		count += print_id(flags, va_arg(ap, int));
