@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/02 09:14:02 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 20:59:23 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,31 @@ int	print_c(t_flags *flags, int c)
 // consider 0 UB 
 int	print_s(t_flags *flags, char *s)
 {
-	int	count;
-	int	space_for_string;
+	int	count_and_space[2];
 
-	count = 0;
+	count_and_space[0] = 0;
 	if (s == NULL)
 		s = "(null)";
 	if (flags->minus == 1)
 	{
 		while (*s && flags->precision--)
-			count += write(1, s++, 1);
-		while (flags->width > count)
-			count += write(1, " ", 1);
+			count_and_space[0] += write(1, s++, 1);
+		while (flags->width > count_and_space[0])
+			count_and_space[0] += write(1, " ", 1);
 	}
 	else
 	{
-		space_for_string = (int)ft_strlen(s);
+		count_and_space[1] = (int)ft_strlen(s);
 		if (flags->dot == 1 && flags->precision == 0)
-			space_for_string = 0;
+			count_and_space[1] = 0;
 		else if (flags->dot == 1 && flags->precision < (int)ft_strlen(s))
-			space_for_string = flags->precision;
-		// else if (flags->dot == 1 && flags->precision >= (int)ft_strlen(s))
-		// 	space_for_string = (int)ft_strlen(s);
-		
-		// if (flags->precision >= (int)ft_strlen(s) || flags->precision == -1)
-		// 	space_for_string = (int)ft_strlen(s); 
-		// if (flags->precision < (int)ft_strlen(s) && flags->precision != -1)
-		// 	space_for_string = flags->precision; // 해결
-		// if (flags->precision == 0) // 해결
-		// 	space_for_string = 0;
-		while (flags->width-- > space_for_string)
-			count += write(1, " ", 1);
+			count_and_space[1] = flags->precision;
+		while (flags->width-- > count_and_space[1])
+			count_and_space[0] += write(1, " ", 1);
 		while (*s && flags->precision--)
-			count += write(1, s++, 1);
+			count_and_space[0] += write(1, s++, 1);
 	}
-	return (count);
+	return (count_and_space[0]);
 }
 
 int	get_length(int value, int base)

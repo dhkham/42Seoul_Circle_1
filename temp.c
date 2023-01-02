@@ -3,7 +3,10 @@
 
 int main()
 {
+	// 그리고 기존 컴퓨터에서 다시 작업을 하려면, 변경된 내용을 아래와 같이 pull 해줘야 한다. 
+	// git pull origin main
 	// gcc temp.c ft_printf.c print.c ./libft/*.c
+
 // 	int pf = printf   ("pf:%10.0d\n", 1);
 // 	int ft = ft_printf("ft:%10.0d\n", 1);
 // 	printf("pf:%d | ft:%d\n", pf, ft);
