@@ -30,23 +30,17 @@ int main()
 
 // printf("pf:%d || ft:%d\n", pf, ft);
 
-int pf = printf("pf:%7.7s%7.7s\n", "hello", "world");
-int ft = ft_printf("ft:%7.7s%7.7s\n", "hello", "world");
+// int pf = printf("pf:%7.7s%7.7s\n", "hello", "world");
+// int ft = ft_printf("ft:%7.7s%7.7s\n", "hello", "world");
 
-printf("pf:%d || ft:%d\n", pf, ft);
+// printf("pf:%d || ft:%d\n", pf, ft);
 
-// printf("pf: %s %s ", "", "-");
-// char *ptr = ft_strchr("-0.# +123456789", '.');
-// if (ptr == NULL) {
-//   printf("Character not found\n");
-// } else {
-//   printf("Character found at index %ld\n", ptr - "-0.# +123456789");
-// }
 
 // di 전반적인 구조에 대해 다시 생각해봐야...
-	// int pf = printf   ("pf:%05i\n", 33); // => 해결 중
+	int pf  = printf   ("pf:%12.7d\n", 33);    // pf:     0000033 pf:이후 총 12칸 찍기 / 33에 공백이나 부호 포함 7칸 찍기
+	int pf2 = printf   ("pf:%12.7d\n", -33);   // pf:    -0000033
+	int pf3 = printf   ("pf:%+12.7d\n", 33);   // pf:    +0000033
+
 	// int ft = ft_printf("ft:%05i\n", 33);
 	// printf("pf:%d | ft:%d\n", pf, ft);
-
-
 }
