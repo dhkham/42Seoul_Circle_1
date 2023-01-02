@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/02 20:59:23 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 21:14:33 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	print_c(t_flags *flags, int c)
 	return (count);
 }
 
-// consider 0 UB 
+// consider 0 UB case
 int	print_s(t_flags *flags, char *s)
 {
 	int	count_and_space[2];
@@ -184,82 +184,55 @@ char	*ft_itoa_base(int value, int base)
 //     return (count);
 // }
 
-int print_id(t_flags *flags, int d)
+int	print_id(t_flags *flags, int d)
 {
-    int count;
-	char *str;
+	int		count;
+	char	*str;
 
 	count = 0;
 	if (flags->plus == 1)
-	{
-		write(1, "+", 1);
-		count++;
-	}
+		count += write(1, "+", 1);
 	if (flags->space == 1)
+		count += write(1, " ", 1);
+	if (flags->minus == 1)
 	{
-		write(1, " ", 1);
-		count++;
-	}
-    if (flags->minus == 1) // - : left justify
-    {
-        if (d < 0)
-        {
-            write(1, "-", 1);
-            count++;
-        }
+		if (d < 0)
+			count += write(1, "-", 1);
 		count += print_int(flags, d);
-        while (flags->width > ++count)
-            write(1, " ", 1);
-    }
-    else // right justify (default)
-    {
+		while (flags->width > ++count)
+			write(1, " ", 1);
+	}
+	else
+	{
 		str = ft_itoa_base(d, 10);
-		count = ft_strlen(str); // '-'까지 포함한 길이
-		//printf("count : %d\n", count);
+		count = ft_strlen(str);
 		if (flags->precision != -1 && d < 0)
 			count = flags->precision + 1;
 		while (flags->width > count && flags->zero != 1)
-		{
-            write(1, " ", 1);
-			count++;
-		}
-		//printf("count : %d\n", count);
-        if (d < 0)
-		{
-			write(1, "-", 1);
-			count++;
-		}
-        count += print_int(flags, d);
+			count += write(1, " ", 1);
+		if (d < 0)
+			count += write(1, "-", 1);
+		count += print_int(flags, d);
 		count -= ft_strlen(str);
-		free(str); // ???
-    }
-    return (count);
+		free(str);
+	}
+	return (count);
 }
 
-int print_int(t_flags *flags, int d) // 실제 숫자 출력 (+ precision 고려해 0 추가)
+int	print_int(t_flags *flags, int d)
 {
-    int count;
-    char *str;
+	int		count;
+	char	*str;
 
-    count = 0;
-    if (flags->precision == 0 && d == 0) // printf("pf:%10.0d\n", 0);
-        return (0);
-    str = ft_itoa_base(d, 10);
-	//printf("strlen:%d\n", ft_strlen(str));
-    while (flags->precision-- > (int)ft_strlen(str) || flags->width-- > (int)ft_strlen(str)) // 0 추가
-	{
-		write(1, "0", 1);
-		count++;
-	}
-	//printf("%d", d);
-	// if (d < 0)
-    //     d *= -1;
-    while (*++str)
-    {
-        write(1, str, 1);
-        count++;
-    }
-    return (count);
+	count = 0;
+	if (flags->precision == 0 && d == 0)
+		return (0);
+	str = ft_itoa_base(d, 10);
+	while (flags->precision-- > (int)ft_strlen(str) || flags->width-- > (int)ft_strlen(str))
+		count += write(1, "0", 1);
+	while (*++str)
+        count += write(1, str, 1);
+	return (count);
 }
 
 // int print_u(t_flags *flags, unsigned int u)

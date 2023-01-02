@@ -48,19 +48,5 @@ printf("pf:%d || ft:%d\n", pf, ft);
 	// int ft = ft_printf("ft:%05i\n", 33);
 	// printf("pf:%d | ft:%d\n", pf, ft);
 
-// - [OUTPUT] ft_printf("%-7i", 33) => 메모리 문제??
-// - [OUTPUT] ft_printf("%-7i", -14)
-// - [OUTPUT] ft_printf("%-3i", 0)
-// - [OUTPUT] ft_printf("%05i", 43) => 일단 해결
-// - [OUTPUT] ft_printf("%07i", -54)
-// - [OUTPUT] ft_printf("%03i", 0)
-// - [OUTPUT] ft_printf("%8.5i", 34)
-// - [OUTPUT] ft_printf("%8.5i", 0)
-// - [OUTPUT] ft_printf("%8.3i", -8473)
-// - [OUTPUT] ft_printf("%-8.5i", 34)
-// - [OUTPUT] ft_printf("%-10.5i", -216)
-// - [OUTPUT] ft_printf("%-8.5i", 0)
-// - [OUTPUT] ft_printf("%-8.3i", 8375)
-// - [OUTPUT] ft_printf("%-8.3i", -8473)
-// - [OUTPUT] ft_printf("%08.5i", 34)
+
 }
