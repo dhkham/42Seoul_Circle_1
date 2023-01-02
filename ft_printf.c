@@ -6,12 +6,12 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/02 21:54:09 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 22:55:10 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-// hi bye
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
@@ -28,12 +28,12 @@ int	ft_vprintf(const char *format, va_list ap)
 	int	count;
 
 	count = 0;
-	while (*format) // *format is the first character of the string.
+	while (*format)
 	{
 		if (*format == '%')
 		{
 			format++;
-			count += ft_parse(&format, ap); // &format is the address of the first character of the string.
+			count += ft_parse(&format, ap);
 		}
 		else
 			count += write(1, format, 1);
@@ -50,7 +50,10 @@ int	ft_parse(const char **format, va_list ap)
 	count = 0;
 	ft_init_flags(&flags);
 	while (ft_strchr("-0.# +123456789", **format))
+	{
 		ft_parse_flags(&flags, format);
+		(*format)++;
+	}
 	if (ft_strchr("cspdiuxX%", **format))
 		count += ft_parse_type(&flags, format, ap);
 	return (count);
@@ -65,8 +68,7 @@ void	ft_parse_flags(t_flags *flags, const char **format)
 	else if (**format == '.')
 	{
 		flags->dot = 1;
-		(*format)++;
-		flags->precision = ft_atoi(*format);
+		flags->precision = ft_atoi(++(*format));
 		while (ft_isdigit(**format))
 			(*format)++;
 		(*format)--;
@@ -84,7 +86,6 @@ void	ft_parse_flags(t_flags *flags, const char **format)
 			(*format)++;
 		(*format)--;
 	}
-	(*format)++;
 }
 
 int	ft_parse_type(t_flags *flags, const char **format, va_list ap)

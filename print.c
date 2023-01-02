@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/02 21:14:33 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/02 22:44:05 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,49 +62,6 @@ int	print_s(t_flags *flags, char *s)
 	return (count_and_space[0]);
 }
 
-int	get_length(int value, int base)
-{
-	int	length;
-
-	length = 0;
-	if (value == 0)
-		return (1);
-	if (value < 0)
-		++length;
-	while (value != 0)
-	{
-		value = value / base;
-		length++;
-	}
-	return (length);
-}
-
-char	*ft_itoa_base(int value, int base)
-{
-	int		neg;
-	char	*num;
-	int		len;
-
-	neg = 0;
-	len = get_length(value, base);
-	num = malloc(sizeof(char) * (len + 1));
-	if (!num)
-		return (NULL);
-	num[len] = '\0';
-	if (value < 0)
-	{
-		value = value * -1;
-		neg = 1;
-	}
-	while (len--)
-	{
-		num[len] = "0123456789ABCDEF"[value % base];
-		value = value / base;
-	}
-	if (neg == 1)
-		num[0] = '-';
-	return (num);
-}
 // int print_x(t_flags *flags, unsigned int x)
 // {
 //     int count;
@@ -235,6 +192,49 @@ int	print_int(t_flags *flags, int d)
 	return (count);
 }
 
+int	get_length(int value, int base)
+{
+	int	length;
+
+	length = 0;
+	if (value == 0)
+		return (1);
+	if (value < 0)
+		++length;
+	while (value != 0)
+	{
+		value = value / base;
+		length++;
+	}
+	return (length);
+}
+
+char	*ft_itoa_base(int value, int base)
+{
+	int		neg;
+	char	*num;
+	int		len;
+
+	neg = 0;
+	len = get_length(value, base);
+	num = malloc(sizeof(char) * (len + 1));
+	if (!num)
+		return (NULL);
+	num[len] = '\0';
+	if (value < 0)
+	{
+		value = value * -1;
+		neg = 1;
+	}
+	while (len--)
+	{
+		num[len] = "0123456789ABCDEF"[value % base];
+		value = value / base;
+	}
+	if (neg == 1)
+		num[0] = '-';
+	return (num);
+}
 // int print_u(t_flags *flags, unsigned int u)
 // {
 //     int count;
@@ -289,33 +289,26 @@ int	print_int(t_flags *flags, int d)
 
 int	print_percent(t_flags *flags)
 {
-	int count;
-	char *	space_or_zero;
+	int		count;
+	char	*space_or_zero;
 
 	count = 0;
 	if (flags->zero == 1)
 		space_or_zero = "0";
 	else
 		space_or_zero = " ";
-	if (flags->minus == 1) // - : left justify
+	if (flags->minus == 1)
 	{
 		write(1, "%", 1);
 		count++;
 		while (flags->width-- > count)
-		{
-			write(1, " ", 1);
-			count++;
-		}
+			count += write(1, " ", 1);
 	}
 	else
 	{
-		while (flags->width-- > 1) // reserve one space for "%"
-		{
-			write(1, space_or_zero, 1);
-			count++;
-		}
-		write(1, "%", 1);
-		count++;
+		while (flags->width-- > 1)
+			count += write(1, space_or_zero, 1);
+		count += write(1, "%", 1);
 	}
 	return (count);
 }

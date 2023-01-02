@@ -37,10 +37,13 @@ int main()
 
 
 // di 전반적인 구조에 대해 다시 생각해봐야...
-	int pf  = printf   ("pf:%12.7d\n", 33);    // pf:     0000033 pf:이후 총 12칸 찍기 / 33에 공백이나 부호 포함 7칸 찍기
-	int pf2 = printf   ("pf:%12.7d\n", -33);   // pf:    -0000033
-	int pf3 = printf   ("pf:%+12.7d\n", 33);   // pf:    +0000033
+	// int pf  = printf   ("pf:%12.7d\n", 33);    // pf:     0000033 pf:이후 총 12칸 찍기 / 33에 공백이나 부호 포함 7칸 찍기
+	// int pf2 = printf   ("pf:%12.7d\n", -33);   // pf:    -0000033
+	// int pf3 = printf   ("pf:%+12.7d\n", 33);   // pf:    +0000033
 
+	int ft  = ft_printf("ft:%12.7d\n", 33);    // ft:     0000033
+	int ft2 = ft_printf("ft:%12.7d\n", -33);   // ft:    -0000033
+	int ft3 = ft_printf("ft:%+12.7d\n", 33);   // ft:    +0000033
 	// int ft = ft_printf("ft:%05i\n", 33);
 	// printf("pf:%d | ft:%d\n", pf, ft);
 }
