@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/02 22:44:05 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/03 22:06:10 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	print_s(t_flags *flags, char *s)
 	count_and_space[0] = 0;
 	if (s == NULL)
 		s = "(null)";
-	if (flags->minus == 1)
+	if (flags->precision != -1 && flags->minus == 1)
 	{
 		while (*s && flags->precision--)
 			count_and_space[0] += write(1, s++, 1);
@@ -144,34 +144,31 @@ int	print_s(t_flags *flags, char *s)
 int	print_id(t_flags *flags, int d)
 {
 	int		count;
-	char	*str;
 
 	count = 0;
-	if (flags->plus == 1)
-		count += write(1, "+", 1);
 	if (flags->space == 1)
 		count += write(1, " ", 1);
+	if (d < 0 || flags->plus == 1)
+		flags->width--;
 	if (flags->minus == 1)
 	{
+		if (flags->plus == 1 && d >= 0)
+			count += write(1, "+", 1);
 		if (d < 0)
 			count += write(1, "-", 1);
 		count += print_int(flags, d);
-		while (flags->width > ++count)
+		while (flags->width > count++)
 			write(1, " ", 1);
 	}
 	else
 	{
-		str = ft_itoa_base(d, 10);
-		count = ft_strlen(str);
-		if (flags->precision != -1 && d < 0)
-			count = flags->precision + 1;
-		while (flags->width > count && flags->zero != 1)
+		while (flags->dot == 1 && flags->width-- > flags->precision)
 			count += write(1, " ", 1);
+		if (flags->plus == 1 && d >= 0)
+			count += write(1, "+", 1);
 		if (d < 0)
 			count += write(1, "-", 1);
 		count += print_int(flags, d);
-		count -= ft_strlen(str);
-		free(str);
 	}
 	return (count);
 }
@@ -179,16 +176,27 @@ int	print_id(t_flags *flags, int d)
 int	print_int(t_flags *flags, int d)
 {
 	int		count;
+	int		strlen;
 	char	*str;
+	char	*tmp;
 
 	count = 0;
-	if (flags->precision == 0 && d == 0)
+	if (flags->precision == 0 && d == 0) // ???
 		return (0);
 	str = ft_itoa_base(d, 10);
-	while (flags->precision-- > (int)ft_strlen(str) || flags->width-- > (int)ft_strlen(str))
+	tmp = str;
+	if (d < 0)
+	{
+		strlen = ft_strlen(str) - 1;
+		str++;
+	}
+	else
+		strlen = ft_strlen(str);
+	while (flags->precision > strlen++) // 0 출력
 		count += write(1, "0", 1);
-	while (*++str)
-        count += write(1, str, 1);
+	while (*str)
+		count += write(1, str++, 1); // 문자 출력
+	free(tmp);
 	return (count);
 }
 

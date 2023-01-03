@@ -1,11 +1,19 @@
 #include "ft_printf.h"
-#include "stdio.h"
+// #include "stdio.h"
+// #include "ft_printf.c"
+// #include "print.c"
+// #include "ft_init_flags.c"
+// #include "ft_atoi.c"
+// #include "ft_strlen.c"
+// #include "ft_isdigit.c"
+// #include "ft_strchr.c"
+// #include "ft_strncmp.c"
 
 int main()
 {
 	// 그리고 기존 컴퓨터에서 다시 작업을 하려면, 변경된 내용을 아래와 같이 pull 해줘야 한다. 
 	// git pull origin main
-	// gcc temp.c ft_printf.c print.c ./libft/*.c
+	// gcc temp.c ft_printf.c print.c ft_init_flags.c ./libft/*.c
 
 // 	int pf = printf   ("pf:%10.0d\n", 1);
 // 	int ft = ft_printf("ft:%10.0d\n", 1);
@@ -34,16 +42,17 @@ int main()
 // int ft = ft_printf("ft:%7.7s%7.7s\n", "hello", "world");
 
 // printf("pf:%d || ft:%d\n", pf, ft);
-
-
 // di 전반적인 구조에 대해 다시 생각해봐야...
-	// int pf  = printf   ("pf:%12.7d\n", 33);    // pf:     0000033 pf:이후 총 12칸 찍기 / 33에 공백이나 부호 포함 7칸 찍기
-	// int pf2 = printf   ("pf:%12.7d\n", -33);   // pf:    -0000033
-	// int pf3 = printf   ("pf:%+12.7d\n", 33);   // pf:    +0000033
+	//int pf  = printf   ("pf:%12.7d\n", -33);    // pf:     0000033 ("pf:"이후) 총 12칸 찍기 / 33에 공백이나 부호 포함 7칸 찍기
+	// int pf2 = printf   ("pf:%12.7d\n", -33);   // pf:    -0000033 // -먼저 찍고 나머지 공백
+	//int pf = printf("pf:%+-12.7d\n", -33);   // pf:    +0000033
+	int pf = printf("pf:this %d number\n", 17);   
 
-	int ft  = ft_printf("ft:%12.7d\n", 33);    // ft:     0000033
-	int ft2 = ft_printf("ft:%12.7d\n", -33);   // ft:    -0000033
-	int ft3 = ft_printf("ft:%+12.7d\n", 33);   // ft:    +0000033
-	// int ft = ft_printf("ft:%05i\n", 33);
-	// printf("pf:%d | ft:%d\n", pf, ft);
+	//int ft  = ft_printf("ft:%12.7d\n", -33);    // ft:     0000033
+	// int ft2 = ft_printf("ft:%12.7d\n", -33);   // ft:    -0000033
+	int ft = ft_printf("ft:this %d number\n", 17);   // ft:    +0000033
+	//int ft = printf("ft: %d ", 0);
+
+	//int ft = ft_printf("ft:%05i\n", 33);
+	printf("pf:%d | ft:%d", pf, ft);
 }

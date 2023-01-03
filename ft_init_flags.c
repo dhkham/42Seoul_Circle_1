@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 13:45:55 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 13:46:18 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/03 22:03:30 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_init_flags(t_flags *flags)
 {
 	flags->minus = 0;
 	flags->zero = 0;
-	//flags->dot = 0;
+	flags->dot = 0;
 	flags->hash = 0;
 	flags->space = 0;
 	flags->plus = 0;
