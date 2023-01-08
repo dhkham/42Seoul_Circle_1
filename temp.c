@@ -15,42 +15,31 @@ int main()
 	// git pull origin main
 	// gcc temp.c ft_printf.c print.c ft_init_flags.c ./libft/*.c
 
-// 	int pf = printf   ("pf:%10.0d\n", 1);
-// 	int ft = ft_printf("ft:%10.0d\n", 1);
-// 	printf("pf:%d | ft:%d\n", pf, ft);
 
-// 	int pf1 = printf   ("pf:%10.2d\n", 216);
-// 	int ft1 = ft_printf("ft:%10.2d\n", 216);
-// 	printf("pf:%d | ft:%d\n", pf1, ft1);
+	//53:  TEST(29, print(" %d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42));
+	//int pf = printf   ("pf:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
+	//int ft = ft_printf("ft:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
 
-// 	int pf2 = printf   ("pf:%10.6d\n", -216);
-// 	int ft2 = ft_printf("ft:%10.6d\n", -216);
-// 	printf("pf:%d | ft:%d\n", pf2, ft2);
 
-// 	int pf3 = printf   ("pf:%10.2d\n", 216);
-// 	int ft3 = ft_printf("ft:%10.2d\n", 216);
-// 	printf("pf:%d | ft:%d\n", pf3, ft3);
+// - [OUTPUT] ft_printf("%08.3i", 8375)
+// - [OUTPUT] ft_printf("%08.3i", -8473)
+// - [OUTPUT] ft_printf("%8.3d", 8375)
+// - [OUTPUT] ft_printf("%8.3d", -8473)
+// - [OUTPUT] ft_printf("%08.3d", 8375)
 
-//printf("%x", 257);
+	// - 는 width, precision에 포함되지 않는다
+	// width: 최대 12 칸 찍는다
+	// 공백은 width-precision만큼 찍는다(단 부호가 있을 경우 width-precision-1만큼 찍는다)
+	// precision: 33포함 최소 x칸 찍는다(33 찍고 남은 칸은 0으로 패딩)
+	// precision이 width보다 크면 precision만큼 33을 찍고 남은 칸은 0으로 패딩
+	
+	// 1. pass
+	// int pf  = printf   ("pf:%-+12.7d\n", 33); 
+	// int ft  = ft_printf("ft:%-+12.7d\n", 33); 
+	// int pf  = printf   ("pf:%-+12.7d\n", -33); 
+	// int ft  = ft_printf("ft:%-+12.7d\n", -33); 
 
-// int pf = printf("pf:%7.4s\n", "hello");
-// int ft = ft_printf("ft:%7.4s\n", "hello"); // . 이 나오면 무한루프 (해결?)
-
-// printf("pf:%d || ft:%d\n", pf, ft);
-
-// printf("pf:%d || ft:%d\n", pf, ft);
-// di 전반적인 구조에 대해 다시 생각해봐야...
-	//int pf  = printf   ("pf:%12.7d\n", -33);    // pf:     0000033 ("pf:"이후) 총 12칸 찍기 / 33에 공백이나 부호 포함 7칸 찍기
-	// int pf2 = printf   ("pf:%12.7d\n", -33);   // pf:    -0000033 // -먼저 찍고 나머지 공백
-	//int pf = printf("pf:%+-12.7d\n", -33);   // pf:    +0000033
-	//int pf = printf("pf:this %d number\n", 17);   
-
-	//int ft  = ft_printf("ft:%12.7d\n", -33);    // ft:     0000033
-	// int ft2 = ft_printf("ft:%12.7d\n", -33);   // ft:    -0000033
-	//int ft = ft_printf("ft:this %d number\n", 17);   // ft:    +0000033
-	//int ft = printf("ft: %d ", 0);
-
-    // 
+	// 3. pass
 	// int pf = printf("pf:%5i\n", 33);         // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기
 	// int ft = ft_printf("ft:%5i\n", 33);      // 
 
@@ -58,16 +47,21 @@ int main()
 	// int ft = ft_printf("ft:%5i\n", -33);     // 
 
 	// int pf = printf("pf:%-5i\n", 33);        // 
-	// int ft = ft_printf("ft:%-5i\n", 33);     // 왼쪽 정렬일 땐 잘 나옴
+	// int ft = ft_printf("ft:%-5i\n", 33);     //
 
-	// int pf = printf("pf:%-5i\n", -33);       // 
-	// int ft = ft_printf("ft:%-5i\n", -33);    // 왼쪽 정렬일 땐 잘 나옴
+	// int pf = printf("pf:%-5i\n", -33);       //
+	// int ft = ft_printf("ft:%-5i\n", -33);    //
 
-	//53:  TEST(29, print(" %d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42));
-	//int pf = printf   ("pf:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
-	//int ft = ft_printf("ft:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
 
-	// int pf = printf("pf:%-2d\n", 5);
-	// int ft = ft_printf("ft:%-2d\n", 5);
+
+	// 4. no
+	// int pf = printf   ("pf:%08.5i\n", 8375);
+	// int ft = ft_printf("ft:%08.5i\n", 8375);
+
+	// 2. no
+	// int pf  = printf   ("pf:%05i\n", -43); 
+	// int ft  = ft_printf("ft:%05i\n", -43);
+	int pf  = printf   ("pf:%05i\n", 0); 
+	int ft  = ft_printf("ft:%05i\n", 0); 
 	printf("pf:%d | ft:%d", pf, ft);
 }
