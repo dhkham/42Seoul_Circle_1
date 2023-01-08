@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:34:35 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/01 17:53:57 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/08 12:50:49 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		print_c(t_flags *flags, int c);
 int		print_s(t_flags *flags, char *s);
 //int	print_p(t_flags *flags, unsigned long long p);
 int		print_id(t_flags *flags, int d);
-int		print_int(t_flags *flags, int d);
+int		print_int(t_flags *flags, int d, char *str, int strlen);
 //int     print_u(t_flags *flags, unsigned int u);
 //int     print_x(t_flags *flags, unsigned int x);
 //int     print_xx(t_flags *flags, unsigned int xx);

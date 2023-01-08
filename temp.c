@@ -50,19 +50,20 @@ int main()
 	//int ft = ft_printf("ft:this %d number\n", 17);   // ft:    +0000033
 	//int ft = printf("ft: %d ", 0);
 
-	int pf = printf("pf:%5i\n", 33);
-	int ft = ft_printf("ft:%5i\n", 33);
+    // 
+	// int pf = printf("pf:%5i\n", 33);         // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기
+	// int ft = ft_printf("ft:%5i\n", 33);      // 
 
-	int pf = printf("pf:%5i\n", -33);
-	int ft = ft_printf("ft:%5i\n", -33);
+	// int pf = printf("pf:%5i\n", -33);        // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기
+	// int ft = ft_printf("ft:%5i\n", -33);     // 
 
-	int pf = printf("pf:%-5i\n", 33);
-	int ft = ft_printf("ft:%-5i\n", 33);
+	// int pf = printf("pf:%-5i\n", 33);        // 
+	// int ft = ft_printf("ft:%-5i\n", 33);     // 왼쪽 정렬일 땐 잘 나옴
 
-	int pf = printf("pf:%-5i\n", -33);
-	int ft = ft_printf("ft:%-5i\n", -33);
+	// int pf = printf("pf:%-5i\n", -33);       // 
+	// int ft = ft_printf("ft:%-5i\n", -33);    // 왼쪽 정렬일 땐 잘 나옴
 
-	//53:     TEST(29, print(" %d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42));
+	//53:  TEST(29, print(" %d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42));
 	//int pf = printf   ("pf:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
 	//int ft = ft_printf("ft:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
 

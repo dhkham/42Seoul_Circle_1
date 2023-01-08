@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/04 21:22:36 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/08 12:54:24 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,12 @@ int	print_s(t_flags *flags, char *s)
 int	print_id(t_flags *flags, int d)
 {
 	int		count;
+	char	*str;
+	int		strlen;
 
 	count = 0;
+	str = ft_itoa_base(d, 10);
+	strlen = ft_strlen(str);
 	if (flags->space == 1)
 		count += write(1, " ", 1);
 	if (flags->plus == 1) //d < 0 && 삭제
@@ -156,47 +160,53 @@ int	print_id(t_flags *flags, int d)
 			count += write(1, "+", 1);
 		if (d < 0)
 			count += write(1, "-", 1);
-		count += print_int(flags, d);
+		count += print_int(flags, d, str, strlen);
 		while (flags->width > count)
 			count += write(1, " ", 1);
 	}
 	else
-	{
-		while (flags->dot == 1 && flags->width-- > flags->precision)
+	{ // precision 역할, 0 언제 찍히는지 확인
+		// while (flags->dot == 1 && flags->width-- > flags->precision)
+		// 	count += write(1, " ", 1);
+		while (flags->width-- > strlen) // width에서 strlen만큼 뺀 값 만큼 공백 출력
 			count += write(1, " ", 1);
 		if (flags->plus == 1 && d >= 0)
 			count += write(1, "+", 1);
 		if (d < 0)
 			count += write(1, "-", 1);
-		count += print_int(flags, d);
+		count += print_int(flags, d, str, strlen);
 	}
+	free(str);
 	return (count);
 }
 
-int	print_int(t_flags *flags, int d)
+int	print_int(t_flags *flags, int d, char *str, int strlen)
 {
 	int		count;
-	int		strlen;
-	char	*str;
-	char	*tmp;
+	//int		strlen;
+	//char	*str;
+	//char	*tmp;
 
 	count = 0;
 	if (flags->precision == 0 && d == 0)
 		return (0);
-	str = ft_itoa_base(d, 10);
-	tmp = str;
+	//str = ft_itoa_base(d, 10);
+	//tmp = str;
 	if (d < 0)
-		strlen = ft_strlen(str++) - 1; //str++;
-	else
-		strlen = ft_strlen(str);
+	{
+		strlen--;//ft_strlen(str++) - 1; //str++;
+		str++;
+	}
+	// else
+	// 	strlen = ft_strlen(str);
 	while (flags->precision > strlen) //|| flags->width > strlen)) // 0 출력  5>2
 	{
 		count += write(1, "0", 1);
 		strlen++;
 	}
 	while (*str)
-		count += write(1, str++, 1); // 문자 출력
-	free(tmp);
+		count += write(1, str++, 1);//write(1, str++, 1); // 문자 출력
+	//free(tmp);
 	return (count);
 }
 
