@@ -40,8 +40,8 @@ int main()
 	// int ft  = ft_printf("ft:%+-12.7d\n", -33);
 
 	// no
-	int pf = printf   ("pf:%05i\n", 3);      // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기 => 이게 왼쪽 정렬??
-	int ft = ft_printf("ft:%05i\n", 3);      // 
+	// int pf = printf   ("pf:%05i\n", 3);      // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기 => 왼쪽에 공백이 안 찍혀나온다!!!
+	// int ft = ft_printf("ft:%05i\n", 3);      // 
 
 // 230110
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,8 +56,8 @@ int main()
 	// no
 	// int pf = printf   ("pf:%08.5i\n", 8375); // width: 총 8칸 찍기 / precision: 8375에 0포함 5칸 찍기 / 나머지 3칸에 부호와 공백
 	// int ft = ft_printf("ft:%08.5i\n", 8375);
-	// int pf = printf   ("pf:%08.5i\n", -8375);
-	// int ft = ft_printf("ft:%08.5i\n", -8375);
+	int pf = printf   ("pf:%08.5i\n", -8375);
+	int ft = ft_printf("ft:%08.5i\n", -8375);
 
 	// pass
 	// int pf  = printf   ("pf:%05i\n", -43);
