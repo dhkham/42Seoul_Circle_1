@@ -1,5 +1,5 @@
 #include "ft_printf.h"
-// #include "stdio.h"
+#include "stdio.h"
 // #include "ft_printf.c"
 // #include "print.c"
 // #include "ft_init_flags.c"
@@ -15,17 +15,7 @@ int main()
 	// git pull origin main
 	// gcc temp.c ft_printf.c print.c ft_init_flags.c ./libft/*.c
 
-
-	//53:  TEST(29, print(" %d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42));
-	//int pf = printf   ("pf:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
-	//int ft = ft_printf("ft:%d %d %d %d %d %d %d", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
-
-
-// - [OUTPUT] ft_printf("%08.3i", 8375)
-// - [OUTPUT] ft_printf("%08.3i", -8473)
-// - [OUTPUT] ft_printf("%8.3d", 8375)
-// - [OUTPUT] ft_printf("%8.3d", -8473)
-// - [OUTPUT] ft_printf("%08.3d", 8375)
+	//printf("%d", -2147483648);
 
 	// - 는 width, precision에 포함되지 않는다
 	// width: 최대 12 칸 찍는다
@@ -33,36 +23,60 @@ int main()
 	// precision: 33포함 최소 x칸 찍는다(33 찍고 남은 칸은 0으로 패딩)
 	// precision이 width보다 크면 precision만큼 33을 찍고 남은 칸은 0으로 패딩
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// pass
 	// int pf  = printf   ("pf:%-+12.7d\n", 33);
 	// int ft  = ft_printf("ft:%-+12.7d\n", 33);
 	// int pf  = printf   ("pf:%+-12.7d\n", -33); // 총 12칸, 숫자 공백포함 7칸, 나머지 5칸에 부호와 공백
 	// int ft  = ft_printf("ft:%+-12.7d\n", -33);
 
-	// no
-	// int pf = printf   ("pf:%05i\n", 3);      // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기 => 왼쪽에 공백이 안 찍혀나온다!!!
-	// int ft = ft_printf("ft:%05i\n", 3);      // 
-
-// 230110
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	// pass
 	// int pf = printf("pf:%5i\n", -33);        // 총 5칸 찍기 / 33에 공백이나 부호 포함 2칸 찍기
 	// int ft = ft_printf("ft:%5i\n", -33);     //
+
 	// int pf = printf("pf:%-5i\n", 33);        //
 	// int ft = ft_printf("ft:%-5i\n", 33);     //
+
 	// int pf = printf("pf:%-5i\n", -33);       //
 	// int ft = ft_printf("ft:%-5i\n", -33);    //
 
-	// no
-	// int pf = printf   ("pf:%08.5i\n", 8375); // width: 총 8칸 찍기 / precision: 8375에 0포함 5칸 찍기 / 나머지 3칸에 부호와 공백
+	// pass
+	// int pf = printf   ("pf:%8.5i\n", 8375); // width: 총 8칸 찍기 / precision: 8375에 0포함 5칸 찍기 / 나머지 3칸에 부호와 공백
+	// int ft = ft_printf("ft:%8.5i\n", 8375);
+	int pf  = printf   ("pf:%8.3i\n", 1333);
+	int ft  = ft_printf("ft:%8.3i\n", 1333); // 230110 공백이 틀리다
+	// int pf = printf   ("pf:%08.5i\n", 8375);
 	// int ft = ft_printf("ft:%08.5i\n", 8375);
-	int pf = printf   ("pf:%08.5i\n", -8375);
-	int ft = ft_printf("ft:%08.5i\n", -8375);
+
+	// pass
+	// int pf = printf   ("pf:%08.5i\n", -8375);
+	// int ft = ft_printf("ft:%08.5i\n", -8375);
+
+	// pass
+	// int pf  = printf   ("pf:%5i\n", -43);
+	// int ft  = ft_printf("ft:%5i\n", -43);
 
 	// pass
 	// int pf  = printf   ("pf:%05i\n", -43);
 	// int ft  = ft_printf("ft:%05i\n", -43);
 	// int pf  = printf   ("pf:%05i\n", 0);
 	// int ft  = ft_printf("ft:%05i\n", 0);
+
+
+// - [OUTPUT] ft_printf("%8.3i", 8375)
+// - [OUTPUT] ft_printf("%8.3i", -8473)
+// - [OUTPUT] ft_printf("%3.3i", 6983)
+// - [OUTPUT] ft_printf("%3.3i", -8462)
+// - [OUTPUT] ft_printf("%-8.3i", 8375)
+// - [OUTPUT] ft_printf("%-8.3i", -8473)
+// - [OUTPUT] ft_printf("%-3.3i", 6983)
+// - [OUTPUT] ft_printf("%-3.3i", -8462)
+// - [OUTPUT] ft_printf("%08.3i", 8375)
+// - [OUTPUT] ft_printf("%08.3i", -8473)
+// - [OUTPUT] ft_printf("%03.3i", 6983)
+// - [OUTPUT] ft_printf("%03.3i", -8462)
+
 	printf("pf:%d | ft:%d", pf, ft);
 }

@@ -6,14 +6,12 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:34:35 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/08 12:50:49 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/11 21:57:58 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-
-# include <stdio.h> // !!! 지 워 라 D E L E T E !!!
 
 # include <unistd.h>
 # include <stdlib.h>
