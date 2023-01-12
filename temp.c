@@ -1,5 +1,6 @@
 #include "ft_printf.h"
 #include "stdio.h"
+#include "limits.h"
 // #include "ft_printf.c"
 // #include "print.c"
 // #include "ft_init_flags.c"
@@ -45,12 +46,12 @@ int main()
 	// pass
 	// int pf = printf   ("pf:%8.5i\n", 8375); // width: 총 8칸 찍기 / precision: 8375에 0포함 5칸 찍기 / 나머지 3칸에 부호와 공백
 	// int ft = ft_printf("ft:%8.5i\n", 8375);
-	int pf  = printf   ("pf:%8.3i\n", 1333);
-	int ft  = ft_printf("ft:%8.3i\n", 1333); // 230110 공백이 틀리다
-	// int pf = printf   ("pf:%08.5i\n", 8375);
-	// int ft = ft_printf("ft:%08.5i\n", 8375);
-
-	// pass
+	// int pf  = printf   ("pf:%8.3i\n", 1333);
+	// int ft  = ft_printf("ft:%8.3i\n", 1333);
+	// int pf  = printf   ("pf:%8.3i\n", -1333);
+	// int ft  = ft_printf("ft:%8.3i\n", -1333);
+	// int pf = printf   ("pf:%08.3i\n", 8375);
+	// int ft = ft_printf("ft:%08.3i\n", 8375);
 	// int pf = printf   ("pf:%08.5i\n", -8375);
 	// int ft = ft_printf("ft:%08.5i\n", -8375);
 
@@ -64,19 +65,19 @@ int main()
 	// int pf  = printf   ("pf:%05i\n", 0);
 	// int ft  = ft_printf("ft:%05i\n", 0);
 
+	// pass
+	// int pf  = printf   ("pf:%5.0i\n", 0);
+	// int ft  = ft_printf("ft:%5.0i\n", 0);
+	// int pf  = printf   ("pf:%5.i\n", 0);
+	// int ft  = ft_printf("ft:%5.i\n", 0);
+	// int pf  = printf   ("pf:%d\n", INT_MIN); 
+	// int ft  = ft_printf("ft:%d\n", INT_MIN);
+	
+	// int pf  = printf   ("pf:% i\n", 0); // strlen < width 면 space flag 무시 => 해결
+	// int ft  = ft_printf("ft:% i\n", 0);
 
-// - [OUTPUT] ft_printf("%8.3i", 8375)
-// - [OUTPUT] ft_printf("%8.3i", -8473)
-// - [OUTPUT] ft_printf("%3.3i", 6983)
-// - [OUTPUT] ft_printf("%3.3i", -8462)
-// - [OUTPUT] ft_printf("%-8.3i", 8375)
-// - [OUTPUT] ft_printf("%-8.3i", -8473)
-// - [OUTPUT] ft_printf("%-3.3i", 6983)
-// - [OUTPUT] ft_printf("%-3.3i", -8462)
-// - [OUTPUT] ft_printf("%08.3i", 8375)
-// - [OUTPUT] ft_printf("%08.3i", -8473)
-// - [OUTPUT] ft_printf("%03.3i", 6983)
-// - [OUTPUT] ft_printf("%03.3i", -8462)
+	int pf = printf("pf:%+.d\n", 0);
+	int ft = ft_printf("ft:%+.d\n", 0);
 
 	printf("pf:%d | ft:%d", pf, ft);
 }
