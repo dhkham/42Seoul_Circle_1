@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:02:40 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/12 22:58:39 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:36:23 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_parse(const char **format, va_list ap)
 		count += ft_parse_type(&flags, format, ap);
 	return (count);
 }
-
+#include "stdio.h"
 void	ft_parse_flags(t_flags *flags, const char **format)
 {
 	if (**format == '-')

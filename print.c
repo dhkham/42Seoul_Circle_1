@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:12 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/12 22:58:07 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/13 22:26:52 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,11 +160,13 @@ int	print_id(t_flags *flags, int d)
 			count += write(1, " ", 1); // 마지막에 끝에 공백 출력
 	}
 	else                   // 오른쪽 정렬 (공백-부호-숫자(0패딩))
-	{
+	{//+1.d
 		if (flags->dot == 1 && flags->precision >= strlen && (flags->plus == 1 || d < 0)) // dot == 1 이고 부호(+혹은-)가 붙는 경우에는 공백 하나 덜 출력 해야한다
 			spaces = flags->width - flags->precision - 1;
 		else if (flags->dot == 1 && flags->precision >= strlen)
 			spaces = flags->width - flags->precision;
+		else if (flags->dot == 1 && flags->plus == 1 && flags->precision == 0 && d == 0)
+			spaces = 0;
 		else if (flags->dot == 1 && (flags->precision == 0 || flags->precision == -1) && d == 0)
 			spaces = flags->width;
 		else if (flags->plus == 1 && d >= 0)
@@ -188,10 +190,17 @@ int	print_int(t_flags *flags, int d, char *str, int strlen)
 
 	count = 0;
 	if (flags->precision == 0 && d == 0) // precision 0이고 d가 0이면 아무것도 출력하지 않음
-		return (0);
-	// 부호 출력
+	{
+		if (flags->plus == 1)
+			return (write(1, "+", 1));
+		else
+			return (0);
+	}
 	if (flags->plus == 1 && d >= 0)
 		count += write(1, "+", 1);
+	// 부호 출력
+	// if (flags->plus == 1 && d >= 0)
+	// 	count += write(1, "+", 1);
 	if (d < 0)
 	{
 		count += write(1, "-", 1);

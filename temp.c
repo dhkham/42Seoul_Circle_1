@@ -1,14 +1,7 @@
 #include "ft_printf.h"
 #include "stdio.h"
 #include "limits.h"
-// #include "ft_printf.c"
-// #include "print.c"
-// #include "ft_init_flags.c"
-// #include "ft_atoi.c"
-// #include "ft_strlen.c"
-// #include "ft_isdigit.c"
-// #include "ft_strchr.c"
-// #include "ft_strncmp.c"
+
 
 int main()
 {
@@ -76,8 +69,18 @@ int main()
 	// int pf  = printf   ("pf:% i\n", 0); // strlen < width 면 space flag 무시 => 해결
 	// int ft  = ft_printf("ft:% i\n", 0);
 
-	int pf = printf("pf:%+.d\n", 0);
-	int ft = ft_printf("ft:%+.d\n", 0);
+	// int pf = printf   ("pf:%+1.d, %+1.d, %+1.d, %+1.d, %+1.d, %+1.d, %+1.d, %+1.d\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
+	// int ft = ft_printf("ft:%+1.d, %+1.d, %+1.d, %+1.d, %+1.d, %+1.d, %+1.d, %+1.d\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
 
+	// int pf = printf   ("pf:%+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
+	// int ft = ft_printf("ft:%+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d, %+1.0d\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
+
+	// int pf = printf   ("pf:%5i, %5i, %5i, %5i, %5i, %5i, %5i, %5i\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
+	// int ft = ft_printf("ft:%5i, %5i, %5i, %5i, %5i, %5i, %5i, %5i\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
+
+	int pf = printf   ("pf:%+5.i, %+5.i, %+5.i, %+5.i, %+5.i, %+5.i, %+5.i, %+5.i\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
+	int ft = ft_printf("ft:%+5.i, %+5.i, %+5.i, %+5.i, %+5.i, %+5.i, %+5.i, %+5.i\n", 0, 5, -1, -10, 100, -1862, INT_MIN, INT_MAX);
 	printf("pf:%d | ft:%d", pf, ft);
+	// printf("%+1.0d", 0);
+	// printf("%+1.0d", 5);
 }
