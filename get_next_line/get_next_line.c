@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:26:52 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 18:11:45 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/29 18:17:14 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char *get_next_line(int fd)
 {
-	static t_dlist *fd_storage;
-	t_dlist *cur_fd;
+	static t_list *fd_storage;
+	t_list *cur_fd;
 	char *line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -30,10 +30,10 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-t_dlist *find_fd_in_storage(int fd, t_dlist **fd_storage)
+t_list *find_fd_in_storage(int fd, t_list **fd_storage)
 {
-	t_dlist *current;
-	t_dlist *temp;
+	t_list *current;
+	t_list *temp;
 
 	current = *fd_storage;
 	while (current)
@@ -46,7 +46,7 @@ t_dlist *find_fd_in_storage(int fd, t_dlist **fd_storage)
 	}
 	if (current == NULL)
 	{
-		current = (t_dlist *)malloc(sizeof(t_dlist));
+		current = (t_list *)malloc(sizeof(t_list));
 		if (current == NULL)
 			return (NULL);
 		current->fd = fd;
@@ -58,20 +58,20 @@ t_dlist *find_fd_in_storage(int fd, t_dlist **fd_storage)
 	return (NULL);
 }
 
-char *make_line(t_dlist *cur_fd)
+char	*make_line(t_list *cur_fd)
 {
-	char	*buffer;
+	char	*buf;
 	char	*line;
 	char	*new;
 	char	*del;
-	ssize_t read_size;
+	ssize_t	read_size;
 
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (buffer == NULL)
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buf == NULL)
 		return (NULL);
 	while (1)
 	{
-		read_size = read(cur_fd->fd, buffer, BUFFER_SIZE);
+		read_size = read(cur_fd->fd, buf, BUFFER_SIZE);
 		if (read_size == -1)
 			return (NULL);
 		if (read_size == 0)
@@ -83,14 +83,14 @@ char *make_line(t_dlist *cur_fd)
 			cur_fd->data = NULL;
 			return (line);
 		}
-		make_line_from_data(cur_fd, &buffer, &line, &new, &del);
+		make_line_from_data(cur_fd, &buf, &line, &new, &del);
 	}
 }
 
-void	make_line_from_data(t_dlist *cur_fd, char *buffer, char **line, char **new, char **del)
+void	make_line_from_data(t_list *cur_fd, char *buf, char **line, char **new, char **del)
 {
-	buffer[BUFFER_SIZE] = '\0';
-	cur_fd->data = ft_strjoin(cur_fd->data, buffer);
+	buf[BUFFER_SIZE] = '\0';
+	cur_fd->data = ft_strjoin(cur_fd->data, buf);
 	new = ft_strchr(cur_fd->data, '\n');
 	if (new)
 	{
