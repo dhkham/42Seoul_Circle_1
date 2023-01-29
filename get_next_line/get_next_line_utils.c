@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:29:16 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 17:07:45 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/29 20:32:23 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strjoin(char const *s, char const *s2)
 	size_t	i;
 	size_t	j;
 
-	s_len = ft_strlen(s);
-	s2_len = ft_strlen(s2);
+	s_len = check_slen(s);
+	s2_len = check_slen(s2);
 	join = (char *)malloc(sizeof(char) * ((s_len + s2_len) + 1));
 	if (!join)
 		return (NULL);
@@ -37,6 +37,14 @@ char	*ft_strjoin(char const *s, char const *s2)
 	}
 	join[i] = '\0';
 	return (join);
+}
+
+int	check_slen(const char *s)
+{
+	if (!s)
+		return (0);
+	else
+		return (ft_strlen(s));
 }
 
 size_t	ft_strlen(const char *str)

@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 10:57:16 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 16:07:19 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/29 19:58:57 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	main(void)
 	char	*line2;
 
 	fd = open("two_lines_with_nl", O_RDONLY);
-	fd2 = open("two_lines_with_nl", O_RDONLY);
+	//fd2 = open("two_lines_with_nl", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
-		line2 = get_next_line(fd2);
+		//line2 = get_next_line(fd2);
 		printf("%s", line);
-		printf("%s", line2);
+		//printf("%s", line2);
 		if (line == NULL)
 			break ;
 		free(line);
