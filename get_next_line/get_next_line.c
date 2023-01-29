@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:26:52 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 18:02:22 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/29 18:11:45 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *get_next_line(int fd)
 	// 1. read from fd and add to fd_storage
 	// (fd_storage is a linked list, since it should contain multiple fd's), each node in a linked list is from a single fd
 	cur_fd = find_fd_in_storage(fd, &fd_storage);
-	line = get_data_from_fd(cur_fd);
+	line = make_line(cur_fd);
 	// 2. get a single line from fd_storage to line
 	// 3. clean up fd_storage, leaving only the remaining lines
 	// 4. return line
@@ -58,7 +58,7 @@ t_dlist *find_fd_in_storage(int fd, t_dlist **fd_storage)
 	return (NULL);
 }
 
-char *get_data_from_fd(t_dlist *cur_fd)
+char *make_line(t_dlist *cur_fd)
 {
 	char	*buffer;
 	char	*line;
@@ -87,7 +87,7 @@ char *get_data_from_fd(t_dlist *cur_fd)
 	}
 }
 
-void make_line_from_data(t_dlist *cur_fd, char *buffer, char **line, char **new, char **del)
+void	make_line_from_data(t_dlist *cur_fd, char *buffer, char **line, char **new, char **del)
 {
 	buffer[BUFFER_SIZE] = '\0';
 	cur_fd->data = ft_strjoin(cur_fd->data, buffer);
@@ -96,8 +96,7 @@ void make_line_from_data(t_dlist *cur_fd, char *buffer, char **line, char **new,
 	{
 		line = ft_substr(cur_fd->data, 0, new - cur_fd->data);
 		del = cur_fd->data;
-		cur_fd->data = ft_substr(cur_fd->data, new - cur_fd->data + 1,
-		\ ft_strlen(cur_fd->data));
+		cur_fd->data = ft_substr(cur_fd->data, new - cur_fd->data + 1, ft_strlen(cur_fd->data));
 		free(del);
 		return (line);
 	}

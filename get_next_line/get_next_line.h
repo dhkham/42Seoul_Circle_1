@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:27:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 17:02:15 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/29 18:12:56 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ typedef struct s_dlist
 }	t_dlist;
 
 char	*get_next_line(int fd);
+t_dlist *find_fd_in_storage(int fd, t_dlist **fd_storage);
+char	*make_line(t_dlist *cur_fd);
+void	make_line_from_data(t_dlist *cur_fd, char *buffer, char **line, char **new, char **del);
 char	*ft_strjoin(char const *s, char const *s2);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
