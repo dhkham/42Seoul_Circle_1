@@ -5,18 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 15:26:52 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 21:28:38 by dkham            ###   ########.fr       */
+/*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
+/*   Updated: 2023/01/30 21:53:13 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static t_list	*fd_storage;
 	t_list			*cur_ptr;
 	char			*line;
+	char			*buf;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -28,16 +29,12 @@ char *get_next_line(int fd)
 t_list	*find_fd_in_storage(int fd, t_list **fd_storage)
 {
 	t_list	*cur_ptr;
-	t_list	*temp;
 
-	temp = NULL;
 	cur_ptr = *fd_storage;
 	while (cur_ptr) // fd_storage가 빈 linked list가 아닐 때 loop
 	{
 		if (cur_ptr->fd == fd) // fd가 이미 저장되어 있으면 해당 fd의 linked list를 가리키는 포인터 return
 			return (cur_ptr);
-		if (cur_ptr->next == NULL) // cur_ptr이 마지막 linked list가리킬 경우 temp가 마지막 노드 가리킴
-			temp = cur_ptr;
 		cur_ptr = cur_ptr->next;
 	}
 	if (cur_ptr == NULL) // fd_storage가 빈 linked list일 경우 새로운 linked list 노드 생성
@@ -54,7 +51,7 @@ t_list	*find_fd_in_storage(int fd, t_list **fd_storage)
 	return (cur_ptr);
 }
 
-char *make_line(t_list *cur_ptr, t_list *fd_storage) // line = NULL;
+char	*make_line(t_list *cur_ptr, t_list *fd_storage)
 {
 	char	*buf;
 	char	*line;
@@ -62,24 +59,25 @@ char *make_line(t_list *cur_ptr, t_list *fd_storage) // line = NULL;
 	char	*del;
 	ssize_t	read_size;
 
+	line = NULL;
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
 		return (NULL);
 	while (1)
 	{
 		read_size = read(cur_ptr->fd, buf, BUFFER_SIZE);
-		if (read_size == -1) // read error
+		if (read_size == -1) // 1. read error
 			return (remove_cur_ptr(cur_ptr, &fd_storage));
-		if (read_size == 0) // EOF
+		if (read_size == 0) // 2. EOF
 		{
-			if (cur_ptr->data == NULL)
-				return (NULL);
-			line = ft_substr(cur_ptr->data, 0, ft_strlen(cur_ptr->data));
-			free(cur_ptr->data);
+			if (cur_ptr->data == NULL) // 아예 빈 파일일 경우
+				return (remove_cur_ptr(cur_ptr, &fd_storage)); // 이전 코드: return (NULL);
+			line = ft_substr(cur_ptr->data, 0, ft_strlen(cur_ptr->data)); // cur_ptr->data에 저장된 문자열을 line에 저장
+			free(cur_ptr->data); // ft_strjoin으로 malloc된 data를 free
 			cur_ptr->data = NULL;
-			return (line);
+			return (line); // 남아있던 줄 리턴
 		}
-		buf[BUFFER_SIZE] = '\0';						// 정상적인 read 실행 시
+		buf[read_size] = '\0';						// 3. 정상적인 read 실행 시
 		cur_ptr->data = ft_strjoin(cur_ptr->data, buf); // cur_ptr->data에 buf를 붙여 cur_ptr->data에 저장
 		new_line = ft_strchr(cur_ptr->data, '\n');		// cur_ptr->data에 \n이 있는지 확인
 		if (new_line)									// \n이 있을 경우
@@ -87,9 +85,9 @@ char *make_line(t_list *cur_ptr, t_list *fd_storage) // line = NULL;
 			line = ft_substr(cur_ptr->data, 0, new_line - (cur_ptr->data) + 1); // \n까지의 문자열을 line에 저장
 			del = cur_ptr->data;
 			cur_ptr->data = ft_substr(cur_ptr->data, \
-			(new_line - cur_ptr->data + 1), ft_strlen(cur_ptr->data));
-			free(del);																			 // substr 하면 malloc 된 결과물이 cur_ptr->data에 저장되므로 del로 free
-			return (line);																		 // ==> line은 free 안해도 되나?
+			(new_line - cur_ptr->data + 1), ft_strlen(cur_ptr->data) - (new_line - cur_ptr->data + 1));
+			free(del); // substr 하면 malloc 된 결과물이 cur_ptr->data에 저장되므로 del로 free
+			return (line);
 		}
 	}
 	return (line);
