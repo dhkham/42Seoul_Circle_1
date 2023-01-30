@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/30 22:30:51 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/30 22:40:29 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ char	*get_next_line(int fd)
 	cur_ptr = find_fd_in_storage(fd, &fd_storage); // linked list로 각 fd별로 저장
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
-		return (NULL);
+		return (remove_cur_ptr(cur_ptr, &fd_storage));
 	line = make_line(cur_ptr, fd_storage, buf);
+	free(buf);
 	return (line);
 }
 
