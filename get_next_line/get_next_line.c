@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/30 21:53:13 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/30 22:30:51 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	cur_ptr = find_fd_in_storage(fd, &fd_storage); // linked list로 각 fd별로 저장
-	line = make_line(cur_ptr, fd_storage);
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buf == NULL)
+		return (NULL);
+	line = make_line(cur_ptr, fd_storage, buf);
 	return (line);
 }
 
@@ -51,18 +54,14 @@ t_list	*find_fd_in_storage(int fd, t_list **fd_storage)
 	return (cur_ptr);
 }
 
-char	*make_line(t_list *cur_ptr, t_list *fd_storage)
+char	*make_line(t_list *cur_ptr, t_list *fd_storage, char *buf)
 {
-	char	*buf;
 	char	*line;
 	char	*new_line;
 	char	*del;
 	ssize_t	read_size;
 
 	line = NULL;
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (buf == NULL)
-		return (NULL);
 	while (1)
 	{
 		read_size = read(cur_ptr->fd, buf, BUFFER_SIZE);

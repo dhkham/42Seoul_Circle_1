@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:27:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/30 21:30:47 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/30 22:30:30 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_dlist
 
 char	*get_next_line(int fd);
 t_list	*find_fd_in_storage(int fd, t_list **fd_storage);
-char	*make_line(t_list *cur_ptr, t_list *fd_storage);
+char	*make_line(t_list *cur_ptr, t_list *fd_storage, char *buf);
 void	*remove_cur_ptr(t_list *cur_ptr, t_list **fd_storage);
 char	*ft_strjoin(char const *s, char const *s2);
 int		check_slen(const char *s);
