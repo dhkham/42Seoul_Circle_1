@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/30 22:40:29 by dkham            ###   ########.fr       */
+/*   Updated: 2023/01/30 22:44:18 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_next_line(int fd)
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
 		return (remove_cur_ptr(cur_ptr, &fd_storage));
-	line = make_line(cur_ptr, fd_storage, buf);
+	line = make_line(cur_ptr, fd_storage, buf); // read_line과 make_line으로 나누어야 함.
 	free(buf);
 	return (line);
 }
