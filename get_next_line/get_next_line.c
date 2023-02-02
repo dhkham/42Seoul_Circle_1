@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/01 22:38:31 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/02 19:09:13 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_list	*find_fd_node(int fd, t_list **head)
 char	*read_line(t_list *cur, t_list *head, char *buf)
 {
 	ssize_t	read_size;
-	char	*lb;
-	char	*line;
 
 	while (1)
 	{
@@ -71,49 +69,40 @@ char	*read_line(t_list *cur, t_list *head, char *buf)
 		{
 			if (cur->data == NULL) // 아예 빈 파일일 경우
 				return (remove_cur_ptr(cur, &head));
-			return (make_line(cur, &head, buf, read_size));
+			return (make_line(cur, &head));
 		}
-		buf[read_size] = '\0';	// 3. 정상적인 read 실행 시
+		buf[read_size] = '\0'; // 3. 정상적인 read 실행 시
 		cur->data = ft_strjoin(cur->data, buf); // data에 buf를 붙여 cur->data에 저장
 		if (cur->data == NULL) // 3-1. ft_strjoin error
 			return (remove_cur_ptr(cur, &head)); // 실패 시 노드 다 터뜨리기
-
-		lb = ft_strchr(cur->data, '\n');		// cur->data에 \n이 있는지 확인
-		if (lb)									// \n이 있을 경우
-		{
-			line = ft_substr(cur->data, 0, lb - (cur->data) + 1); // \n까지의 문자열을 line에 저장
-			del = cur->data;
-			cur->data = ft_substr(cur->data, \
-			(lb - cur->data + 1), ft_strlen(cur->data) - (lb - cur->data + 1)); // data에서 \n 후 문자열만 남기고 삭제
-			free(del); // substr 하면 malloc 된 결과물이 cur->data에 저장되므로 del로 free
-			return (line);
-		}
+		if (ft_strchr(cur->data, '\n'))
+			return (make_line(cur, &head));
 	}
 }
 
-char	*make_line(t_list *cur, t_list **head, char *buf, ssize_t read_size)
+char	*make_line(t_list *cur, t_list **head)
 {
 	char	*line;
 	char	*lb;
-	char	*del;
 
-	while (1)
+	lb = ft_strchr(cur->data, '\n'); // '\n'이 있는 위치를 가리키는 포인터
+	if (lb == NULL) // '\n'이 없는 경우
 	{
-		cur->data = ft_strjoin(cur->data, buf); // data에 buf를 붙여 cur->data에 저장
-		lb = ft_strchr(cur->data, '\n');		// cur->data에 \n이 있는지 확인
-		if (lb)
-		{
-			line = ft_substr(cur->data, 0, lb - (cur->data) + 1); // \n까지의 문자열을 line에 저장
-			// !!! 새롭게 추가: 전체 통 터뜨려야 하지 않나..? !!!
-			// if (line == NULL)
-			// 	return (remove_cur_ptr(cur, &head)); // 동적할당 실패 시 노드 다 터뜨리기
-			del = cur->data;
-			cur->data = ft_substr(cur->data, \
-			(lb - cur->data + 1), ft_strlen(cur->data) - (lb - cur->data + 1)); //data에서 \n 후 문자열만 남기고 삭제
-			free(del); // substr 하면 malloc 된 결과물이 cur->data에 저장되므로 del로 free
-			remove_cur_ptr(cur, head); // !!! 새롭게 추가: 전체 통 터뜨려야 하지 않나..? !!!
-			return (line);
-		}
+		line = ft_strdup(cur->data);
+		if (line == NULL) // 1. ft_strdup error
+			return (remove_cur_ptr(cur, head)); // 실패 시 노드 다 터뜨리기
+		free(cur->data); // cur->data 메모리 해제
+		cur->data = NULL;
+		return (line);
+	}
+	else // '\n'이 있는 경우
+	{
+		*lb = '\0'; // '\n'을 '\0'으로 바꿔줌
+		line = ft_strdup(cur->data);
+		if (line == NULL) // 1. ft_strdup error
+			return (remove_cur_ptr(cur, head)); // 실패 시 노드 다 터뜨리기
+		ft_strlcpy(cur->data, lb + 1, ft_strlen(lb + 1) + 1); // '\n' 다음 문자열을 cur->data에 저장
+		return (line);
 	}
 }
 

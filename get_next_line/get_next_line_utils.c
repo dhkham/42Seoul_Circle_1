@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:29:16 by dkham             #+#    #+#             */
-/*   Updated: 2023/01/29 20:32:23 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/02 19:03:11 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strjoin(char const *s, char const *s2)
 	size_t	i;
 	size_t	j;
 
-	s_len = check_slen(s);
-	s2_len = check_slen(s2);
+	s_len = ft_strlen(s);
+	s2_len = ft_strlen(s2);
 	join = (char *)malloc(sizeof(char) * ((s_len + s2_len) + 1));
 	if (!join)
 		return (NULL);
@@ -39,19 +39,13 @@ char	*ft_strjoin(char const *s, char const *s2)
 	return (join);
 }
 
-int	check_slen(const char *s)
-{
-	if (!s)
-		return (0);
-	else
-		return (ft_strlen(s));
-}
-
 size_t	ft_strlen(const char *str)
 {
 	size_t	len;
 
 	len = 0;
+	if (!str)
+		return (0);
 	while (*(str++) != '\0')
 		len++;
 	return (len);
@@ -68,28 +62,34 @@ char	*ft_strchr(const char *s, int c)
 	return ((char *)s);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strdup(const char *s1)
+{
+	char	*ptr;
+	size_t	s1_len;
+
+	s1_len = ft_strlen(s1);
+	ptr = (char *)malloc(sizeof(char) * (s1_len + 1));
+	if (!ptr)
+		return (NULL);
+	ft_strlcpy(ptr, s1, s1_len + 1);
+	return (ptr);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
-	size_t	s_len;
-	char	*sub;
+	size_t	src_len;
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start > s_len)
-		start = s_len;
-	if (s_len < len || s_len - start < len)
-		len = s_len - start;
-	sub = (char *)malloc(sizeof(char) * len + 1);
-	if (!sub)
-		return (NULL);
 	i = 0;
-	while (i < len)
+	src_len = ft_strlen(src);
+	if (!dstsize)
+		return (src_len);
+	while (i < src_len && i + 1 < dstsize)
 	{
-		sub[i] = s[start + i];
+		dst[i] = src[i];
 		i++;
 	}
-	sub[i] = '\0';
-	return (sub);
+	if (dstsize != 0)
+		dst[i] = '\0';
+	return (src_len);
 }

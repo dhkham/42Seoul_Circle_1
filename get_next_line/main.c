@@ -18,13 +18,9 @@ int	main(void)
 	char	*line;
 
 	fd = open("two_lines_with_nl", O_RDONLY);
-	//fd2 = open("two_lines_with_nl", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
-		//line2 = get_next_line(fd2);
-		
-		//printf("%s", line2);
 		if (line == NULL)
 			break ;
 		printf("%s", line);
