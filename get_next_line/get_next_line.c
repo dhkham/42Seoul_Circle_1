@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/02 19:09:13 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/02 21:23:45 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ char	*get_next_line(int fd)
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1)); // 파일에서 nbyte씩 읽어와 넣을 버퍼 만들기
 	if (buf == NULL)
 		return (remove_cur_ptr(cur, &head)); // 동적할당 실패 시 노드 다 터뜨리기
-	line = read_line(cur, head, buf); // 미션: read_line과 make_line으로 나누어야 함
+	line = read_line(cur, head, buf);
 	free(buf);
-	// remove_cur_ptr(cur, &head);
 	return (line);
 }
 
@@ -62,10 +61,10 @@ char	*read_line(t_list *cur, t_list *head, char *buf)
 
 	while (1)
 	{
-		read_size = read(cur->fd, buf, BUFFER_SIZE); // fd에서 nbyte만큼 읽어와 buf에 저장
-		if (read_size == -1) // 1. read error
-			return (remove_cur_ptr(cur, &head)); // 실패 시 노드 다 터뜨리기
-		if (read_size == 0)  // 2. EOF
+		read_size = read(cur->fd, buf, BUFFER_SIZE); //fd에서 nbyte만큼 읽어와 buf에 저장
+		if (read_size == -1) //1. read error
+			return (remove_cur_ptr(cur, &head)); //실패 시 노드 다 터뜨리기
+		if (read_size == 0)  //2. EOF
 		{
 			if (cur->data == NULL) // 아예 빈 파일일 경우
 				return (remove_cur_ptr(cur, &head));
@@ -73,7 +72,7 @@ char	*read_line(t_list *cur, t_list *head, char *buf)
 		}
 		buf[read_size] = '\0'; // 3. 정상적인 read 실행 시
 		cur->data = ft_strjoin(cur->data, buf); // data에 buf를 붙여 cur->data에 저장
-		if (cur->data == NULL) // 3-1. ft_strjoin error
+		if (cur->data == NULL)
 			return (remove_cur_ptr(cur, &head)); // 실패 시 노드 다 터뜨리기
 		if (ft_strchr(cur->data, '\n'))
 			return (make_line(cur, &head));
@@ -91,7 +90,8 @@ char	*make_line(t_list *cur, t_list **head)
 		line = ft_strdup(cur->data);
 		if (line == NULL) // 1. ft_strdup error
 			return (remove_cur_ptr(cur, head)); // 실패 시 노드 다 터뜨리기
-		free(cur->data); // cur->data 메모리 해제
+		//remove_cur_ptr(cur, head); // '\n'이 없는 경우 노드 터뜨리기 => 왜 에러???
+		free(cur->data);
 		cur->data = NULL;
 		return (line);
 	}
@@ -106,44 +106,6 @@ char	*make_line(t_list *cur, t_list **head)
 	}
 }
 
-// char	*make_line(t_list *cur, t_list *head, char *buf)
-// {
-// 	char	*line;
-// 	char	*new_line;
-// 	char	*del;
-// 	ssize_t	read_size;
-
-// 	line = NULL;
-// 	while (1)
-// 	{
-// 		read_size = read(cur->fd, buf, BUFFER_SIZE); // fd에서 nbyte만큼 읽어와 buf에 저장
-// 		if (read_size == -1) // 1. read error
-// 			return (remove_cur_ptr(cur, &head)); // 실패 시 노드 다 터뜨리기
-// 		if (read_size == 0)  // 2. EOF
-// 		{
-// 			if (cur->data == NULL) // 아예 빈 파일일 경우
-// 				return (remove_cur_ptr(cur, &head)); // 노드 다 터뜨리기
-// 			line = ft_substr(cur->data, 0, ft_strlen(cur->data)); // data의 잔여 문자열 line에 저장
-// 			free(cur->data); // ft_strjoin으로 malloc된 data를 free
-// 			cur->data = NULL;
-// 			return (line); // 남아있던 줄 리턴
-// 		}
-// 		buf[read_size] = '\0';	// 3. 정상적인 read 실행 시
-// 		cur->data = ft_strjoin(cur->data, buf); // data에 buf를 붙여 cur->data에 저장
-// 		new_line = ft_strchr(cur->data, '\n');		// cur->data에 \n이 있는지 확인
-// 		if (new_line)									// \n이 있을 경우
-// 		{
-// 			line = ft_substr(cur->data, 0, new_line - (cur->data) + 1); // \n까지의 문자열을 line에 저장
-// 			del = cur->data;
-// 			cur->data = ft_substr(cur->data, \
-// 			(new_line - cur->data + 1), ft_strlen(cur->data) - (new_line - cur->data + 1)); // data에서 \n 후 문자열만 남기고 삭제
-// 			free(del); // substr 하면 malloc 된 결과물이 cur->data에 저장되므로 del로 free
-// 			return (line);
-// 		}
-// 	}
-// 	return (line);
-// }
-
 void	*remove_cur_ptr(t_list *cur, t_list **head)
 {
 	if (cur == NULL || head == NULL) // 둘 중 하나라도 NULL이면 NULL 리턴
@@ -152,7 +114,7 @@ void	*remove_cur_ptr(t_list *cur, t_list **head)
 		cur->prev->next = cur->next;
 	if (cur->next != NULL) // 현 노드가 마지막 노드가 아니면 다음 노드의 prev가 현 노드의 prev를 가리키게 함
 		cur->next->prev = cur->prev;
-	if (cur == *head) // 현 노드가 첫 노드면(혹은 노드가 하나면) head가 두번째 노드를 가리키게 함
+	if (cur == *head) // 현 노드가 첫 노드면(혹은 노드가 하나면)
 		*head = cur->next;
 	free(cur->data);
 	cur->data = NULL; // free 후 NULL로 초기화
