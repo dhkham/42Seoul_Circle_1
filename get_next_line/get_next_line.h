@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:27:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/03 12:25:15 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/03 13:54:34 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 3
 # endif
 
 typedef struct s_dlist
@@ -30,7 +30,7 @@ typedef struct s_dlist
 
 char	*get_next_line(int fd);
 t_list	*find_fd_node(int fd, t_list **head);
-char	*read_line(t_list *cur_ptr, t_list *head, char *buf);
+char	*read_line(t_list *cur_ptr, t_list **head, char *buf);
 char	*make_line(t_list *cur, t_list **head);
 void	*remove_cur_ptr(t_list *cur_ptr, t_list **head);
 char	*ft_strjoin(char const *s, char const *s2);

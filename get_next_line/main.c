@@ -17,7 +17,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("two_lines_with_nl", O_RDONLY);
+	fd = open("only_nl.txt", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);

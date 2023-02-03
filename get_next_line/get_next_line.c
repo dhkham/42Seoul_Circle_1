@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/03 12:25:02 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/03 14:38:32 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	cur = find_fd_node(fd, &head); // 해당 fd의 노드 가리키는 포인터 return, 없으면 새로운 노드 생성
+	cur = find_fd_node(fd, &head);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1)); // 파일에서 nbyte씩 읽어와 넣을 버퍼 만들기
 	if (buf == NULL)
 		return (remove_cur_ptr(cur, &head));
-	line = read_line(cur, head, buf);
+	line = read_line(cur, &head, buf);
 	free(buf); // free(cur)?? free(cur->data)??
 	return (line);
 }
@@ -58,27 +58,30 @@ t_list	*find_fd_node(int fd, t_list **head)
 	return (cur);
 }
 
-char	*read_line(t_list *cur, t_list *head, char *buf)
+char	*read_line(t_list *cur, t_list **head, char *buf)
 {
 	ssize_t	read_size;
+	char	*tmp;
 
 	while (1)
 	{
 		read_size = read(cur->fd, buf, BUFFER_SIZE); //fd에서 nbyte만큼 읽어와 buf에 저장
 		if (read_size == -1)   //1. read error
-			return (remove_cur_ptr(cur, &head)); // 질문: cur->data까지 free 하는게 맞나?
+			return (remove_cur_ptr(cur, head)); // 질문: cur->data까지 free 하는게 맞나?
 		if (read_size == 0)    //2. EOF
 		{
 			if (cur->data == NULL) // 아예 빈 파일일 경우
-				return (remove_cur_ptr(cur, &head)); // 질문: cur->data까지 free 하는게 맞나?
-			return (make_line(cur, &head));
+				return (remove_cur_ptr(cur, head)); // 질문: cur->data까지 free 하는게 맞나?
+			return (make_line(cur, head));
 		}
 		buf[read_size] = '\0'; //3. 정상적인 read 실행 시
+		tmp = cur->data;
 		cur->data = ft_strjoin(cur->data, buf); // data에 buf를 붙여 cur->data에 저장
+		free(tmp);
 		if (cur->data == NULL)
-			return (remove_cur_ptr(cur, &head)); // 질문: cur->data까지 free 하는게 맞나?
+			return (remove_cur_ptr(cur, head)); // 질문: cur->data까지 free 하는게 맞나?
 		if (ft_strchr(cur->data, '\n'))
-			return (make_line(cur, &head));
+			return (make_line(cur, head));
 	}
 }
 
@@ -88,14 +91,12 @@ char	*make_line(t_list *cur, t_list **head)
 	char	*lb;
 
 	lb = ft_strchr(cur->data, '\n'); // '\n'이 있는 위치를 가리키는 포인터
-	if (lb == NULL) // '\n'이 없는 경우
+	if (lb == NULL) // 파일에 '\n'이 없는 경우 (예. hello(EOF)))
 	{
 		line = ft_strdup(cur->data);
-		if (line == NULL) // 1. ft_strdup error
-			return (remove_cur_ptr(cur, head)); // 실패 시 노드 다 터뜨리기
-		//remove_cur_ptr(cur, head); // '\n'이 없는 경우 노드 터뜨리기 => 왜 에러???
-		free(cur->data);
-		cur->data = NULL;
+		if (line == NULL) // ft_strdup error
+			return (remove_cur_ptr(cur, head));
+		remove_cur_ptr(cur, head);
 		return (line);
 	}
 	else // '\n'이 있는 경우
