@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/03 14:38:32 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/03 16:04:30 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	cur = find_fd_node(fd, &head);
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1)); // 파일에서 nbyte씩 읽어와 넣을 버퍼 만들기
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
 		return (remove_cur_ptr(cur, &head));
 	line = read_line(cur, &head, buf);
-	free(buf); // free(cur)?? free(cur->data)??
+	free(buf);
 	return (line);
 }
 
@@ -44,7 +44,7 @@ t_list	*find_fd_node(int fd, t_list **head)
 		prior = cur;
 		cur = cur->next;
 	}
-	if (cur == NULL) // head가 빈 linked list일 경우 새로운 linked list 노드 생성
+	if (cur == NULL) // head가 빈 linked list일 경우 새 노드 생성
 	{
 		cur = (t_list *)malloc(sizeof(t_list));
 		if (cur == NULL)
@@ -101,11 +101,11 @@ char	*make_line(t_list *cur, t_list **head)
 	}
 	else // '\n'이 있는 경우
 	{
-		*lb = '\0'; // '\n'을 '\0'으로 바꿔줌
-		line = ft_strdup(cur->data);
-		if (line == NULL) // 1. ft_strdup error
-			return (remove_cur_ptr(cur, head)); // 실패 시 노드 다 터뜨리기
-		ft_strlcpy(cur->data, lb + 1, ft_strlen(lb + 1) + 1); // '\n' 다음 문자열을 cur->data에 저장
+		*lb = '\0';
+		line = ft_strjoin(cur->data, "\n");
+		if (line == NULL)
+			return (remove_cur_ptr(cur, head));
+		ft_strlcpy(cur->data, lb + 1, ft_strlen(lb + 1) + 1);
 		return (line);
 	}
 }
