@@ -15,13 +15,14 @@
 int	main(void)
 {
 	int		fd;
+	int		fd2;
 	char	*line;
 
 	fd = open("nl", O_RDONLY);
+	fd2 = open("nl2", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
-		
 		printf("%s", line);
 		if (line == NULL)
 			break ;

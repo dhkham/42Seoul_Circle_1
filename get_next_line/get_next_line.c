@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/03 16:35:19 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/03 16:46:55 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ char	*read_line(t_list *cur, t_list **head, char *buf)
 	{
 		read_size = read(cur->fd, buf, BUFFER_SIZE); //fd에서 nbyte만큼 읽어와 buf에 저장
 		if (read_size == -1)   //1. read error
-			return (remove_cur_ptr(cur, head)); // 질문: cur->data까지 free 하는게 맞나?
+			return (remove_cur_ptr(cur, head));
 		if (read_size == 0)    //2. EOF
 		{
 			if (cur->data == NULL || !*(cur->data)) // 아예 빈 파일일 경우
-				return (remove_cur_ptr(cur, head)); // 질문: cur->data까지 free 하는게 맞나?
+				return (remove_cur_ptr(cur, head));
 			return (make_line(cur, head));
 		}
 		buf[read_size] = '\0'; //3. 정상적인 read 실행 시
@@ -79,7 +79,7 @@ char	*read_line(t_list *cur, t_list **head, char *buf)
 		cur->data = ft_strjoin(cur->data, buf); // data에 buf를 붙여 cur->data에 저장
 		free(tmp);
 		if (cur->data == NULL)
-			return (remove_cur_ptr(cur, head)); // 질문: cur->data까지 free 하는게 맞나?
+			return (remove_cur_ptr(cur, head));
 		if (ft_strchr(cur->data, '\n'))
 			return (make_line(cur, head));
 	}
@@ -94,12 +94,12 @@ char	*make_line(t_list *cur, t_list **head)
 	if (lb == NULL) // 파일에 '\n'이 없는 경우 (예. hello(EOF)))
 	{
 		line = ft_strdup(cur->data);
-		if (line == NULL) // ft_strdup error
+		if (line == NULL)
 			return (remove_cur_ptr(cur, head));
 		remove_cur_ptr(cur, head);
 		return (line);
 	}
-	else // '\n'이 있는 경우
+	else
 	{
 		*lb = '\0';
 		line = ft_strjoin(cur->data, "\n");
