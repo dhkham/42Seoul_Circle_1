@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/03 16:46:55 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/03 18:26:28 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,88 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-t_list	*find_fd_node(int fd, t_list **head)
-{
-	t_list	*cur;
-	t_list	*prior;
+// t_list	*find_fd_node(int fd, t_list **head)
+// {
+// 	t_list	*cur;
+// 	t_list	*prior;
 
-	cur = *head;
-	prior = NULL;
-	while (cur) // head가 빈 linked list가 아닐 때 loop
+// 	cur = *head;
+// 	prior = NULL;
+// 	while (cur) // head가 빈 linked list가 아닐 때 loop
+// 	{
+// 		if (cur->fd == fd) // fd가 이미 저장되어 있으면 해당 fd의 linked list 노드를 가리키는 포인터 return
+// 			return (cur);
+// 		prior = cur;
+// 		cur = cur->next;
+// 	}
+// 	if (cur == NULL) // head가 빈 linked list일 경우 새 노드 생성
+// 	{
+// 		cur = (t_list *)malloc(sizeof(t_list));
+// 		if (cur == NULL)
+// 			return (NULL);
+// 		*head = cur; // head 포인터가 새로 생성된 linked list를 가리키게 함
+// 		cur->fd = fd;
+// 		cur->data = NULL;
+// 		cur->prev = prior;
+// 	}
+// 	return (cur);
+// }
+
+t_list	*find_fd_node(t_list **head, int fd)
+{
+	t_list	*tmp;
+
+	if (!(*head))
 	{
-		if (cur->fd == fd) // fd가 이미 저장되어 있으면 해당 fd의 linked list 노드를 가리키는 포인터 return
-			return (cur);
-		prior = cur;
-		cur = cur->next;
-	}
-	if (cur == NULL) // head가 빈 linked list일 경우 새 노드 생성
-	{
-		cur = (t_list *)malloc(sizeof(t_list));
-		if (cur == NULL)
+		*head = add_fd(fd);
+		if (!*head)
 			return (NULL);
-		*head = cur; // head 포인터가 새로 생성된 linked list를 가리키게 함
-		cur->fd = fd;
-		cur->data = NULL;
-		cur->next = NULL;
-		cur->prev = prior;
 	}
-	return (cur);
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->fd == fd)
+			return (tmp);
+		if (tmp->next == NULL)
+		{
+			tmp->next = add_fd(fd);
+			if (!(tmp->next))
+				return (NULL);
+			tmp->next->prev = tmp;
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
+
+t_list	*add_fd(int fd)
+{
+	t_list	*new_node;
+
+	new_node = malloc(sizeof(t_list));
+	if (!new_node)
+		return (NULL);
+	new_node->fd = fd;
+	// new_node->read_buff = malloc((size_t)BUFFER_SIZE + 1);
+	// if (!(new_node->read_buff))
+	// {
+	// 	free (new_node);
+	// 	return (NULL);
+	// }
+	new_node->data = NULL;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	return (new_node);
+}
+// sun code
+		// cur = (t_list *)malloc(sizeof(t_list));
+		// if (cur == NULL)
+		// 	return (NULL);
+		// cur->next = *head;
+		// *head = cur; // head 포인터가 새로 생성된 linked list를 가리키게 함
+		// cur->fd = fd;
+		// cur->data = NULL;
+		// cur->prev = prior;
 
 char	*read_line(t_list *cur, t_list **head, char *buf)
 {

@@ -17,6 +17,7 @@ int	main(void)
 	int		fd;
 	int		fd2;
 	char	*line;
+	char	*line2;
 
 	fd = open("nl", O_RDONLY);
 	fd2 = open("nl2", O_RDONLY);
@@ -24,9 +25,12 @@ int	main(void)
 	{
 		line = get_next_line(fd);
 		printf("%s", line);
-		if (line == NULL)
+		line2 = get_next_line(fd2);
+		printf("%s", line2);
+		if (line == NULL && line2 == NULL)
 			break ;
 		free(line);
+		free(line2);
 	}
 	return (0);
 }
