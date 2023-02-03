@@ -17,7 +17,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("multiple_nlx5", O_RDONLY);
+	fd = open("nl", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
