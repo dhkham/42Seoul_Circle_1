@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/04 14:56:40 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/04 14:58:26 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	cur = find_fd_node(fd, &head);
+	if (cur == NULL)
+		return (NULL);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
 		return (remove_cur_ptr(cur, &head));
