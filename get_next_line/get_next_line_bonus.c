@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line copy_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:27:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/04 14:56:40 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/04 14:24:02 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
@@ -60,6 +60,64 @@ t_list	*find_fd_node(int fd, t_list **head)
 	}
 	return (cur);
 }
+
+// hun code
+// t_list	*find_fd_node(t_list **head, int fd)
+// {
+// 	t_list	*tmp;
+
+// 	if (!(*head))
+// 	{
+// 		*head = add_fd(fd);
+// 		if (!*head)
+// 			return (NULL);
+// 	}
+// 	tmp = *head;
+// 	while (tmp)
+// 	{
+// 		if (tmp->fd == fd)
+// 			return (tmp);
+// 		if (tmp->next == NULL)
+// 		{
+// 			tmp->next = add_fd(fd);
+// 			if (!(tmp->next))
+// 				return (NULL);
+// 			tmp->next->prev = tmp;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	return (NULL);
+// }
+
+// t_list	*add_fd(int fd)
+// {
+// 	t_list	*new_node;
+
+// 	new_node = malloc(sizeof(t_list));
+// 	if (!new_node)
+// 		return (NULL);
+// 	new_node->fd = fd;
+// 	// new_node->read_buff = malloc((size_t)BUFFER_SIZE + 1);
+// 	// if (!(new_node->read_buff))
+// 	// {
+// 	// 	free (new_node);
+// 	// 	return (NULL);
+// 	// }
+// 	new_node->data = NULL;
+// 	new_node->next = NULL;
+// 	new_node->prev = NULL;
+// 	return (new_node);
+// }
+
+// sun code
+		// cur = (t_list *)malloc(sizeof(t_list));
+		// if (cur == NULL)
+		// 	return (NULL);
+		// cur->next = *head;
+		// *head = cur; // head 포인터가 새로 생성된 linked list를 가리키게 함
+		// cur->fd = fd;
+		// cur->data = NULL;
+		// cur->prev = prior;
 
 char	*read_line(t_list *cur, t_list **head, char *buf)
 {
