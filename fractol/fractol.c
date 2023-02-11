@@ -6,12 +6,12 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:25:20 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/11 20:20:04 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/11 20:30:00 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
+// MAKEFILE 개판임 확인해야함.
 int	main(int argc, char **argv)
 {
 	t_data	frctl;
