@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/11 20:16:31 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/13 22:19:27 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ typedef struct s_data
 	int max;
 	// int move_x;
 	// int move_y;
+	
+	int jx;
+	int jy;
+	
 	double zoom;
 }				t_data;
 
@@ -62,6 +66,9 @@ void	key(int keycode, t_data *frctl);
 void	mouse(int mouse_code, t_data *frctl);
 int		quit(void);
 
+void	init_julia(t_data *frctl, double x, double y);
+void	init(t_data *frctl, double *k, int i, int j);
+void	julia(t_data *frctl);
 
 
 

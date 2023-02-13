@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:25:20 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/11 20:30:00 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/13 22:10:05 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	set_frctl(t_data *frctl, int argc, char **argv)
 	frctl->base_col = 0x000000;// 기본 검정색
 	frctl->new_col = 0;
 	frctl->zoom = 1;// 맞는지 확인!!
-	if (argc == 2 && ft_strcmp(argv[1], "mandelbrot") == 0)
+	if (argc == 2 && ft_strncmp(argv[1], "mandelbrot", 10) == 0)
 	{
 		frctl->name = "mandelbrot";
 		mandelbrot(frctl);
 	}
-	else if (argc == 4 && ft_strcmp(argv[1], "julia") == 0) // 제대로 두 값 받았는지 체크 더 해야 (소수점 등등 확인)
+	else if (argc == 4 && ft_strncmp(argv[1], "julia", 5) == 0) // 제대로 두 값 받았는지 체크 더 해야 (소수점 등등 확인)
 	{
 		frctl->name = "julia";
 		julia(frctl);
