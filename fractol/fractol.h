@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/14 21:35:17 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/14 22:16:31 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	get_iter(t_data *frctl);
 void	my_mlx_pixel_put(t_data *frctl, int x, int y, int color);
 
 // void	key(int keycode, t_data *frctl);
-// int	mouse(int mouse_code, t_data *frctl);
+int	mouse(int mouse_code, t_data *frctl);
 // int	quit(void);
 
 void	init_julia(t_data *frctl, double x, double y);

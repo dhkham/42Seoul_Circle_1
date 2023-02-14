@@ -6,7 +6,7 @@
 #    By: dkham <dkham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/11 20:23:05 by dkham             #+#    #+#              #
-#    Updated: 2023/02/13 22:29:10 by dkham            ###   ########.fr        #
+#    Updated: 2023/02/14 22:00:49 by dkham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -Imlx -c $< -o $@
 
 $(NAME): $(SRCS)
-	$(MAKE) all -C mlx
+	$(MAKE) all -C mlx 2> /dev/null
 	$(CC) $(CFLAGS) $(SRCS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:13:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/14 21:27:04 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/14 22:26:59 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,29 @@
 // 	frctl->img_ptr, 0, 0);
 // }
 
-// int	mouse(int mouse_code, t_data *frctl)
-// {
-// 	// (void)x;
-// 	// (void)y;
-// 	//mlx_clear_window(frctl->mlx_ptr, frctl->win_ptr); // clear_window 있어야 하는지 체크
-// 	// frctl->move_x = 0;
-// 	// frctl->move_y = 0;
-// 	char	*name1;
-// 	char	*name2;
+int	mouse(int mouse_code, t_data *frctl)
+{
+	// (void)x;
+	// (void)y;
+	mlx_clear_window(frctl->mlx_ptr, frctl->win_ptr); // clear_window 있어야 하는지 체크
 
-// 	name1 = "mandelbrot";
-// 	name2 = "julia";
-// 	if (mouse_code == 5)
-// 		frctl->zoom *= 1.05;
-// 	else if (mouse_code == 4)
-// 		frctl->zoom /= 1.05;
-// 	if (ft_strncmp(frctl->name, name1, 10) == 0)
-// 		mandelbrot(frctl);
-// 	else if (ft_strncmp(frctl->name, name2, 5) == 0)
-// 		julia(frctl);
-// 	mlx_put_image_to_window(frctl->mlx_ptr, frctl->win_ptr, \
-// 	frctl->img_ptr, 0, 0);
-// 	return (0);
-// }
+	char	*name1;
+	char	*name2;
+
+	name1 = "mandelbrot";
+	name2 = "julia";
+	if (mouse_code == 5)
+		frctl->zoom *= 1.05;
+	else if (mouse_code == 4)
+		frctl->zoom /= 1.05;
+	if (ft_strncmp(frctl->name, name1, 10) == 0)
+		mandelbrot(frctl);
+	else if (ft_strncmp(frctl->name, name2, 5) == 0)
+		julia(frctl);
+	mlx_put_image_to_window(frctl->mlx_ptr, frctl->win_ptr, \
+	frctl->img_ptr, 0, 0);
+	return (0);
+}
 
 // int	quit(void)
 // {

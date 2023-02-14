@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:25:28 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/14 21:42:50 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/14 22:16:15 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	mandelbrot(t_data *frctl)
 void	get_c(t_data *frctl, int x, int y) // static?? 
 {
 	// c_a, c_b: 복소 평면의 좌표
-	frctl->c_a =  (x - ((double)frctl->width / 2)) / ((double)frctl->width / 4);
-	frctl->c_b = -(y - ((double)frctl->height / 2)) / ((double)frctl->height / 4);
+	frctl->c_a =  (x - ((double)frctl->width / 2)) / ((double)frctl->width / 4) * frctl->zoom;
+	frctl->c_b = -(y - ((double)frctl->height / 2)) / ((double)frctl->height / 4) * frctl->zoom;
 }
 
 void	get_iter(t_data *frctl)
@@ -53,7 +53,7 @@ void	get_iter(t_data *frctl)
 	double	tmp;
 
 	frctl->iter = 0;
-	frctl->max = 10000;
+	frctl->max = 100;
 	x = 0;
 	y = 0;
 	while (x * x + y * y <= 2 * 2 && frctl->iter < frctl->max)
