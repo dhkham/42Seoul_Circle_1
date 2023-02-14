@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/13 22:19:27 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/14 21:35:17 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,28 +43,28 @@ typedef struct s_data
 	char *name;
 	int base_col;
 	int new_col;
-	int c_a;
-	int c_b;
+	double c_a;
+	double c_b;
 	int iter;
 	int max;
 	// int move_x;
 	// int move_y;
-	
-	int jx;
+	int jx; // ???
 	int jy;
 	
 	double zoom;
 }				t_data;
 
 void	set_frctl(t_data *frctl, int argc, char **argv);
+
 void	mandelbrot(t_data *frctl);
 void	get_c(t_data *frctl, int x, int y); 
-void	init_mandelbrot(t_data *frctl);
+void	get_iter(t_data *frctl);
 void	my_mlx_pixel_put(t_data *frctl, int x, int y, int color);
 
-void	key(int keycode, t_data *frctl);
-void	mouse(int mouse_code, t_data *frctl);
-int		quit(void);
+// void	key(int keycode, t_data *frctl);
+// int	mouse(int mouse_code, t_data *frctl);
+// int	quit(void);
 
 void	init_julia(t_data *frctl, double x, double y);
 void	init(t_data *frctl, double *k, int i, int j);

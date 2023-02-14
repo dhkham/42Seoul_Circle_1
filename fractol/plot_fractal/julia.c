@@ -6,11 +6,11 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:25:32 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/13 22:21:13 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/14 19:18:32 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "../fractol.h"
 
 void	init_julia(t_data *frctl, double x, double y)
 {
@@ -70,7 +70,7 @@ void	julia(t_data *frctl)
 			pts[0] = k[0]; //+ frctl->trans_x;
 			pts[1] = k[1]; //+ frctl->trans_y;
 			init_julia(frctl, pts[0], pts[1]);
-			frctl->new_col = frctl->base_color * (frctl->iter
+			frctl->new_col = frctl->base_col * (frctl->iter
 					/ (float)(frctl->max));
 			my_mlx_pixel_put(frctl, i[0], i[1], frctl->new_col);
 			i[1]++;
