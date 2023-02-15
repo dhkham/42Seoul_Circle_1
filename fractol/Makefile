@@ -6,25 +6,21 @@
 #    By: dkham <dkham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/11 20:23:05 by dkham             #+#    #+#              #
-#    Updated: 2023/02/14 22:00:49 by dkham            ###   ########.fr        #
+#    Updated: 2023/02/15 22:11:35 by dkham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	fractol
 CC		=	cc
-
-SUBDIR	=	libft
-SUBLIB	=	ft
-
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm	-f
-
 SRCS 	=	fractol.c \
-			events.c \
+			hook_events.c \
 			my_mlx_pixel_put.c \
 			ft_strncmp.c \
 			./plot_fractal/mandelbrot.c \
 			./plot_fractal/julia.c \
+			ft_atof.c \
 
 all: $(NAME)
 

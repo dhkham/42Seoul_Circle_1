@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:13:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/15 21:07:11 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/15 21:17:39 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ int	mouse(int mouse_code, int x, int y, t_data *frctl)
 
 int	quit(void)
 {
-	exit(0); // 바로 exit(0) mlx_hook에 써도 되는지 체크
+	exit(0);
 	return (0);
 }
