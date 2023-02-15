@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:25:20 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/14 22:22:04 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/15 21:08:58 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,9 @@ int	main(int argc, char **argv)
 		set_frctl(&frctl, argc, argv);// my_mlx_pixel_put 까지 실행
 		mlx_put_image_to_window(frctl.mlx_ptr, frctl.win_ptr, \
 		frctl.img_ptr, 0, 0); //생성한 이미지를 윈도우에 띄움 (my_mlx_pixel_put 이후)
-		// mlx_hook(frctl.win_ptr, X_EVENT_KEY_PRESS, 0, key, &frctl); //키보드 입력
+		mlx_key_hook(frctl.win_ptr, &key, &frctl); //키보드 입력
 		mlx_mouse_hook(frctl.win_ptr, &mouse, &frctl); //마우스 입력
-		//mlx_hook(frctl.win_ptr, 4, 0, mouse, &frctl); //마우스 입력
-		//mlx_hook(frctl.win_ptr, X_EVENT_KEY_EXIT, 0, exit, 0); //x버튼 입력
-		//mlx_hook(frctl.win_ptr, X_EVENT_KEY_EXIT, 1L << 17, ft_exit, 0); //1L << 17 필요?
+	    mlx_hook(frctl.win_ptr, X_EVENT_KEY_EXIT, 0, quit, &frctl); //창 닫기
 		mlx_loop(frctl.mlx_ptr);
 	}
 }

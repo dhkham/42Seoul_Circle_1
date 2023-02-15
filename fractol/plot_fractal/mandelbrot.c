@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:25:28 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/14 22:16:15 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/15 20:42:01 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,21 @@ void	mandelbrot(t_data *frctl)
 		j = 0;
 		while (j < frctl->height)
 		{
-			get_c(frctl, i, j); // c_a, c_b 값 구하기
-			get_iter(frctl); // iter 값 구하기
-			// printf("iter: %d", frctl->iter);
-			// iter에 따라 색상 결정 new_col // (float)(frctl->max)??
+			get_c(frctl, i, j);
+			get_iter(frctl);
 			if (frctl->iter == frctl->max)
-				frctl->new_col = 0x00000000; // 검정
+				frctl->new_col = 0x00000000;
 			else
 				frctl->new_col = frctl->base_col * frctl->iter;
-			//frctl->new_col = frctl->base_col * (frctl->iter) / (float)(frctl->max); // 공식??
-			my_mlx_pixel_put(frctl, i, j, frctl->new_col); // 픽셀에 색상 채우기
+			my_mlx_pixel_put(frctl, i, j, frctl->new_col);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	get_c(t_data *frctl, int x, int y) // static?? 
+void	get_c(t_data *frctl, int x, int y)
 {
-	// c_a, c_b: 복소 평면의 좌표
 	frctl->c_a =  (x - ((double)frctl->width / 2)) / ((double)frctl->width / 4) * frctl->zoom;
 	frctl->c_b = -(y - ((double)frctl->height / 2)) / ((double)frctl->height / 4) * frctl->zoom;
 }
@@ -60,7 +56,7 @@ void	get_iter(t_data *frctl)
 	{
 		tmp = (x * x) - (y * y) + frctl->c_a;
 		y = (2 * x * y) + frctl->c_b;
-		x = tmp;			
+		x = tmp;
 		frctl->iter = frctl->iter + 1;
 	}
 }
