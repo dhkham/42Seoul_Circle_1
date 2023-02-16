@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:26:01 by mkhan             #+#    #+#             */
-/*   Updated: 2023/02/16 19:29:29 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 20:13:24 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	handle_decimal(const char *str, int i, double *decimal)
 		printf("Error: invalid input");
 		exit(1);
 	}
+	if (str[i] != '\0' && ft_isdigit(str[i]) == 0)
+		exit(1);
 	while (count--)
 		*decimal /= 10;
 }
@@ -65,6 +67,8 @@ double	ft_atod(const char *str)
 	i = 0;
 	i = skip_whitespace(str, i);
 	i = judge_sign(str, i, &sign);
+	if (str[i] != '\0' && ft_isdigit(str[i]) == 0)
+		exit(1);
 	while ('0' <= str[i] && str[i] <= '9')
 	{
 		result *= 10;

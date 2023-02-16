@@ -6,7 +6,7 @@
 #    By: dkham <dkham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/11 20:23:05 by dkham             #+#    #+#              #
-#    Updated: 2023/02/16 19:29:56 by dkham            ###   ########.fr        #
+#    Updated: 2023/02/16 20:43:52 by dkham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,10 @@ SRCS 	=	fractol.c \
 			hook_utils.c \
 			my_mlx_pixel_put.c \
 			ft_strncmp.c \
+			ft_isdigit.c \
 			./plot_fractal/mandelbrot.c \
 			./plot_fractal/julia.c \
+			./plot_fractal/burningship.c \
 			ft_atod.c \
 
 all: $(NAME)

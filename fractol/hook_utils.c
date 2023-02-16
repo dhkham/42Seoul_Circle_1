@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.c                                           :+:      :+:    :+:   */
+/*   hook_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:13:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/15 21:17:39 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 20:58:44 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 int	key(int keycode, t_data *frctl)
 {
-	char	*name1;
-	char	*name2;
-
-	name1 = "mandelbrot";
-	name2 = "julia";
 	if (keycode == KEY_ESC)
 	{
 		mlx_destroy_window(frctl->mlx_ptr, frctl->win_ptr);
@@ -30,37 +25,57 @@ int	key(int keycode, t_data *frctl)
 		frctl->base_col = 0x80FF0099;
 	else if (keycode == 20)
 		frctl->base_col = 0x80FF1493;
-	if (ft_strncmp(frctl->name, name1, 10) == 0)
-		mandelbrot(frctl);
-	else if (ft_strncmp(frctl->name, name2, 5) == 0)
-		julia(frctl);
+	offset(frctl, keycode);
+	init_fractol(frctl);
 	mlx_put_image_to_window(frctl->mlx_ptr, frctl->win_ptr, \
 	frctl->img_ptr, 0, 0);
 	return (0);
+}
+
+void	offset(t_data *frctl, int keycode)
+{
+	if (keycode == KEY_UP)
+		frctl->y_offset += 0.05;
+	else if (keycode == KEY_DOWN)
+		frctl->y_offset -= 0.05;
+	else if (keycode == KEY_LEFT)
+		frctl->x_offset -= 0.05;
+	else if (keycode == KEY_RIGHT)
+		frctl->x_offset += 0.05;
 }
 
 int	mouse(int mouse_code, int x, int y, t_data *frctl)
 {
-	char	*name1;
-	char	*name2;
-
 	(void)x;
 	(void)y;
 	mlx_clear_window(frctl->mlx_ptr, frctl->win_ptr);
-	name1 = "mandelbrot";
-	name2 = "julia";
 	if (mouse_code == MOUSE_SCROLL_DOWN)
 		frctl->zoom *= 1.05;
 	else if (mouse_code == MOUSE_SCROLL_UP)
 		frctl->zoom /= 1.05;
-	if (ft_strncmp(frctl->name, name1, 10) == 0)
-		mandelbrot(frctl);
-	else if (ft_strncmp(frctl->name, name2, 5) == 0)
-		julia(frctl);
+	init_fractol(frctl);
 	mlx_put_image_to_window(frctl->mlx_ptr, frctl->win_ptr, \
 	frctl->img_ptr, 0, 0);
 	return (0);
 }
+
+void	init_fractol(t_data *frctl)
+{
+	char	*name1;
+	char	*name2;
+	char	*name3;
+
+	name1 = "mandelbrot";
+	name2 = "julia";
+	name3 = "burningship";
+	if (ft_strncmp(frctl->name, name1, 10) == 0)
+		mandelbrot(frctl);
+	else if (ft_strncmp(frctl->name, name2, 5) == 0)
+		julia(frctl);
+	else if (ft_strncmp(frctl->name, name3, 11) == 0)
+		burningship(frctl);
+}
+
 
 int	quit(void)
 {

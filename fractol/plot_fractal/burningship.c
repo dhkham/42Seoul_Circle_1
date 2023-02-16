@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   burningship.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 16:25:28 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 20:35:08 by dkham            ###   ########.fr       */
+/*   Created: 2023/02/16 20:38:50 by dkham             #+#    #+#             */
+/*   Updated: 2023/02/16 21:00:04 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 
-void	mandelbrot(t_data *frctl)
+void	burningship(t_data *frctl)
 {
 	int	i;
 	int	j;
@@ -23,8 +23,8 @@ void	mandelbrot(t_data *frctl)
 		j = 0;
 		while (j < frctl->h)
 		{
-			get_c_mandelbrot(frctl, i, j);
-			get_iter_mandelbrot(frctl);
+			get_c_burningship(frctl, i, j);
+			get_iter_burningship(frctl);
 			if (frctl->iter == frctl->max)
 				frctl->new_col = 0x00000000;
 			else
@@ -36,7 +36,7 @@ void	mandelbrot(t_data *frctl)
 	}
 }
 
-void	get_c_mandelbrot(t_data *frctl, int x, int y)
+void	get_c_burningship(t_data *frctl, int x, int y)
 {
 	frctl->c_a = (x - ((double)frctl->w / 2))
 		/ ((double)frctl->w / 4) * frctl->zoom + frctl->x_offset;
@@ -44,7 +44,7 @@ void	get_c_mandelbrot(t_data *frctl, int x, int y)
 		/ ((double)frctl->h / 4) * frctl->zoom + frctl->y_offset;
 }
 
-void	get_iter_mandelbrot(t_data *frctl)
+void	get_iter_burningship(t_data *frctl)
 {
 	double	x;
 	double	y;
@@ -57,7 +57,7 @@ void	get_iter_mandelbrot(t_data *frctl)
 	while (x * x + y * y <= 2 * 2 && frctl->iter < frctl->max)
 	{
 		tmp = (x * x) - (y * y) + frctl->c_a;
-		y = (2 * x * y) + frctl->c_b;
+		y = (2 * fabs(x * y)) + frctl->c_b;
 		x = tmp;
 		frctl->iter++;
 	}

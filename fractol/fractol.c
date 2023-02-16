@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:25:20 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 19:34:46 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 20:42:00 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_data	frctl;
-	
+
 	if (argc != 2 && argc != 4)
 		printf("!!!ERROR: invalid num of args!!!");
 	else
@@ -40,7 +40,7 @@ void	set_frctl(t_data *frctl, int argc, char **argv)
 	frctl->img_ptr = mlx_new_image(frctl->mlx_ptr, frctl->w, frctl->h);//이미지 객체 생성(메모리에 새 이미지 생성. 지정한 가로세로 크기의 그림을 그려둠)
 	frctl->addr = mlx_get_data_addr(frctl->img_ptr, &frctl->bpp, \
 	&frctl->line_length, &frctl->endian);//생성된 이미지에 대한 정보 리턴
-	frctl->base_col = 0x00F8F8FF;
+	frctl->base_col = 0x00F8F8DD;
 	frctl->new_col = 0;
 	frctl->zoom = 1;
 	if (argc == 2 && ft_strncmp(argv[1], "mandelbrot", 10) == 0)
@@ -55,6 +55,11 @@ void	set_frctl(t_data *frctl, int argc, char **argv)
 		frctl->jc_b = ft_atod(argv[3]);
 		julia(frctl);
 	}
+	else if (argc == 2 && ft_strncmp(argv[1], "burningship", 11) == 0)
+	{
+		frctl->name = "burningship";
+		burningship(frctl);
+	}
 	else
-		printf("!!!ERROR: invalid arg!!!");
+		exit(1);
 }

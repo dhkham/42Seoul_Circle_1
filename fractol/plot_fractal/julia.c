@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:25:32 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 19:38:09 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 20:35:41 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void	get_iter_julia(t_data *frctl, int i, int j)
 
 	frctl->iter = 0;
 	frctl->max = 100;
-	x = (i - ((double)frctl->w / 2)) / ((double)frctl->w / 4) * frctl->zoom;
-	y = -(j - ((double)frctl->h / 2)) / ((double)frctl->h / 4) * frctl->zoom;
+	x = (i - ((double)frctl->w / 2)) / ((double)frctl->w / 4)
+		* frctl->zoom + frctl->x_offset;
+	y = -(j - ((double)frctl->h / 2)) / ((double)frctl->h / 4)
+		* frctl->zoom + frctl->y_offset;
 	while (x * x + y * y <= 2 * 2 && frctl->iter < frctl->max)
 	{
 		tmp = x;

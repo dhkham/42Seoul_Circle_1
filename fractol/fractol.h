@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 19:29:35 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 20:59:23 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@
 #include "stdlib.h"
 #include "./mlx/mlx.h"
 #include "./libft/libft.h"
+#include "math.h"
 
 #define X_EVENT_KEY_EXIT 17
-#define KEY_ESC 53  
+#define KEY_ESC 53
+#define KEY_UP 126
+#define KEY_LEFT 123
+#define KEY_RIGHT 124
+#define KEY_DOWN 125
 #define MOUSE_SCROLL_UP 4
 #define MOUSE_SCROLL_DOWN 5 
 
@@ -44,6 +49,8 @@ typedef struct s_data
 	double jc_a;
 	double jc_b;
 	double zoom;
+	double x_offset;
+	double y_offset;
 }				t_data;
 
 void	set_frctl(t_data *frctl, int argc, char **argv);
@@ -53,14 +60,18 @@ void	get_c_mandelbrot(t_data *frctl, int x, int y);
 void	get_iter_mandelbrot(t_data *frctl);
 void	my_mlx_pixel_put(t_data *frctl, int x, int y, int color);
 
-int		key(int keycode, t_data *frctl);
-int		mouse(int mouse_code, int x, int y, t_data *frctl);
-int		quit(void);
-
-
 void	julia(t_data *frctl);
 void	get_iter_julia(t_data *frctl, int i, int j);
 
+void	burningship(t_data *frctl);
+void	get_c_burningship(t_data *frctl, int x, int y);
+void	get_iter_burningship(t_data *frctl);
+
+int		key(int keycode, t_data *frctl);
+void	offset(t_data *frctl, int keycode);
+int		mouse(int mouse_code, int x, int y, t_data *frctl);
+void	init_fractol(t_data *frctl);
+int		quit(void);
 
 double	ft_atod(const char *str);
 void	handle_decimal(const char *str, int i, double *decimal);
