@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 22:12:12 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 22:24:02 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct s_data
 	double zoom;
 	double x_offset;
 	double y_offset;
+	double top;
+	double left; // zoom 마우스 위치로 적용하는 부분 해야함
 }				t_data;
 
 void	set_frctl(t_data *frctl, int argc, char **argv);
