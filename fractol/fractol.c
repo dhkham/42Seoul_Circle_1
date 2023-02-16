@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:25:20 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 20:42:00 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 22:12:57 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	set_frctl(t_data *frctl, int argc, char **argv)
 	frctl->base_col = 0x00F8F8DD;
 	frctl->new_col = 0;
 	frctl->zoom = 1;
+	set_name(frctl, argc, argv);
+}
+
+void	set_name(t_data *frctl, int argc, char **argv)
+{
 	if (argc == 2 && ft_strncmp(argv[1], "mandelbrot", 10) == 0)
 	{
 		frctl->name = "mandelbrot";

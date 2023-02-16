@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 20:59:23 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 22:12:12 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_data
 }				t_data;
 
 void	set_frctl(t_data *frctl, int argc, char **argv);
+void	set_name(t_data *frctl, int argc, char **argv);
 
 void	mandelbrot(t_data *frctl);
 void	get_c_mandelbrot(t_data *frctl, int x, int y); 
