@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 20:38:50 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 21:00:04 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 22:06:59 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	get_c_burningship(t_data *frctl, int x, int y)
 {
 	frctl->c_a = (x - ((double)frctl->w / 2))
 		/ ((double)frctl->w / 4) * frctl->zoom + frctl->x_offset;
-	frctl->c_b = -(y - ((double)frctl->h / 2))
+	frctl->c_b = (y - ((double)frctl->h / 2))
 		/ ((double)frctl->h / 4) * frctl->zoom + frctl->y_offset;
 }
 
@@ -57,7 +57,7 @@ void	get_iter_burningship(t_data *frctl)
 	while (x * x + y * y <= 2 * 2 && frctl->iter < frctl->max)
 	{
 		tmp = (x * x) - (y * y) + frctl->c_a;
-		y = (2 * fabs(x * y)) + frctl->c_b;
+		y = (fabs(2 * x * y)) + frctl->c_b;
 		x = tmp;
 		frctl->iter++;
 	}
