@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/15 21:52:27 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 18:11:28 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,14 @@ int		key(int keycode, t_data *frctl);
 int		mouse(int mouse_code, int x, int y, t_data *frctl);
 int		quit(void);
 
-void	get_iter_julia(t_data *frctl, double x, double y);
-void	init(t_data *frctl, double *k, int i, int j);
+
 void	julia(t_data *frctl);
 
-double	ft_atof(char *str, t_data *frctl);
-int		atof_split(char c);
-int		ft_atoi(const char *str);
-size_t	ft_strlen(const char *s);
-int		ft_isdigit(int c);
+double	ft_atof(const char *str);
+void	handle_decimal(const char *str, int i, double *decimal);
+int		judge_sign(const char *str, int i, int *sign);
+int		skip_whitespace(const char *str, int i);
+
 
 #endif
 

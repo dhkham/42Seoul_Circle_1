@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:25:20 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/15 21:52:13 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 18:01:28 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	set_frctl(t_data *frctl, int argc, char **argv)
 	else if (argc == 4 && ft_strncmp(argv[1], "julia", 5) == 0) // 제대로 두 값 받았는지 체크 더 해야 (소수점 등등 확인)
 	{
 		frctl->name = "julia";
-		frctl->jc_a = ft_atof(argv[1], frctl);
-		frctl->jc_b = ft_atof(argv[2], frctl);
+		frctl->jc_a = ft_atof(argv[1]);
+		frctl->jc_b = ft_atof(argv[2]);
 		julia(frctl);
 	}
 	else

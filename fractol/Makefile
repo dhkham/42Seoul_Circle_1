@@ -6,7 +6,7 @@
 #    By: dkham <dkham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/11 20:23:05 by dkham             #+#    #+#              #
-#    Updated: 2023/02/15 22:11:35 by dkham            ###   ########.fr        #
+#    Updated: 2023/02/16 17:24:49 by dkham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm	-f
 SRCS 	=	fractol.c \
-			hook_events.c \
+			hook_utils.c \
 			my_mlx_pixel_put.c \
 			ft_strncmp.c \
 			./plot_fractal/mandelbrot.c \
