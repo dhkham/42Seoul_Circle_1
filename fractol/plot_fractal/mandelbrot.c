@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:25:28 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/15 21:59:49 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 18:53:30 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	mandelbrot(t_data *frctl)
 		j = 0;
 		while (j < frctl->h)
 		{
-			get_c(frctl, i, j);
+			get_c_mandelbrot(frctl, i, j);
 			get_iter_mandelbrot(frctl);
 			if (frctl->iter == frctl->max)
 				frctl->new_col = 0x00000000;
@@ -36,7 +36,7 @@ void	mandelbrot(t_data *frctl)
 	}
 }
 
-void	get_c(t_data *frctl, int x, int y)
+void	get_c_mandelbrot(t_data *frctl, int x, int y)
 {
 	frctl->c_a = (x - ((double)frctl->w / 2))
 		/ ((double)frctl->w / 4) * frctl->zoom;

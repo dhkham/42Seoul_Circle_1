@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 18:11:28 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 19:14:05 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_data
 void	set_frctl(t_data *frctl, int argc, char **argv);
 
 void	mandelbrot(t_data *frctl);
-void	get_c(t_data *frctl, int x, int y); 
+void	get_c_mandelbrot(t_data *frctl, int x, int y); 
 void	get_iter_mandelbrot(t_data *frctl);
 void	my_mlx_pixel_put(t_data *frctl, int x, int y, int color);
 
@@ -59,6 +59,8 @@ int		quit(void);
 
 
 void	julia(t_data *frctl);
+void	get_iter_julia(t_data *frctl, int i, int j);
+
 
 double	ft_atof(const char *str);
 void	handle_decimal(const char *str, int i, double *decimal);
