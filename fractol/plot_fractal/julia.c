@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:25:32 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 19:22:12 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 19:38:09 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	julia(t_data *frctl)
 		j = 0;
 		while (j < frctl->h)
 		{
-			//get_c_julia(frctl, i, j);
 			get_iter_julia(frctl, i, j);
 			if (frctl->iter == frctl->max)
 				frctl->new_col = 0x00000000;
@@ -36,22 +35,6 @@ void	julia(t_data *frctl)
 	}
 }
 
-// void	get_c_julia(t_data *frctl, int x, int y)
-// {
-// 	frctl->c_a = (x - ((double)frctl->w / 2))
-// 		/ ((double)frctl->w / 4) * frctl->zoom;
-// 	frctl->c_b = -(y - ((double)frctl->h / 2))
-// 		/ ((double)frctl->h / 4) * frctl->zoom;
-// }
-
-// void	get_c(t_data *frctl, int x, int y)
-// {
-// 	frctl->c_a = (x - ((double)frctl->w / 2))
-// 		/ ((double)frctl->w / 4) * frctl->zoom;
-// 	frctl->c_b = -(y - ((double)frctl->h / 2))
-// 		/ ((double)frctl->h / 4) * frctl->zoom;
-// }
-
 void	get_iter_julia(t_data *frctl, int i, int j)
 {
 	double	x;
@@ -60,13 +43,13 @@ void	get_iter_julia(t_data *frctl, int i, int j)
 
 	frctl->iter = 0;
 	frctl->max = 100;
-	x = (i - ((double)frctl->w / 2)) / ((double)frctl->w / 4);
-	y = -(j - ((double)frctl->h / 2)) / ((double)frctl->h / 4);
+	x = (i - ((double)frctl->w / 2)) / ((double)frctl->w / 4) * frctl->zoom;
+	y = -(j - ((double)frctl->h / 2)) / ((double)frctl->h / 4) * frctl->zoom;
 	while (x * x + y * y <= 2 * 2 && frctl->iter < frctl->max)
 	{
 		tmp = x;
-		x = (x * x) - (y * y) + frctl->jc_a; //* frctl->zoom;
-		y = (2 * tmp * y) + frctl->jc_b; //* frctl->zoom;
+		x = (x * x) - (y * y) + frctl->jc_a;
+		y = (2 * tmp * y) + frctl->jc_b;
 		frctl->iter++;
 	}
 }

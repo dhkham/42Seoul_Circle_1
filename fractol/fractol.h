@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 20:32:54 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 19:14:05 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 19:29:35 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_data
 	double c_b;
 	int iter;
 	int max;
-	int jc_a;
-	int jc_b;
+	double jc_a;
+	double jc_b;
 	double zoom;
 }				t_data;
 
@@ -62,7 +62,7 @@ void	julia(t_data *frctl);
 void	get_iter_julia(t_data *frctl, int i, int j);
 
 
-double	ft_atof(const char *str);
+double	ft_atod(const char *str);
 void	handle_decimal(const char *str, int i, double *decimal);
 int		judge_sign(const char *str, int i, int *sign);
 int		skip_whitespace(const char *str, int i);

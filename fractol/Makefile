@@ -6,7 +6,7 @@
 #    By: dkham <dkham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/11 20:23:05 by dkham             #+#    #+#              #
-#    Updated: 2023/02/16 17:24:49 by dkham            ###   ########.fr        #
+#    Updated: 2023/02/16 19:29:56 by dkham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS 	=	fractol.c \
 			ft_strncmp.c \
 			./plot_fractal/mandelbrot.c \
 			./plot_fractal/julia.c \
-			ft_atof.c \
+			ft_atod.c \
 
 all: $(NAME)
 

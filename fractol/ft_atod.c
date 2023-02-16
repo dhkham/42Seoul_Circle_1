@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*   ft_atod.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:26:01 by mkhan             #+#    #+#             */
-/*   Updated: 2023/02/16 18:06:36 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/16 19:29:29 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_decimal(const char *str, int i, double *decimal)
 		*decimal /= 10;
 }
 
-double	ft_atof(const char *str)
+double	ft_atod(const char *str)
 {
 	double	result;
 	double	decimal;
