@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:13:39 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/16 20:58:44 by dkham            ###   ########.fr       */
+/*   Updated: 2023/02/18 17:32:12 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	key(int keycode, t_data *frctl)
 void	offset(t_data *frctl, int keycode)
 {
 	if (keycode == KEY_UP)
-		frctl->y_offset += 0.05;
+		frctl->y_offset += 0.02;
 	else if (keycode == KEY_DOWN)
-		frctl->y_offset -= 0.05;
+		frctl->y_offset -= 0.02;
 	else if (keycode == KEY_LEFT)
-		frctl->x_offset -= 0.05;
+		frctl->x_offset -= 0.02;
 	else if (keycode == KEY_RIGHT)
-		frctl->x_offset += 0.05;
+		frctl->x_offset += 0.02;
 }
 
 int	mouse(int mouse_code, int x, int y, t_data *frctl)
@@ -75,7 +75,6 @@ void	init_fractol(t_data *frctl)
 	else if (ft_strncmp(frctl->name, name3, 11) == 0)
 		burningship(frctl);
 }
-
 
 int	quit(void)
 {

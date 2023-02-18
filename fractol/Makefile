@@ -6,7 +6,7 @@
 #    By: dkham <dkham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/11 20:23:05 by dkham             #+#    #+#              #
-#    Updated: 2023/02/16 20:43:52 by dkham            ###   ########.fr        #
+#    Updated: 2023/02/18 15:43:27 by dkham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,4 +42,6 @@ fclean: clean
 
 re: fclean $(NAME)
 
-.PHONY = all clean fclean re
+bonus: all
+
+.PHONY = all clean fclean re bonus
