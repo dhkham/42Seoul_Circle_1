@@ -6,13 +6,13 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/02/22 22:16:03 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/02 20:55:31 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	command(struct s_pushswap *ps, char *cmd)
+int	command(t_pdeque *ps, char *cmd)
 {
 	if (ft_strncmp(cmd, "pa\n", 4) == 0)
 		return (push(&ps->a, &ps->b));
@@ -40,36 +40,72 @@ int	command(struct s_pushswap *ps, char *cmd)
 	exit(-1);
 }
 
-int	push(t_stack *from, t_stack *to)
+// pa (push a): Take the first element at the top of b and put it at the top of a.
+// Do nothing if b is empty.
+
+// pb (push b): Take the first element at the top of a and put it at the top of b.
+// Do nothing if a is empty.
+// a: 0 3 2 1 => a: 3 2 1 / b: 0
+
+int	push(t_deque *from, t_deque *to)
 {
 	t_node	*node;
 
-	if (from->cnt < 1) return (0);  // 뺄 게 없으므로 명령어 처리 X
+	if (from->cnt < 1)
+		return (0);  // 뺄 게 없으므로 명령어 처리 X
 	node = deque(from, FRONT);
 	enque(to, FRONT, node);
 	return (1);
 }
 
-int	swap(t_stack *st)
-{
-	t_node	*node[2];
+// sa (swap a): Swap the first 2 elements at the top of deque a.
+// Do nothing if there is only one or no elements.
+// a: 321 / b: 0 => a: 231 / b: 0
 
-	if (st->cnt < 2) return (0);  // swap 할 게 없으므로 명령어 처리 X
-	node[0] = deque(st, FRONT);
-	node[1] = deque(st, FRONT);
-	enque(st,FRONT, node[0]);
-	enque(st,FRONT, node[1]);
+// sb (swap b): Swap the first 2 elements at the top of deque b.
+// Do nothing if there is only one or no elements.
+
+// ss : sa and sb at the same time.
+int	swap(t_deque *st)
+{
+	t_node	*node1;
+	t_node	*node2;
+
+	if (st->cnt < 2)
+		return (0);  // 뺄 게 없으므로 명령어 처리 X
+	node1 = deque(st, FRONT);
+	node2 = deque(st, FRONT);
+	enque(st, FRONT, node1);
+	enque(st, FRONT, node2);
 	return (1);
 }
 
-int	rotate(t_stack *st, enum e_rear rear)
-{
-	  t_node *node;
+// ra (rotate a): Shift up all elements of deque a by 1.
+// The first element becomes the last one.
+// 3 2 1 0 -> 2 1 0 3
 
-		if (st->cnt < 1) return (0);  // 뺄 게 없으므로 명령어 처리 X
-		node = deque(st, is_rear);
-		enque(st, !rear, node);
-		return (1);
+// rb (rotate b): Shift up all elements of deque b by 1.
+// The first element becomes the last one.
+
+// rr : ra and rb at the same time.
+
+// rra (reverse rotate a): Shift down all elements of deque a by 1.
+// The last element becomes the first one.
+// 3 2 1 0 -> 0 3 2 1
+
+// rrb (reverse rotate b): Shift down all elements of deque b by 1.
+// The last element becomes the first one.
+
+// rrr : rra and rrb at the same time.
+int	rotate(t_deque *st, enum e_rear rear)
+{
+	t_node	*node;
+
+	if (st->cnt < 1)
+		return (0);  // 뺄 게 없으므로 명령어 처리 X
+	node = deque(st, is_rear);
+	enque(st, !rear, node);
+	return (1);
 }
 
 // is_rear function ???
@@ -81,7 +117,7 @@ int	is_rear(enum e_rear rear)
 		return (1);
 }
 
-t_node	*deque(t_stack *st, enum e_rear rear)
+t_node	*deque(t_deque *st, enum e_rear rear)
 {
 	t_node	*node;
 
@@ -110,7 +146,7 @@ t_node	*deque(t_stack *st, enum e_rear rear)
 	return (node);
 }
 
-void	enque(t_stack *st, enum e_rear rear, t_node *node)
+void	enque(t_deque *st, enum e_rear rear, t_node *node)
 {
 	if (st->cnt == 0)
 	{
@@ -131,33 +167,3 @@ void	enque(t_stack *st, enum e_rear rear, t_node *node)
 	}
 	st->cnt++;
 }
-
-// sa (swap a): Swap the first 2 elements at the top of deque a.
-// Do nothing if there is only one or no elements.
-
-// sb (swap b): Swap the first 2 elements at the top of deque b.
-// Do nothing if there is only one or no elements.
-
-// ss : sa and sb at the same time.
-
-// pa (push a): Take the first element at the top of b and put it at the top of a.
-// Do nothing if b is empty.
-
-// pb (push b): Take the first element at the top of a and put it at the top of b.
-// Do nothing if a is empty.
-
-// ra (rotate a): Shift up all elements of deque a by 1.
-// The first element becomes the last one.
-
-// rb (rotate b): Shift up all elements of deque b by 1.
-// The first element becomes the last one.
-
-// rr : ra and rb at the same time.
-
-// rra (reverse rotate a): Shift down all elements of deque a by 1.
-// The last element becomes the first one.
-
-// rrb (reverse rotate b): Shift down all elements of deque b by 1.
-// The last element becomes the first one.
-
-// rrr : rra and rrb at the same time.
