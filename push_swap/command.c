@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/02 20:55:31 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/02 21:56:23 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	push(t_deque *from, t_deque *to)
 
 	if (from->cnt < 1)
 		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	node = deque(from, FRONT);
+	node = dequeue(from, FRONT);
 	enque(to, FRONT, node);
 	return (1);
 }
@@ -73,10 +73,10 @@ int	swap(t_deque *st)
 
 	if (st->cnt < 2)
 		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	node1 = deque(st, FRONT);
-	node2 = deque(st, FRONT);
-	enque(st, FRONT, node1);
-	enque(st, FRONT, node2);
+	node1 = dequeue(st, FRONT);
+	node2 = dequeue(st, FRONT);
+	enqueue(st, FRONT, node1);
+	enqueue(st, FRONT, node2);
 	return (1);
 }
 
@@ -103,67 +103,67 @@ int	rotate(t_deque *st, enum e_rear rear)
 
 	if (st->cnt < 1)
 		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	node = deque(st, is_rear);
-	enque(st, !rear, node);
+	node = dequeue(st, rear);
+	enqueue(st, !rear, node);
 	return (1);
 }
 
 // is_rear function ???
-int	is_rear(enum e_rear rear)
-{
-	if (rear == 0)
-		return (0);
-	else if (rear == 1)
-		return (1);
-}
+// int	is_rear(enum e_rear rear)
+// {
+// 	if (rear == 0)
+// 		return (0);
+// 	else if (rear == 1)
+// 		return (1);
+// }
 
-t_node	*deque(t_deque *st, enum e_rear rear)
+t_node	*dequeue(t_deque *st, enum e_rear rear)
 {
-	t_node	*node;
+	t_node	*node;  // 1. deque 함수가 노드를 반환할 node를 선언한다.
 
-	if (st->cnt < 1)
-		return (0);  // 뺄 게 없으므로 명령어 처리 X
+	if (st->cnt < 1)  // 2. st->cnt가 1보다 작다면, st에 저장된 노드가 없으므로 명령어 처리를 X한다.
+		return (0);  // 3. node를 반환한다.
 	if (rear) // change to if statement 	: node = rear ? st->rear : st->front;
-		node = st->rear;
+		node = st->rear;  // 4. node에 st->rear를 대입한다.
 	else
-		node = st->front;
-	if (st->cnt == 1)
+		node = st->front;  // 5. node에 st->front를 대입한다.
+	if (st->cnt == 1)  // 6. st->cnt가 1이면, st에 저장된 노드는 1개이다.
 	{
-		st->front = 0;
-		st->rear = 0;
+		st->front = 0;  // 7. st->front에 NULL을 대입한다.
+		st->rear = 0;  // 8. st->rear에 NULL을 대입한다.
 	}
-	else if (rear)
+	else if (rear)  // 9. st->cnt가 1보다 크고, rear가 참이면, st에 저장된 노드는 2개 이상이다.
 	{
-		st->rear = node->prev;
-		st->rear->next = 0;
+		st->rear = node->prev;  // 10. st->rear에 node->prev를 대입한다.
+		st->rear->next = 0;  // 11. st->rear->next에 NULL을 대입한다.
 	}
-	else
+	else  // 12. st->cnt가 1보다 크고, rear가 거짓이면, st에 저장된 노드는 2개 이상이다.
 	{
-		st->front = node->next;
-		st->front->prev = 0;
+		st->front = node->next;  // 13. st->front에 node->next를 대입한다.
+		st->front->prev = 0;  // 14. st->front->prev에 NULL을 대입한다.
 	}
-	st->cnt--;
-	return (node);
+	st->cnt--;  // 15. st->cnt를 1 감소시킨다.
+	return (node);  // 16. node를 반환한다.
 }
 
-void	enque(t_deque *st, enum e_rear rear, t_node *node)
+void	enqueue(t_deque *st, enum e_rear rear, t_node *node)
 {
-	if (st->cnt == 0)
+	if (st->cnt == 0) // If the deque is empty
 	{
-		st->front = node;
+		st->front = node; // The front and rear of the deque are the node
 		st->rear = node;
 	}
-	else if (rear)
+	else if (rear) // If the rear is true
 	{
-		st->rear->next = node;
-		node->prev = st->rear;
-		st->rear = node;
+		st->rear->next = node; // The next pointer of the rear is the node
+		node->prev = st->rear; // The prev pointer of the node is the rear
+		st->rear = node; // The rear is the node
 	}
-	else
+	else // If the rear is false
 	{
-		st->front->prev = node;
-		node->next = st->front;
-		st->front = node;
+		st->front->prev = node; // The prev pointer of the front is the node
+		node->next = st->front; // The next pointer of the node is the front
+		st->front = node; // The front is the node
 	}
-	st->cnt++;
+	st->cnt++; // Increment the count of nodes in the deque
 }

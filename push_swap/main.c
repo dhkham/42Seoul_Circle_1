@@ -6,15 +6,16 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/02 21:37:35 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/02 22:15:02 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* 구현 순서
-1. 덱 구현하기		   (o)
-2. 파싱 구현하기	    
-3. 커맨드 구현하기 		(o)	
-4. 정렬 로직 (void push_swap) 구현하기: 피봇을 두개 잡아라
+1. 덱 구현하기		    (o)
+2. 파싱 구현하기	     (o)
+3. 커맨드 구현하기 		  (o)	
+4. 정렬 로직 구현하기
+	=> 피봇을 두개 잡아라
 
 참고: ./push_swap 4 2 1 3 => 4가 front, 3이 rear => 1 2 3 4로 정렬해야 함
 */
@@ -25,18 +26,14 @@
 void	ps_init(t_pdeque **ps)
 {
 	*ps = (t_pdeque *)malloc(sizeof(t_pdeque));
-	(*ps)->a = (t_deque *)malloc(sizeof(t_deque));
+	(*ps)->a = (t_deque *)malloc(sizeof(t_deque)); // a는 t_deque를 가리키는 포인터가 아니기 때문에 에러 발생: struct에서 a를 포인터로 수정함
 	(*ps)->b = (t_deque *)malloc(sizeof(t_deque));
-	deque_init((*ps)->a);
-	deque_init((*ps)->b);
-}
-
-// deque_init: deque를 초기화해주는 함수
-void	deque_init(t_deque *deque)
-{
-	deque->front = NULL;
-	deque->rear = NULL;
-	deque->cnt = 0;
+	(*ps)->a->front = NULL;
+	(*ps)->a->rear = NULL;
+	(*ps)->a->cnt = 0;
+	(*ps)->b->front = NULL;
+	(*ps)->b->rear = NULL;
+	(*ps)->b->cnt = 0;
 }
 
 // ps_parse: 입력받은 인자를 deque에 넣어주는 함수
