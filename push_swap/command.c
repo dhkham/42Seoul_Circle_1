@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/02 21:56:23 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/03 21:29:25 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	command(t_pdeque *ps, char *cmd)
 		return (rotate(&ps->b, REAR));
 	if (ft_strncmp(cmd, "rrr\n", 5) == 0)
 		return (rotate(&ps->a, REAR) && rotate(&ps->b, REAR));
-	ft_putstr_fd(2, "Error\n"); // 명령어를 찾을 수 없는 경우
+    ft_putstr_fd("Error\n", 1);
 	exit(-1);
 }
 
@@ -50,11 +50,15 @@ int	command(t_pdeque *ps, char *cmd)
 int	push(t_deque *from, t_deque *to)
 {
 	t_node	*node;
+	int		val;
 
 	if (from->cnt < 1)
 		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	node = dequeue(from, FRONT);
-	enque(to, FRONT, node);
+	// use delete_front, insert_front
+	val = delete_front(from);
+	insert_front(to, val);
+	// node = dequeue(from, FRONT); //FRONT=0, REAR=1, push: FRONT에서 빼서 node에 저장
+	// enqueue(to, FRONT, node); // if node is NULL, should i execute enqueue? => no
 	return (1);
 }
 
@@ -66,17 +70,23 @@ int	push(t_deque *from, t_deque *to)
 // Do nothing if there is only one or no elements.
 
 // ss : sa and sb at the same time.
-int	swap(t_deque *st)
+int	swap(t_deque *deque)
 {
 	t_node	*node1;
 	t_node	*node2;
+	int		val1;
+	int		val2;
 
-	if (st->cnt < 2)
+	if (deque->cnt < 2)
 		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	node1 = dequeue(st, FRONT);
-	node2 = dequeue(st, FRONT);
-	enqueue(st, FRONT, node1);
-	enqueue(st, FRONT, node2);
+	val1 = delete_front(deque);
+	val2 = delete_front(deque);
+	insert_front(deque, val1);
+	insert_front(deque, val2);
+	// node1 = dequeue(deque, FRONT);
+	// node2 = dequeue(deque, FRONT);
+	// enqueue(deque, FRONT, node1);
+	// enqueue(deque, FRONT, node2);
 	return (1);
 }
 
@@ -97,73 +107,24 @@ int	swap(t_deque *st)
 // The last element becomes the first one.
 
 // rrr : rra and rrb at the same time.
-int	rotate(t_deque *st, enum e_rear rear)
+int	rotate(t_deque *deque, enum e_rear is_rear)
 {
 	t_node	*node;
+	int		val;
 
-	if (st->cnt < 1)
+	if (deque->cnt < 1)
 		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	node = dequeue(st, rear);
-	enqueue(st, !rear, node);
+	if (is_rear) // rra, rrb, rrr
+	{
+		val = delete_rear(deque); // rear에서 빼서 front로
+		insert_front(deque, val);
+	}
+	else         // ra, rb, rr
+	{
+		val = delete_front(deque); // front에서 빼서 rear로
+		insert_rear(deque, val);
+	}
+	// node = dequeue(deque, is_rear);
+	// enqueue(deque, !is_rear, node);
 	return (1);
-}
-
-// is_rear function ???
-// int	is_rear(enum e_rear rear)
-// {
-// 	if (rear == 0)
-// 		return (0);
-// 	else if (rear == 1)
-// 		return (1);
-// }
-
-t_node	*dequeue(t_deque *st, enum e_rear rear)
-{
-	t_node	*node;  // 1. deque 함수가 노드를 반환할 node를 선언한다.
-
-	if (st->cnt < 1)  // 2. st->cnt가 1보다 작다면, st에 저장된 노드가 없으므로 명령어 처리를 X한다.
-		return (0);  // 3. node를 반환한다.
-	if (rear) // change to if statement 	: node = rear ? st->rear : st->front;
-		node = st->rear;  // 4. node에 st->rear를 대입한다.
-	else
-		node = st->front;  // 5. node에 st->front를 대입한다.
-	if (st->cnt == 1)  // 6. st->cnt가 1이면, st에 저장된 노드는 1개이다.
-	{
-		st->front = 0;  // 7. st->front에 NULL을 대입한다.
-		st->rear = 0;  // 8. st->rear에 NULL을 대입한다.
-	}
-	else if (rear)  // 9. st->cnt가 1보다 크고, rear가 참이면, st에 저장된 노드는 2개 이상이다.
-	{
-		st->rear = node->prev;  // 10. st->rear에 node->prev를 대입한다.
-		st->rear->next = 0;  // 11. st->rear->next에 NULL을 대입한다.
-	}
-	else  // 12. st->cnt가 1보다 크고, rear가 거짓이면, st에 저장된 노드는 2개 이상이다.
-	{
-		st->front = node->next;  // 13. st->front에 node->next를 대입한다.
-		st->front->prev = 0;  // 14. st->front->prev에 NULL을 대입한다.
-	}
-	st->cnt--;  // 15. st->cnt를 1 감소시킨다.
-	return (node);  // 16. node를 반환한다.
-}
-
-void	enqueue(t_deque *st, enum e_rear rear, t_node *node)
-{
-	if (st->cnt == 0) // If the deque is empty
-	{
-		st->front = node; // The front and rear of the deque are the node
-		st->rear = node;
-	}
-	else if (rear) // If the rear is true
-	{
-		st->rear->next = node; // The next pointer of the rear is the node
-		node->prev = st->rear; // The prev pointer of the node is the rear
-		st->rear = node; // The rear is the node
-	}
-	else // If the rear is false
-	{
-		st->front->prev = node; // The prev pointer of the front is the node
-		node->next = st->front; // The next pointer of the node is the front
-		st->front = node; // The front is the node
-	}
-	st->cnt++; // Increment the count of nodes in the deque
 }

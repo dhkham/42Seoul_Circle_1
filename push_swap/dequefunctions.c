@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deque.c                                            :+:      :+:    :+:   */
+/*   dequefunctions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:13 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/02 21:29:23 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/03 21:21:57 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 //deleteFront, deleteRear, isEmpty.
 //double linked list로 구현
 
-//create_node
+//create_node: used in insert_front, insert_rear
 t_node	*create_node(int num)
 {
 	t_node	*node;

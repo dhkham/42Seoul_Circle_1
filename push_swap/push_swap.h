@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/02 22:12:23 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/03 21:16:50 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ void	checker(t_pdeque *ps);
 void	push_swap(t_pdeque *ps);
 int		command(t_pdeque *ps, char *cmd);
 int		push(t_deque *from, t_deque *to);
-int		swap(t_deque *st);
-int		rotate(t_deque *st, enum e_rear rear);
-int		is_rear(enum e_rear rear);
-t_node	*dequeue(t_deque *st, enum e_rear rear);
-void	enqueue(t_deque *st, enum e_rear rear, t_node *node);
+int		swap(t_deque *deque);
+int		rotate(t_deque *deque, enum e_rear is_rear);
+// t_node	*dequeue(t_deque *deque, enum e_rear is_rear);
+// void	enqueue(t_deque *deque, enum e_rear is_rear, t_node *node);
 t_node	*create_node(int num);
 void	insert_front(t_deque *deque, int num);
 void	insert_rear(t_deque *deque, int num);
@@ -70,8 +69,8 @@ int		delete_front(t_deque *deque);
 int		delete_rear(t_deque *deque);
 int		is_empty(t_deque *deque);
 int		is_sorted(t_deque *deque);
-void	ps_init(t_pdeque **ps)
-void	ps_parse(t_pdeque **ps, int argc, char **argv)
+void	ps_init(t_pdeque **ps);
+void	ps_parse(t_pdeque **ps, int argc, char **argv);
 
 
 
