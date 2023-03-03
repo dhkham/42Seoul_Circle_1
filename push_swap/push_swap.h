@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/03 21:16:50 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/03 21:46:27 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,9 @@ int		is_empty(t_deque *deque);
 int		is_sorted(t_deque *deque);
 void	ps_init(t_pdeque **ps);
 void	ps_parse(t_pdeque **ps, int argc, char **argv);
-
-
-
-
-
+void	sort_three(t_pdeque *ps);
+void	sort_four(t_pdeque *ps);
+void	sort_five(t_pdeque *ps);
+void	quick_sort(t_pdeque *ps);
 
 #endif
