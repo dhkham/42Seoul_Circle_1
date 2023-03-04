@@ -6,90 +6,85 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 13:39:34 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/04 16:27:22 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	push_swap(t_pdeque *ps)
+void	push_swap(t_pdeque *pd)
 {
-	// use quick sort
-
-	if (is_sorted(ps->a))		// if stack a is sorted
+	if (is_sorted(pd->a))		// if stack a is sorted
 		return ;
-	if (ps->a->cnt == 2)		// if stack a has 2 elements
+	if (pd->a->cnt == 2)		// if stack a has 2 elements
 	{
-		if (ps->a->front->num > ps->a->rear->num)
-			command(ps, "sa");
+		if (pd->a->front->num > pd->a->rear->num)
+			command(pd, "sa");
 	}
-	else if (ps->a->cnt == 3)	// if stack a has 3 elements
-		sort_three(ps);
-	else if (ps->a->cnt == 4) 	// if stack a has 4 elements
-		sort_four(ps);
-	else if (ps->a->cnt == 5)	// if stack a has 5 elements
-		sort_five(ps);
+	else if (pd->a->cnt == 3)	// if stack a has 3 elements
+		sort_three(pd);
+	else if (pd->a->cnt == 4) 	// if stack a has 4 elements
+		sort_four(pd);
+	else if (pd->a->cnt == 5)	// if stack a has 5 elements
+		sort_five(pd);
 	else					 	// if stack a has more than 5 elements
-		quick_sort(ps);
+		quick_sort(pd);
 	return ;
 }
 
-void	sort_three(t_pdeque *ps)
+void	sort_three(t_pdeque *pd)
 {
 	int		a;
 	int		b;
 	int		c;
 
-	a = ps->a->front->num;
-	b = ps->a->front->next->num;
-	c = ps->a->front->next->next->num;
-	if (a > b && b > c) // a: 3, b: 2, c: 1
+	a = pd->a->front->num;
+	b = pd->a->front->next->num;
+	c = pd->a->rear->num; //c = pd->a->front->next->next->num;
+	if (a < b && b > c && c > a) // a: 1, b: 3, c: 2
 	{
-		command(ps, "rra"); // 1 3 2
-		command(ps, "rra"); // 2 1 3 내가 수정함
-		command(ps, "sa"); // 1 2 3
-		//command(ps, "sa"); // 원래 코드
+		command(pd, "sa"); // 3 1 2
+		command(pd, "ra"); // 1 2 3
 	}
 	else if (a > b && b < c && c > a) // a: 2, b: 1, c: 3
-		command(ps, "sa"); // 1 2 3
+		command(pd, "sa"); // 1 2 3
+	else if (a < b && b > c && c < a) // a: 2, b: 3, c: 1
+		command(pd, "rra"); // 1 2 3
 	else if (a > b && b < c && c < a) // a: 3, b: 1, c: 2
-		command(ps, "ra"); // 1 2 3
-	else if (a < b && b > c && c > a) // a: 1, b: 3, c: 2
+		command(pd, "ra"); // 1 2 3
+	else if (a > b && b > c) // a: 3, b: 2, c: 1
 	{
-		command(ps, "sa"); // 3 1 2
-		command(ps, "ra"); // 1 2 3 내가 수정함
-		//command(ps, "rra"); // 원래 코드
+		command(pd, "sa"); // 2 3 1
+		command(pd, "rra"); // 1 2 3
 	}
-	else if (a < b && b > c && c < a)
-		command(ps, "rra");
 }
 
-void	sort_four(t_pdeque *ps)
+void	sort_four(t_pdeque *pd)
 {
 	int		i;
 	int		pivot;
 	t_node	*tmp;
 
 	i = 0;
-	pivot = find_pivot(ps->a);
+	pivot = find_pivot(pd->a);
 	while (i < 2)
 	{
-		tmp = ps->a->front;
+		tmp = pd->a->front;
 		while (tmp)
 		{
 			if (tmp->num < pivot)
 			{
-				command(ps, "pb");
+				command(pd, "pb");
 				break ;
 			}
-			command(ps, "ra");
+			command(pd, "ra");
 			tmp = tmp->next;
 		}
 		i++;
 	}
-	sort_three(ps);
-	command(ps, "pa");
-	command(ps, "ra");
+	sort_three(pd);
+	command(pd, "pa");
+	command(pd, "ra");
 }
 
 /* Here is the explanation for the code above:
@@ -105,61 +100,61 @@ void	sort_four(t_pdeque *ps)
 10. We push the number from the stack (b) to the stack (a) and rotate the stack (a)
 11. We repeat the same steps in the loop until the stack (a) is sorted */
 
-void	sort_five(t_pdeque *ps)
+void	sort_five(t_pdeque *pd)
 {
 	int		i;
 	int		pivot;
 	t_node	*tmp;
 
 	i = 0;
-	pivot = find_pivot(ps->a);
+	pivot = find_pivot(pd->a);
 	while (i < 2)
 	{
-		tmp = ps->a->front;
+		tmp = pd->a->front;
 		while (tmp)
 		{
 			if (tmp->num < pivot)
 			{
-				command(ps, "pb");
+				command(pd, "pb");
 				break ;
 			}
-			command(ps, "ra");
+			command(pd, "ra");
 			tmp = tmp->next;
 		}
 		i++;
 	}
-	sort_three(ps);
-	command(ps, "pa");
-	command(ps, "pa");
+	sort_three(pd);
+	command(pd, "pa");
+	command(pd, "pa");
 }
 
 // quicksort with two pivots
-void	quick_sort(t_pdeque *ps)
+void	quick_sort(t_pdeque *pd)
 {
 	int		i;
 	int		pivot;
 	t_node	*tmp;
 
 	i = 0;
-	pivot = find_pivot(ps->a);
+	pivot = find_pivot(pd->a);
 	while (i < 2)
 	{
-		tmp = ps->a->front;
+		tmp = pd->a->front;
 		while (tmp)
 		{
 			if (tmp->num < pivot)
 			{
-				command(ps, "pb");
+				command(pd, "pb");
 				break ;
 			}
-			command(ps, "ra");
+			command(pd, "ra");
 			tmp = tmp->next;
 		}
 		i++;
 	}
-	quick_sort(ps);
-	command(ps, "pa");
-	command(ps, "pa");
+	quick_sort(pd);
+	command(pd, "pa");
+	command(pd, "pa");
 }
 // typedef struct s_pdeque
 // {
@@ -168,7 +163,7 @@ void	quick_sort(t_pdeque *ps)
 // 	struct s_deque	*b;
 // }	t_pdeque;
 
-int		find_pivot(t_pdeque *ps)
+int		find_pivot(t_deque *a)
 {
 	int		i;
 	int		j;
@@ -177,17 +172,17 @@ int		find_pivot(t_pdeque *ps)
 
 	i = 0;
 	j = 0;
-	arr = (int *)malloc(sizeof(int) * ps->cnt);
-	while (i < ps->cnt)
+	arr = (int *)malloc(sizeof(int) * a->cnt);
+	while (i < a->cnt)
 	{
-		arr[i] = ps->front->num;    		// 오류  !!!! 
-		ps->front = ps->front->next;  // 오류  !!!! 
+		arr[i] = a->front->num;    		// 오류  !!!! 
+		a->front = a->front->next;  // 오류  !!!! 
 		i++;
 	}
-	while (j < ps->cnt - 1)
+	while (j < a->cnt - 1)
 	{
 		i = 0;
-		while (i < ps->cnt - 1)
+		while (i < a->cnt - 1)
 		{
 			if (arr[i] > arr[i + 1])
 			{
@@ -199,5 +194,5 @@ int		find_pivot(t_pdeque *ps)
 		}
 		j++;
 	}
-	return (arr[ps->cnt / 2]);
+	return (arr[a->cnt / 2]);
 }

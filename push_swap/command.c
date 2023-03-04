@@ -6,36 +6,36 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/03 21:29:25 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/04 16:18:28 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	command(t_pdeque *ps, char *cmd)
+int	command(t_pdeque *pd, char *cmd)
 {
 	if (ft_strncmp(cmd, "pa\n", 4) == 0)
-		return (push(&ps->a, &ps->b));
+		return (push(&pd->a, &pd->b));
 	if (ft_strncmp(cmd, "pb\n", 4) == 0)
-		return (push(&ps->b, &ps->a));
+		return (push(&pd->b, &pd->a));
 	if (ft_strncmp(cmd, "sa\n", 4) == 0)
-		return (swap(&ps->a));
+		return (swap(&pd->a));
 	if (ft_strncmp(cmd, "sb\n", 4) == 0)
-		return (swap(&ps->b));
+		return (swap(&pd->b));
 	if (ft_strncmp(cmd, "ss\n", 4) == 0)
-		return (swap(&ps->a) && swap(&ps->b));
+		return (swap(&pd->a) && swap(&pd->b));
 	if (ft_strncmp(cmd, "ra\n", 4) == 0)
-		return (rotate(&ps->a, FRONT));
+		return (rotate(&pd->a, FRONT));
 	if (ft_strncmp(cmd, "rb\n", 4) == 0)
-		return (rotate(&ps->b, FRONT));
+		return (rotate(&pd->b, FRONT));
 	if (ft_strncmp(cmd, "rr\n", 4) == 0)
-		return (rotate(&ps->a, FRONT) && rotate(&ps->b, FRONT));
+		return (rotate(&pd->a, FRONT) && rotate(&pd->b, FRONT));
 	if (ft_strncmp(cmd, "rra\n", 5) == 0)
-		return (rotate(&ps->a, REAR));
+		return (rotate(&pd->a, REAR));
 	if (ft_strncmp(cmd, "rrb\n", 5) == 0)
-		return (rotate(&ps->b, REAR));
+		return (rotate(&pd->b, REAR));
 	if (ft_strncmp(cmd, "rrr\n", 5) == 0)
-		return (rotate(&ps->a, REAR) && rotate(&ps->b, REAR));
+		return (rotate(&pd->a, REAR) && rotate(&pd->b, REAR));
     ft_putstr_fd("Error\n", 1);
 	exit(-1);
 }

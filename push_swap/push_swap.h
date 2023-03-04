@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 13:35:51 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/04 16:19:03 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ enum e_rear
 // 3. The enumeration has two values: FRONT and REAR.
 // 4. The FRONT value has the value 0 and the REAR value has the value 1.
 
-void	checker(t_pdeque *ps);
-void	push_swap(t_pdeque *ps);
-int		command(t_pdeque *ps, char *cmd);
+void	checker(t_pdeque *pd);
+void	push_swap(t_pdeque *pd);
+int		command(t_pdeque *pd, char *cmd);
 int		push(t_deque *from, t_deque *to);
 int		swap(t_deque *deque);
 int		rotate(t_deque *deque, enum e_rear is_rear);
@@ -69,11 +69,11 @@ int		delete_front(t_deque *deque);
 int		delete_rear(t_deque *deque);
 int		is_empty(t_deque *deque);
 int		is_sorted(t_deque *deque);
-void	ps_init(t_pdeque **ps);
-void	ps_parse(t_pdeque **ps, int argc, char **argv);
-void	sort_three(t_pdeque *ps);
-void	sort_four(t_pdeque *ps);
-void	sort_five(t_pdeque *ps);
-void	quick_sort(t_pdeque *ps);
+void	ps_init(t_pdeque **pd);
+void	ps_parse(t_pdeque **pd, int argc, char **argv);
+void	sort_three(t_pdeque *pd);
+void	sort_four(t_pdeque *pd);
+void	sort_five(t_pdeque *pd);
+void	quick_sort(t_pdeque *pd);
 
 #endif
