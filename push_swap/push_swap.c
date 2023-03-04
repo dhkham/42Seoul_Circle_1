@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 16:27:22 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/04 20:42:41 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,70 +62,73 @@ void	sort_three(t_pdeque *pd)
 void	sort_four(t_pdeque *pd)
 {
 	int		i;
-	int		pivot;
+	int		min;
 	t_node	*tmp;
 
 	i = 0;
-	pivot = find_pivot(pd->a);
-	while (i < 2)
+	min = pd->a->front->num;
+	tmp = pd->a->front;
+	while (tmp)
 	{
-		tmp = pd->a->front;
-		while (tmp)
+		if (tmp->num < min)
+			min = tmp->num;
+		tmp = tmp->next;
+	}
+	while (i < pd->a->cnt)
+	{
+		if (pd->a->front->num == min)
 		{
-			if (tmp->num < pivot)
-			{
-				command(pd, "pb");
-				break ;
-			}
-			command(pd, "ra");
-			tmp = tmp->next;
+			command(pd, "pb");
+			break ;
 		}
+		command(pd, "ra");
 		i++;
 	}
 	sort_three(pd);
 	command(pd, "pa");
-	command(pd, "ra");
 }
-
-/* Here is the explanation for the code above:
-1. 2 is the size of the stack (a) which is divided into 2 parts
-2. The pivot is found
-3. We iterate through the stack (a) until the number is less than the pivot
-4. If the number is less than the pivot, then we push it to the stack (b)
-5. If the number is greater than the pivot, then we rotate the stack (a)
-6. We iterate through the stack (a) until we find the number that is less than the pivot
-7. If the number is less than the pivot, then we push it to the stack (b)
-8. If the number is greater than the pivot, then we rotate the stack (a)
-9. The stack (b) is sorted with the help of the function sort_three           ????????????????????????뭔말이지
-10. We push the number from the stack (b) to the stack (a) and rotate the stack (a)
-11. We repeat the same steps in the loop until the stack (a) is sorted */
 
 void	sort_five(t_pdeque *pd)
 {
+// find min and max in stack a and send to stack b
+// sort_three elements in stack a
+// stack b should be sorted in descending order
+// send stack b to stack a
+
 	int		i;
-	int		pivot;
+	int		min;
+	int		max;
 	t_node	*tmp;
 
 	i = 0;
-	pivot = find_pivot(pd->a);
-	while (i < 2)
+	min = pd->a->front->num;
+	max = pd->a->front->num;
+	tmp = pd->a->front;
+	while (tmp)
 	{
-		tmp = pd->a->front;
-		while (tmp)
+		if (tmp->num < min)
+			min = tmp->num;
+		if (tmp->num > max)
+			max = tmp->num;
+		tmp = tmp->next;
+	}
+	while (i < pd->a->cnt)
+	{
+		if (pd->a->front->num == min || pd->a->front->num == max)
 		{
-			if (tmp->num < pivot)
-			{
-				command(pd, "pb");
-				break ;
-			}
-			command(pd, "ra");
-			tmp = tmp->next;
+			command(pd, "pb");
+			i = 0;
+			continue ;
 		}
+		command(pd, "ra");
 		i++;
 	}
 	sort_three(pd);
+	if (!is_sorted(pd->b))
+		command(pd, "sb"); // b가 1,5처럼 정렬: 5 1로 바꿔줌 (pa시 )
 	command(pd, "pa");
 	command(pd, "pa");
+	command(pd, "ra");
 }
 
 // quicksort with two pivots
