@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/03 22:25:16 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/04 13:39:34 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,8 @@ int		find_pivot(t_pdeque *ps)
 	arr = (int *)malloc(sizeof(int) * ps->cnt);
 	while (i < ps->cnt)
 	{
-		arr[i] = ps->a->front->num;    		// 오류  !!!! 
-		ps->a->front = ps->a->front->next;  // 오류  !!!! 
+		arr[i] = ps->front->num;    		// 오류  !!!! 
+		ps->front = ps->front->next;  // 오류  !!!! 
 		i++;
 	}
 	while (j < ps->cnt - 1)

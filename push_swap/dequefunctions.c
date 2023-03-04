@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:13 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/03 21:21:57 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/04 14:17:04 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	insert_front(t_deque *deque, int num)
 		// set the deque to the new node
 		deque->front = node;
 	}
+	deque->cnt++;
 }
 
 //insert_rear
@@ -73,6 +74,7 @@ void	insert_rear(t_deque *deque, int num)
 		// set the deque to the new node
 		deque->rear = node;
 	}
+	deque->cnt++;
 }
 
 //delete_front
@@ -89,14 +91,14 @@ int	delete_front(t_deque *deque)
 		temp = deque->front;
 		// set the deque to the next node
 		deque->front = deque->front->next;
-		// if the deque is not empty
-		if (deque->front != NULL)
-			// set the new front node's prev pointer to NULL
-			deque->front->prev = NULL;
+		if (deque->front != NULL)	// if the deque is not empty
+			deque->front->prev = NULL;	// set the new front node's prev pointer to NULL
 		// save the value of the node we are deleting
 		num = temp->num;
 		// free the node
 		free(temp);
+		// decrease deque->cnt
+		deque->cnt--;
 		// return the value of the node we deleted
 		return (num);
 	}
@@ -119,6 +121,7 @@ int	delete_rear(t_deque *deque)
 			deque->rear->next = NULL;
 		num = temp->num;
 		free(temp);
+		deque->cnt--;
 		return (num);
 	}
 }
