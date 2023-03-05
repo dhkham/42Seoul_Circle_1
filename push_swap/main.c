@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 20:15:17 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 21:17:29 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 */
 
 #include "push_swap.h"
+#include "stdio.h"
 
 int	main(int argc, char **argv)
 {
@@ -31,6 +32,24 @@ int	main(int argc, char **argv)
 		exit(-1);
 	pd = pd_init();
 	pd_parse(pd, argc, argv);
+	
+	// print all elements in deque a
+	t_node *tmp = pd->a->front;
+	while (tmp != NULL)
+	{
+		printf("initial: %d\n", tmp->num);
+		tmp = tmp->next;
+	}
+	
+	command(pd, "ra");
+	
+	t_node *tmp2 = pd->a->front;
+	while (tmp2 != NULL)
+	{
+		printf("after: %d\n", tmp2->num);
+		tmp2 = tmp2->next;
+	}
+	
 	//push_swap(pd);
 	//checker(&pd);
 	exit(0);
@@ -68,9 +87,6 @@ t_pdeque	*pd_init(void)
 // pd_parse: 
 // 여기서 Int 범위 확인 + "4 5 6" 같은 에러 처리 필요
 // 중복수, 이미 정렬된 수 확인
-
-#include "stdio.h"
-
 void	pd_parse(t_pdeque *pd, int argc, char **argv)
 {
 	int		i;
@@ -85,13 +101,4 @@ void	pd_parse(t_pdeque *pd, int argc, char **argv)
 		insert_rear(pd->a, num);
 		i++;
 	}
-	// use printf to print all elements in deque a
-	t_node *tmp = pd->a->front;
-	while (tmp)
-	{
-		printf("%d\n", tmp->num);
-		tmp = tmp->next;
-	}
-	// 파싱 체크랑 커맨드 확인하기
-	
 }

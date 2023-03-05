@@ -6,37 +6,38 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 20:03:39 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 21:16:58 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+#include "stdio.h"
 int	command(t_pdeque *pd, char *cmd)
 {
-	if (ft_strncmp(cmd, "pa\n", 4) == 0)
+	if (ft_strncmp(cmd, "pa", 3) == 0)
 		return (push(pd->b, pd->a));
-	if (ft_strncmp(cmd, "pb\n", 4) == 0)
+	else if (ft_strncmp(cmd, "pb", 3) == 0)
 		return (push(pd->a, pd->b));
-	if (ft_strncmp(cmd, "sa\n", 4) == 0)
+	else if (ft_strncmp(cmd, "sa", 3) == 0)
 		return (swap(pd->a));
-	if (ft_strncmp(cmd, "sb\n", 4) == 0)
+	else if (ft_strncmp(cmd, "sb", 3) == 0)
 		return (swap(pd->b));
-	if (ft_strncmp(cmd, "ss\n", 4) == 0)
+	else if (ft_strncmp(cmd, "ss", 3) == 0)
 		return (swap(pd->a) && swap(pd->b));
-	if (ft_strncmp(cmd, "ra\n", 4) == 0)
+	else if (ft_strncmp(cmd, "ra", 3) == 0)
 		return (rotate(pd->a, FRONT));
-	if (ft_strncmp(cmd, "rb\n", 4) == 0)
+	else if (ft_strncmp(cmd, "rb", 3) == 0)
 		return (rotate(pd->b, FRONT));
-	if (ft_strncmp(cmd, "rr\n", 4) == 0)
+	else if (ft_strncmp(cmd, "rr", 3) == 0)
 		return (rotate(pd->a, FRONT) && rotate(pd->b, FRONT));
-	if (ft_strncmp(cmd, "rra\n", 5) == 0)
+	else if (ft_strncmp(cmd, "rra", 4) == 0)
 		return (rotate(pd->a, REAR));
-	if (ft_strncmp(cmd, "rrb\n", 5) == 0)
+	else if (ft_strncmp(cmd, "rrb", 4) == 0)
 		return (rotate(pd->b, REAR));
-	if (ft_strncmp(cmd, "rrr\n", 5) == 0)
+	else if (ft_strncmp(cmd, "rrr", 4) == 0)
 		return (rotate(pd->a, REAR) && rotate(pd->b, REAR));
-	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd("Error", 2);
 	exit(-1);
 }
 
@@ -66,6 +67,7 @@ int	push(t_deque *from, t_deque *to)
 // Do nothing if there is only one or no elements.
 
 // ss : sa and sb at the same time.
+
 int	swap(t_deque *deque)
 {
 	int		val1;
@@ -100,7 +102,8 @@ int	swap(t_deque *deque)
 int	rotate(t_deque *deque, enum e_rear is_rear)
 {
 	int		val;
-
+	// print is_rear
+	printf("is_rear: %d\n", is_rear);
 	if (deque->cnt < 1)
 		return (0);
 	if (is_rear) // rra, rrb, rrr
