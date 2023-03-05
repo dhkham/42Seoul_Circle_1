@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 20:42:41 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 16:33:06 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,90 @@
 
 void	push_swap(t_pdeque *pd)
 {
-	if (is_sorted(pd->a))		// if stack a is sorted
+	int		i;
+	t_node	*tmp_node;
+	int		*tmp_arr;
+	int		s_pivot;
+	int		b_pivot;
+
+	i = 0;
+	tmp_node = pd->a->front;
+	if (is_sorted(pd->a))
 		return ;
-	if (pd->a->cnt == 2)		// if stack a has 2 elements
+	tmp_arr = (int *)malloc(sizeof(int) * pd->a->cnt);
+	while (i < pd->a->cnt)
 	{
-		if (pd->a->front->num > pd->a->rear->num)
-			command(pd, "sa");
+		tmp_arr[i] = tmp_node->num;
+		tmp_node = tmp_node->next;
+		i++;
 	}
-	else if (pd->a->cnt == 3)	// if stack a has 3 elements
-		sort_three(pd);
-	else if (pd->a->cnt == 4) 	// if stack a has 4 elements
-		sort_four(pd);
-	else if (pd->a->cnt == 5)	// if stack a has 5 elements
-		sort_five(pd);
-	else					 	// if stack a has more than 5 elements
-		quick_sort(pd);
+	bubblesort(tmp_arr);
+	s_pivot = tmp_arr[pd->a->cnt / 3];
+	b_pivot = tmp_arr[pd->a->cnt / 3 * 2];
+	free(tmp_arr);
+	quick_sort(pd, s_pivot, b_pivot);
+	sort_three(pd);
+	btoa(pd);
 	return ;
 }
 
+void	bubblesort(int *tmp_arr)
+{
+	int	i;
+	int	j;
+	int	tmp;
+	int	len;
+
+	i = 0;
+	len = sizeof(tmp_arr) / sizeof(int);
+	while (i < len - 1)
+	{
+		j = 0;
+		while (j < len - i - 1)
+		{
+			if (tmp_arr[j] > tmp_arr[j + 1])
+			{
+				tmp = tmp_arr[j];
+				tmp_arr[j] = tmp_arr[j + 1];
+				tmp_arr[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+// if bigger than b_pivot, leave it in a
+// if equal or less than b_pivot, push it to b
+// in b, if equal or less than s_pivot, use command "ra"
+// leave three elements and push the rest to b
+void	quick_sort(t_pdeque *pd, int pivot1, int pivot2)
+{
+	t_node	*tmp_node;
+	int		i;
+
+	i = 0;
+	tmp_node = pd->a->front;
+	while (i < pd->a->cnt)
+	{
+		if (tmp_node->num > pivot2)
+			tmp_node = tmp_node->next;
+		else if (tmp_node->num <= pivot2)
+		{
+			command(pd, "pb");
+			if (tmp_node->num <= pivot1)
+				command(pd, "ra");
+		}
+		i++;
+	}
+	while (pd->a->cnt > 3)
+	{
+		command(pd, "pb");
+	}
+	return ;
+}
+
+// sort three elements in stack a
 void	sort_three(t_pdeque *pd)
 {
 	int		a;
@@ -57,145 +123,4 @@ void	sort_three(t_pdeque *pd)
 		command(pd, "sa"); // 2 3 1
 		command(pd, "rra"); // 1 2 3
 	}
-}
-
-void	sort_four(t_pdeque *pd)
-{
-	int		i;
-	int		min;
-	t_node	*tmp;
-
-	i = 0;
-	min = pd->a->front->num;
-	tmp = pd->a->front;
-	while (tmp)
-	{
-		if (tmp->num < min)
-			min = tmp->num;
-		tmp = tmp->next;
-	}
-	while (i < pd->a->cnt)
-	{
-		if (pd->a->front->num == min)
-		{
-			command(pd, "pb");
-			break ;
-		}
-		command(pd, "ra");
-		i++;
-	}
-	sort_three(pd);
-	command(pd, "pa");
-}
-
-void	sort_five(t_pdeque *pd)
-{
-// find min and max in stack a and send to stack b
-// sort_three elements in stack a
-// stack b should be sorted in descending order
-// send stack b to stack a
-
-	int		i;
-	int		min;
-	int		max;
-	t_node	*tmp;
-
-	i = 0;
-	min = pd->a->front->num;
-	max = pd->a->front->num;
-	tmp = pd->a->front;
-	while (tmp)
-	{
-		if (tmp->num < min)
-			min = tmp->num;
-		if (tmp->num > max)
-			max = tmp->num;
-		tmp = tmp->next;
-	}
-	while (i < pd->a->cnt)
-	{
-		if (pd->a->front->num == min || pd->a->front->num == max)
-		{
-			command(pd, "pb");
-			i = 0;
-			continue ;
-		}
-		command(pd, "ra");
-		i++;
-	}
-	sort_three(pd);
-	if (!is_sorted(pd->b))
-		command(pd, "sb"); // b가 1,5처럼 정렬: 5 1로 바꿔줌 (pa시 )
-	command(pd, "pa");
-	command(pd, "pa");
-	command(pd, "ra");
-}
-
-// quicksort with two pivots
-void	quick_sort(t_pdeque *pd)
-{
-	int		i;
-	int		pivot;
-	t_node	*tmp;
-
-	i = 0;
-	pivot = find_pivot(pd->a);
-	while (i < 2)
-	{
-		tmp = pd->a->front;
-		while (tmp)
-		{
-			if (tmp->num < pivot)
-			{
-				command(pd, "pb");
-				break ;
-			}
-			command(pd, "ra");
-			tmp = tmp->next;
-		}
-		i++;
-	}
-	quick_sort(pd);
-	command(pd, "pa");
-	command(pd, "pa");
-}
-// typedef struct s_pdeque
-// {
-// 	unsigned int	cnt; 
-// 	struct s_deque	*a; 
-// 	struct s_deque	*b;
-// }	t_pdeque;
-
-int		find_pivot(t_deque *a)
-{
-	int		i;
-	int		j;
-	int		tmp;
-	int		*arr;
-
-	i = 0;
-	j = 0;
-	arr = (int *)malloc(sizeof(int) * a->cnt);
-	while (i < a->cnt)
-	{
-		arr[i] = a->front->num;    		// 오류  !!!! 
-		a->front = a->front->next;  // 오류  !!!! 
-		i++;
-	}
-	while (j < a->cnt - 1)
-	{
-		i = 0;
-		while (i < a->cnt - 1)
-		{
-			if (arr[i] > arr[i + 1])
-			{
-				tmp = arr[i];
-				arr[i] = arr[i + 1];
-				arr[i + 1] = tmp;
-			}
-			i++;
-		}
-		j++;
-	}
-	return (arr[a->cnt / 2]);
 }

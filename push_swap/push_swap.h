@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 18:29:12 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 16:10:55 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,8 @@ int		delete_front(t_deque *deque);
 int		delete_rear(t_deque *deque);
 int		is_empty(t_deque *deque);
 int		is_sorted(t_deque *deque);
-void	ps_init(t_pdeque **pd);
-void	ps_parse(t_pdeque **pd, int argc, char **argv);
-void	sort_three(t_pdeque *pd);
-void	sort_four(t_pdeque *pd);
-void	sort_five(t_pdeque *pd);
-void	quick_sort(t_pdeque *pd);
+void	pd_init(t_pdeque **pd);
+void	pd_parse(t_pdeque **pd, int argc, char **argv);
+
 
 #endif

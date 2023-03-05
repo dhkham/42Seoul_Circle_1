@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 16:18:28 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 16:25:32 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	command(t_pdeque *pd, char *cmd)
 {
 	if (ft_strncmp(cmd, "pa\n", 4) == 0)
-		return (push(&pd->a, &pd->b));
-	if (ft_strncmp(cmd, "pb\n", 4) == 0)
 		return (push(&pd->b, &pd->a));
+	if (ft_strncmp(cmd, "pb\n", 4) == 0)
+		return (push(&pd->a, &pd->b));
 	if (ft_strncmp(cmd, "sa\n", 4) == 0)
 		return (swap(&pd->a));
 	if (ft_strncmp(cmd, "sb\n", 4) == 0)
