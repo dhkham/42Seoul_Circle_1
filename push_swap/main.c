@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/04 20:25:58 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 20:15:17 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,53 @@
 
 int	main(int argc, char **argv)
 {
-	char		*cmd;
-	t_pdeque	*pd; // * 붙는 거 맞는지 확인
+	t_pdeque	*pd;
 
 	if (argc < 2)
 		exit(-1);
-	pd_init(&pd);
-	pd_parse(&pd, argc, argv);
-	push_swap(&pd);
-	checker(&pd);
+	pd = pd_init();
+	pd_parse(pd, argc, argv);
+	//push_swap(pd);
+	//checker(&pd);
 	exit(0);
 }
 
-//pd_init(&pd)를 통해 pd가 가리키는 주소에 t_pdeque를 할당해준다.
-void	pd_init(t_pdeque **pd)
+t_pdeque	*pd_init(void)
 {
-	*pd = (t_pdeque *)malloc(sizeof(t_pdeque));
-	(*pd)->a = (t_deque *)malloc(sizeof(t_deque)); //a는 t_deque를 가리키는 포인터가 아니기 때문에 에러 발생: struct에서 a를 포인터로 수정함
-	(*pd)->b = (t_deque *)malloc(sizeof(t_deque));
-	(*pd)->a->front = NULL;
-	(*pd)->a->rear = NULL; 
-	(*pd)->a->cnt = 0;
-	(*pd)->b->front = NULL;
-	(*pd)->b->rear = NULL;
-	(*pd)->b->cnt = 0;
+	t_pdeque	*pd;
+
+	pd = (t_pdeque *)malloc(sizeof(t_pdeque));
+	if (pd == NULL)
+		exit(1);
+	pd->a = (t_deque *)malloc(sizeof(t_deque));
+	if (pd->a == NULL)
+	{
+		free(pd);
+		exit(1);
+	}
+	pd->b = (t_deque *)malloc(sizeof(t_deque));
+	if (pd->b == NULL)
+	{
+		free(pd->a);
+		free(pd);
+		exit(1);
+	}
+	pd->a->front = NULL;
+	pd->a->rear = NULL;
+	pd->a->cnt = 0;
+	pd->b->front = NULL;
+	pd->b->rear = NULL;
+	pd->b->cnt = 0;
+	return (pd);
 }
 
-// pd_parse: 입력받은 인자를 deque에 넣어주는 함수
-void	pd_parse(t_pdeque **pd, int argc, char **argv)
+// pd_parse: 
+// 여기서 Int 범위 확인 + "4 5 6" 같은 에러 처리 필요
+// 중복수, 이미 정렬된 수 확인
+
+#include "stdio.h"
+
+void	pd_parse(t_pdeque *pd, int argc, char **argv)
 {
 	int		i;
 	int		num;
@@ -60,14 +79,19 @@ void	pd_parse(t_pdeque **pd, int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
-		/* convert the string to an int */
 		num = ft_atoi(argv[i]);
-		/* if the string is not a number, exit with error */
-		//use ft_strncmp instead of ft_strcmp
 		if (num == 0 && ft_strncmp(argv[i], "0", 1) != 0)
 			exit(-1);
-		/* insert the int at the end of the list */
-		insert_rear((*pd)->a, num);
+		insert_rear(pd->a, num);
 		i++;
 	}
+	// use printf to print all elements in deque a
+	t_node *tmp = pd->a->front;
+	while (tmp)
+	{
+		printf("%d\n", tmp->num);
+		tmp = tmp->next;
+	}
+	// 파싱 체크랑 커맨드 확인하기
+	
 }

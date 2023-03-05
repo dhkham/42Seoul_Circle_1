@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 16:10:55 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 20:04:13 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PUSH_SWAP_H
 
 # include "stdlib.h"
+# include "./libft/libft.h"
 
 /*
 t_node는 스택을 구성하는 노드를	의미한다.
@@ -23,23 +24,21 @@ t_pdeque은 스택 a, b를 가리키는 포인터를 가지고 있다. cnt는 �
 
 typedef struct s_node
 {
-	int				num; // 입력된 인자값 
-	unsigned int	idx; // 입력된 전체 값에서의 순서 (쓰일 때 있는지 체크???)
+	int				num;
 	struct s_node	*prev;
 	struct s_node	*next;
 }	t_node;
 
 typedef struct s_deque
 {
-	unsigned int	cnt; // 현재 스택의 노드 개수
-	t_node			*front; 	//t_node	*node[2]; // 노드의 시작과 끝을 저장 => 대체 (rear, front)
-	t_node			*rear;
+	int		cnt;
+	t_node	*front;
+	t_node	*rear;
 }	t_deque;
 
 typedef struct s_pdeque
 {
-	unsigned int	cnt; // 필요함???
-	struct s_deque	*a; // 포인터로 수정!!!
+	struct s_deque	*a;
 	struct s_deque	*b;
 }	t_pdeque;
 
@@ -49,28 +48,23 @@ enum e_rear
 	REAR = 1
 };
 
-// 1. The enum keyword is used to declare an enumeration.
-// 2. The name of the enumeration is e_rear.
-// 3. The enumeration has two values: FRONT and REAR.
-// 4. The FRONT value has the value 0 and the REAR value has the value 1.
-
-void	checker(t_pdeque *pd);
-void	push_swap(t_pdeque *pd);
-int		command(t_pdeque *pd, char *cmd);
-int		push(t_deque *from, t_deque *to);
-int		swap(t_deque *deque);
-int		rotate(t_deque *deque, enum e_rear is_rear);
-// t_node	*dequeue(t_deque *deque, enum e_rear is_rear);
-// void	enqueue(t_deque *deque, enum e_rear is_rear, t_node *node);
-t_node	*create_node(int num);
-void	insert_front(t_deque *deque, int num);
-void	insert_rear(t_deque *deque, int num);
-int		delete_front(t_deque *deque);
-int		delete_rear(t_deque *deque);
-int		is_empty(t_deque *deque);
-int		is_sorted(t_deque *deque);
-void	pd_init(t_pdeque **pd);
-void	pd_parse(t_pdeque **pd, int argc, char **argv);
-
+t_pdeque	*pd_init(void);
+void		pd_parse(t_pdeque *pd, int argc, char **argv);
+void		push_swap(t_pdeque *pd);
+void		bubblesort(int *tmp_arr, int a_len);
+void		quick_sort(t_pdeque *pd, int pivot1, int pivot2);
+void		sort_three(t_pdeque *pd);
+t_node		*create_node(int num);
+void		insert_front(t_deque *deque, int num);
+void		insert_rear(t_deque *deque, int num);
+int			delete_front(t_deque *deque);
+int			delete_rear(t_deque *deque);
+int			is_empty(t_deque *deque);
+int			is_sorted(t_deque *deque);
+int			command(t_pdeque *pd, char *cmd);
+int			push(t_deque *from, t_deque *to);
+int			swap(t_deque *deque);
+int			rotate(t_deque *deque, enum e_rear is_rear);
+void		checker(t_pdeque *pd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 16:33:06 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 18:59:53 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,29 @@ void	push_swap(t_pdeque *pd)
 		tmp_node = tmp_node->next;
 		i++;
 	}
-	bubblesort(tmp_arr);
+	bubblesort(tmp_arr, pd->a->cnt);
 	s_pivot = tmp_arr[pd->a->cnt / 3];
 	b_pivot = tmp_arr[pd->a->cnt / 3 * 2];
 	free(tmp_arr);
 	quick_sort(pd, s_pivot, b_pivot);
 	sort_three(pd);
-	btoa(pd);
+	//btoa(pd);
 	return ;
 }
 
-void	bubblesort(int *tmp_arr)
+void	bubblesort(int *tmp_arr, int a_len)
 {
 	int	i;
 	int	j;
 	int	tmp;
-	int	len;
+	int	tmp_arr_len;
 
 	i = 0;
-	len = sizeof(tmp_arr) / sizeof(int);
-	while (i < len - 1)
+	tmp_arr_len = a_len;
+	while (i < tmp_arr_len - 1)
 	{
 		j = 0;
-		while (j < len - i - 1)
+		while (j < tmp_arr_len - i - 1)
 		{
 			if (tmp_arr[j] > tmp_arr[j + 1])
 			{

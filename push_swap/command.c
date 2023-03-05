@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 16:25:32 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/05 20:03:39 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,28 @@
 int	command(t_pdeque *pd, char *cmd)
 {
 	if (ft_strncmp(cmd, "pa\n", 4) == 0)
-		return (push(&pd->b, &pd->a));
+		return (push(pd->b, pd->a));
 	if (ft_strncmp(cmd, "pb\n", 4) == 0)
-		return (push(&pd->a, &pd->b));
+		return (push(pd->a, pd->b));
 	if (ft_strncmp(cmd, "sa\n", 4) == 0)
-		return (swap(&pd->a));
+		return (swap(pd->a));
 	if (ft_strncmp(cmd, "sb\n", 4) == 0)
-		return (swap(&pd->b));
+		return (swap(pd->b));
 	if (ft_strncmp(cmd, "ss\n", 4) == 0)
-		return (swap(&pd->a) && swap(&pd->b));
+		return (swap(pd->a) && swap(pd->b));
 	if (ft_strncmp(cmd, "ra\n", 4) == 0)
-		return (rotate(&pd->a, FRONT));
+		return (rotate(pd->a, FRONT));
 	if (ft_strncmp(cmd, "rb\n", 4) == 0)
-		return (rotate(&pd->b, FRONT));
+		return (rotate(pd->b, FRONT));
 	if (ft_strncmp(cmd, "rr\n", 4) == 0)
-		return (rotate(&pd->a, FRONT) && rotate(&pd->b, FRONT));
+		return (rotate(pd->a, FRONT) && rotate(pd->b, FRONT));
 	if (ft_strncmp(cmd, "rra\n", 5) == 0)
-		return (rotate(&pd->a, REAR));
+		return (rotate(pd->a, REAR));
 	if (ft_strncmp(cmd, "rrb\n", 5) == 0)
-		return (rotate(&pd->b, REAR));
+		return (rotate(pd->b, REAR));
 	if (ft_strncmp(cmd, "rrr\n", 5) == 0)
-		return (rotate(&pd->a, REAR) && rotate(&pd->b, REAR));
-    ft_putstr_fd("Error\n", 1);
+		return (rotate(pd->a, REAR) && rotate(pd->b, REAR));
+	ft_putstr_fd("Error\n", 2);
 	exit(-1);
 }
 
@@ -49,16 +49,12 @@ int	command(t_pdeque *pd, char *cmd)
 
 int	push(t_deque *from, t_deque *to)
 {
-	t_node	*node;
 	int		val;
 
 	if (from->cnt < 1)
-		return (0);  // 뺄 게 없으므로 명령어 처리 X
-	// use delete_front, insert_front
+		return (0);
 	val = delete_front(from);
 	insert_front(to, val);
-	// node = dequeue(from, FRONT); //FRONT=0, REAR=1, push: FRONT에서 빼서 node에 저장
-	// enqueue(to, FRONT, node); // if node is NULL, should i execute enqueue? => no
 	return (1);
 }
 
@@ -72,21 +68,15 @@ int	push(t_deque *from, t_deque *to)
 // ss : sa and sb at the same time.
 int	swap(t_deque *deque)
 {
-	t_node	*node1;
-	t_node	*node2;
 	int		val1;
 	int		val2;
 
 	if (deque->cnt < 2)
-		return (0);  // 뺄 게 없으므로 명령어 처리 X
+		return (0);
 	val1 = delete_front(deque);
 	val2 = delete_front(deque);
 	insert_front(deque, val1);
 	insert_front(deque, val2);
-	// node1 = dequeue(deque, FRONT);
-	// node2 = dequeue(deque, FRONT);
-	// enqueue(deque, FRONT, node1);
-	// enqueue(deque, FRONT, node2);
 	return (1);
 }
 
@@ -109,22 +99,19 @@ int	swap(t_deque *deque)
 // rrr : rra and rrb at the same time.
 int	rotate(t_deque *deque, enum e_rear is_rear)
 {
-	t_node	*node;
 	int		val;
 
 	if (deque->cnt < 1)
-		return (0);  // 뺄 게 없으므로 명령어 처리 X
+		return (0);
 	if (is_rear) // rra, rrb, rrr
 	{
-		val = delete_rear(deque); // rear에서 빼서 front로
+		val = delete_rear(deque);
 		insert_front(deque, val);
 	}
 	else         // ra, rb, rr
 	{
-		val = delete_front(deque); // front에서 빼서 rear로
+		val = delete_front(deque);
 		insert_rear(deque, val);
 	}
-	// node = dequeue(deque, is_rear);
-	// enqueue(deque, !is_rear, node);
 	return (1);
 }

@@ -1,38 +1,31 @@
-NAME	= push_swap.a
-
+NAME	= push_swap
 CC		= cc
 CFLAG	= -Wall -Wextra -Werror
-
 RM		= rm -f
-AR		= ar
-ARFLAGS = crs
-
-LIB_DIR = ./libft
-
-SRCS	= main.c				\
-		  push_swap.c			\
-		  dequefunctions.c		\
-		  command.c				\
-		  checker.c				\
+SRCS	= main.c								\
+		  push_swap.c							\
+		  dequefunctions.c						\
+		  command.c								\
 
 OBJS	= $(SRCS:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	make -C $(LIB_DIR)
-	cp $(LIB_DIR)/libft.a $@
-	$(AR) $(ARFLAGS) $@ $^
+$(NAME) : libs $(OBJS)
+	$(CC) $(CFLAG) $(SRCS) -L./libft -lft -o $(NAME)
+
+libs :
+	make -C libft
 
 %.o : %.c
 	$(CC) $(CFLAG) -c $< -o $@
 
 clean :
-	make -C $(LIB_DIR) clean
+	make -C ./libft clean
 	$(RM) $(OBJS)
 
 fclean : clean
-	make -C $(LIB_DIR) fclean
+	make -C ./libft fclean
 	$(RM) $(NAME)
 
 re : fclean all
