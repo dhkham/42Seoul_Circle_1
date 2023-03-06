@@ -6,13 +6,12 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 20:20:44 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/06 21:09:39 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-#include "stdio.h"
 int	command(t_pdeque *pd, char *cmd)
 {
 	if (ft_strncmp(cmd, "pa", 3) == 0)

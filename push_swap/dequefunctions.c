@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:13 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 20:18:01 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/06 21:09:43 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	insert_front(t_deque *deque, int num)
 
 	node = create_node(num);
 	if (deque->front == NULL)// if the deque is empty
+	{
 		deque->front = node; // set the deque to the new node
+		deque->rear = node;
+	}
 	else
 	{
 		// set the new node's next pointer to the current first node

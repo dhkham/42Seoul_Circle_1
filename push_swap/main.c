@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 20:32:53 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/06 21:16:20 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 */
 
 #include "push_swap.h"
-#include "stdio.h"
 
 int	main(int argc, char **argv)
 {
@@ -32,32 +31,7 @@ int	main(int argc, char **argv)
 		exit(-1);
 	pd = pd_init();
 	pd_parse(pd, argc, argv);
-	
-	// print all elements in deque a
-	t_node *tmp = pd->a->front;
-	while (tmp != NULL)
-	{
-		printf("a: %d\n", tmp->num);
-		tmp = tmp->next;
-	}
-
-	command(pd, "pb");
-	command(pd, "pb");
-	command(pd, "pb");
-	command(pd, "pb");
-	command(pd, "pb"); // 4 3 2 5
-	command(pd, "rrb");
-	command(pd, "rrb");
-	command(pd, "rb");
-
-	t_node *tmp2 = pd->b->front;
-	while (tmp2 != NULL)
-	{
-		printf("b: %d\n", tmp2->num);
-		tmp2 = tmp2->next;
-	}
-
-	//push_swap(pd);
+	push_swap(pd);
 	//checker(&pd);
 	exit(0);
 }
