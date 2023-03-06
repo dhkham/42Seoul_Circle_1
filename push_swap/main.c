@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 21:17:29 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/06 20:32:53 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,26 @@ int	main(int argc, char **argv)
 	t_node *tmp = pd->a->front;
 	while (tmp != NULL)
 	{
-		printf("initial: %d\n", tmp->num);
+		printf("a: %d\n", tmp->num);
 		tmp = tmp->next;
 	}
-	
-	command(pd, "ra");
-	
-	t_node *tmp2 = pd->a->front;
+
+	command(pd, "pb");
+	command(pd, "pb");
+	command(pd, "pb");
+	command(pd, "pb");
+	command(pd, "pb"); // 4 3 2 5
+	command(pd, "rrb");
+	command(pd, "rrb");
+	command(pd, "rb");
+
+	t_node *tmp2 = pd->b->front;
 	while (tmp2 != NULL)
 	{
-		printf("after: %d\n", tmp2->num);
+		printf("b: %d\n", tmp2->num);
 		tmp2 = tmp2->next;
 	}
-	
+
 	//push_swap(pd);
 	//checker(&pd);
 	exit(0);

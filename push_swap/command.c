@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 21:16:58 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/06 20:20:44 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,14 @@ int	command(t_pdeque *pd, char *cmd)
 int	push(t_deque *from, t_deque *to)
 {
 	int		val;
+	int		is_error;
 
 	if (from->cnt < 1)
 		return (0);
-	val = delete_front(from);
+	is_error = 0;
+	val = delete_front(from, &is_error);
+	if (is_error)
+		return (0);
 	insert_front(to, val);
 	return (1);
 }
@@ -72,11 +76,15 @@ int	swap(t_deque *deque)
 {
 	int		val1;
 	int		val2;
+	int		is_error1;
+	int		is_error2;
 
 	if (deque->cnt < 2)
 		return (0);
-	val1 = delete_front(deque);
-	val2 = delete_front(deque);
+	val1 = delete_front(deque, &is_error1);
+	val2 = delete_front(deque, &is_error2);
+	if (is_error1 || is_error2)
+		return (0);
 	insert_front(deque, val1);
 	insert_front(deque, val2);
 	return (1);
@@ -102,18 +110,22 @@ int	swap(t_deque *deque)
 int	rotate(t_deque *deque, enum e_rear is_rear)
 {
 	int		val;
-	// print is_rear
-	printf("is_rear: %d\n", is_rear);
+	int		is_error;
+
 	if (deque->cnt < 1)
 		return (0);
 	if (is_rear) // rra, rrb, rrr
 	{
-		val = delete_rear(deque);
+		val = delete_rear(deque, &is_error);
+		if (is_error)
+			return (0);
 		insert_front(deque, val);
 	}
 	else         // ra, rb, rr
 	{
-		val = delete_front(deque);
+		val = delete_front(deque, &is_error);
+		if (is_error)
+			return (0);
 		insert_rear(deque, val);
 	}
 	return (1);

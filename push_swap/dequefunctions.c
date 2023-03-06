@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:13 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:24 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/06 20:18:01 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,16 @@ void	insert_rear(t_deque *deque, int num)
 }
 
 //delete_front
-int	delete_front(t_deque *deque)
+int	delete_front(t_deque *deque, int *is_error)
 {
 	t_node	*temp;
 	int		num;
 
 	if (deque->front == NULL) // if the deque is empty
+	{
+		*is_error = 1;
 		return (-1);
+	}
 	else
 	{
 		// point temp to the front of the deque
@@ -108,13 +111,16 @@ int	delete_front(t_deque *deque)
 }
 
 //delete_rear
-int	delete_rear(t_deque *deque)
+int	delete_rear(t_deque *deque, int *is_error)
 {
 	t_node	*temp;
 	int		num;
 
 	if (deque->rear == NULL)
+	{
+		*is_error = 1;
 		return (-1);
+	}
 	else
 	{
 		temp = deque->rear;	// point temp to the rear of the deque
