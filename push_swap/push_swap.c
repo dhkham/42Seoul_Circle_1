@@ -6,139 +6,129 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 22:25:33 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/07 22:25:47 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// 지우기
-#include <stdio.h>
-
+// calculate command_count for all elements in b
+// get the minimum command_count and execute commands for the element
+// e.g., a: 1 5 8 | b: 7 6 2 3
+// 7의 경우: count_ra = 2 (=> ra 2번 해줘야만 5, 8 사이에 7이 들어감) | count_rb = 0 (맨 위라서 바로 pb 가능)          (count_ra/rb 중 큰 값: 2)=>  ra ra pa
+// 6의 경우: count_ra = 2 (=> ra 2번 해줘야만 5, 8 사이에 6이 들어감) | count_rb = 1 (맨 위가 아니라서 rb 1번 해줘야함)   (count_ra/rb 중 큰 값: 2)=> rr ra pa
+// 2의 경우: count_ra = 1 (=> ra 1번 해줘야만 5, 8 사이에 2가 들어감) | count_rb = 2 (맨 위가 아니라서 rb 2번 해줘야함)   (count_ra/rb 중 큰 값: 2)=> rr rb pa
+// 3의 경우: count_ra = 1 (=> ra 1번 해줘야만 5, 8 사이에 3이 들어감) | count_rb = 3 (맨 위가 아니라서 rrb 1번 해줘야함)  (count_ra/rb 중 큰 값: 3)=> ra rrb pa
+// count_rb: how many rb is needed before using pa
 void	push_swap(t_pdeque *pd)
 {
-	// greedy algorithm
+	int		isrra_isrrb[2];
+	int		count_arr[3];
+	int		i;
+	t_node	*curr_b;
+	int		*count_cmd_arr;
+
+	i = 0;
+	while (pd->a->cnt > 3)	// push all elements to b until a->cnt == 3
+		command(pd, "pb");
+	sort_three(pd);	// sort 3 elements in a
+	curr_b = pd->b->front; // make a temporary pointer that indicates the current node
+	count_cmd_arr = (int *)malloc(sizeof(int) * pd->b->cnt);
+	while (curr_b != NULL)
+	{
+		count_arr[0] = get_count_ra(pd, curr_b, isrra_isrrb);
+		count_arr[1] = get_count_rb(pd, curr_b, isrra_isrrb);
+		if (count_arr[0] > count_arr[1])
+			count_cmd_arr[i++] = count_arr[0];
+		else
+			count_cmd_arr[i++] = count_arr[1];
+		curr_b = curr_b->next;
+	}
+	// count_cmd_arr: how many commands are needed to push the element to a for all elements in b
+	// execute_cmd
+	execute_cmd(pd, count_cmd_arr);
+	free(count_cmd_arr);
+}
+
+void	execute_cmd(t_pdeque *pd, int *count_cmd_arr)
+{
+// find index for minimal value in array(=min_idx) in count_cmd_arr
+// execute commands for the element in b that has the min_idx
+
+	// find min_idx
+	int		min_idx;
+	int		i;
+	int		min;
+
+	i = 0;
+	min = count_cmd_arr[0];
+	min_idx = 0;
+	while (i < pd->b->cnt)
+	{
+		if (min > count_cmd_arr[i])
+		{
+			min = count_cmd_arr[i];
+			min_idx = i;
+		}
+		i++;
+	}
 	
-	// rotate, push만 사용
-	// deque b의 모든 값에 대해 count_ra값을 구한다. (ra를 몇번 해야 b의 값을 a에 push할 수 있는지)
-	// e.g., a: 1 2 3 5 8 | b: 7 이면, count_ra = 4 (=> ra 4번 해줘야만 5, 8 사이에 7이 들어감)
-	// count_ra가 a의 원소 수 절반보다 크면 rra가 더 효율적이다!
-	// 마찬가지 원리로 count_rb도 구한다. (b 원소 수 절반보다 크면 rrb가 더 효율적)
-	
-	// 
-	// ??
+	// execute commands for the element in b that has the min_idx
 	
 }
 
-// void	push_swap(t_pdeque *pd)
-// {
-// 	int		i;
-// 	t_node	*tmp_node;
-// 	int		*tmp_arr;
-// 	int		s_pivot;
-// 	int		b_pivot;
+int	get_count_ra(t_pdeque	*pd, t_node *curr_b, int *isrra_isrrb[2])
+{
+	int		count_ra;
+	int		b_front_val;
+	t_node	*tmp;
 
-// 	i = 0;
-// 	tmp_node = pd->a->front;
-// 	if (is_sorted(pd->a))
-// 		return ;
-// 	tmp_arr = (int *)malloc(sizeof(int) * pd->a->cnt);
-// 	while (i < pd->a->cnt)
-// 	{
-// 		tmp_arr[i] = tmp_node->num;
-// 		tmp_node = tmp_node->next;
-// 		i++;
-// 	}
-// 	// loop thru tmp_arr and print values
-// 	i = 0;
-// 	while (i < pd->a->cnt)
-// 	{
-// 		printf("before sorting: %d\n", tmp_arr[i]);
-// 		i++;
-// 	}
-// 	bubblesort(tmp_arr, pd->a->cnt);
-// 	i = 0;
-// 	while (i < pd->a->cnt)
-// 	{
-// 		printf("after sorting: %d\n", tmp_arr[i]);
-// 		i++;
-// 	}
-// 	s_pivot = tmp_arr[pd->a->cnt / 3];
-// 	b_pivot = tmp_arr[pd->a->cnt / 3 * 2];
-// 	printf("s_pivot: %d, b_pivot: %d\n", s_pivot, b_pivot);
-// 	free(tmp_arr);
-// 	quick_sort(pd, s_pivot, b_pivot);
-// 	sort_three(pd);
-// 	// print deque a and b
-// 	while (pd->a->front)
-// 	{
-// 		printf("a: %d\n", pd->a->front->num);
-// 		pd->a->front = pd->a->front->next;
-// 	}
-// 	while (pd->b->front)
-// 	{
-// 		printf("b: %d\n", pd->b->front->num);
-// 		pd->b->front = pd->b->front->next;
-// 	}
-// 	//btoa(pd);
-// 	return ;
-// }
+	count_ra = 0;
+	tmp = pd->a->front;	// use temporary pointer to iterate through a
+	while (tmp->num < curr_b->num) 	// find first value in a that is bigger than b_front_val
+	{
+		count_ra++;
+		tmp = tmp->next;
+	}
+	free(tmp);
+	if (count_ra >= pd->a->cnt / 2 + 1)
+	{
+		*isrra_isrrb[0] = 1; // rra
+		count_ra = pd->a->cnt - count_ra;
+	}
+	else
+		*isrra_isrrb[0] = 0; // ra
+	return (count_ra);
+}
 
-// void	bubblesort(int *tmp_arr, int a_len)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	tmp;
-// 	int	tmp_arr_len;
+int	get_count_rb(t_pdeque	*pd, t_node *curr_b, int *isrra_isrrb[2])
+{
+	int		count_rb;
+	t_node	*tmp;
 
-// 	i = 0;
-// 	tmp_arr_len = a_len;
-// 	while (i < tmp_arr_len - 1)
-// 	{
-// 		j = 0;
-// 		while (j < tmp_arr_len - i - 1)
-// 		{
-// 			if (tmp_arr[j] > tmp_arr[j + 1])
-// 			{
-// 				tmp = tmp_arr[j];
-// 				tmp_arr[j] = tmp_arr[j + 1];
-// 				tmp_arr[j + 1] = tmp;
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-// // if bigger than b_pivot, leave it in a
-// // if equal or less than b_pivot, push it to b
-// // in b, if equal or less than s_pivot, use command "ra"
-// // leave three elements and push the rest to b
-// void	quick_sort(t_pdeque *pd, int pivot1, int pivot2)
-// {
-// 	t_node	*tmp_node;
-// 	int		i;
-
-// 	i = 0;
-// 	tmp_node = pd->a->front;
-// 	while (i < pd->a->cnt)
-// 	{
-// 		if (tmp_node->num > pivot2)
-// 			tmp_node = tmp_node->next;
-// 		else if (tmp_node->num <= pivot2)
-// 		{
-// 			command(pd, "pb");
-// 			if (tmp_node->num <= pivot1)
-// 				command(pd, "ra");
-// 		}
-// 		i++;
-// 	}
-// 	while (pd->a->cnt > 3)
-// 	{
-// 		command(pd, "pb");
-// 	}
-// 	return ;
-// }
+	count_rb = 0;
+	if (curr_b == pd->b->front) 	// if the value is in the front, count_rb = 0
+		return (count_rb);
+	else // if the value is not in the front, count_rb = how many rb is needed before using pa
+	{
+		count_rb = 1;
+		tmp = curr_b;
+		while (tmp->prev != pd->b->front)	// calculate the distance between tmp and the front of b
+		{
+			count_rb++;
+			tmp = tmp->prev;
+		}
+		free(tmp);
+		if (count_rb >= pd->b->cnt / 2 + 1)
+		{
+			*isrra_isrrb[1] = 1; // rrb
+			count_rb = pd->b->cnt - count_rb;
+		}
+		else
+			*isrra_isrrb[1] = 0; // rb
+	}
+	return (count_rb);
+}
 
 // sort three elements in stack a
 void	sort_three(t_pdeque *pd)
@@ -167,3 +157,4 @@ void	sort_three(t_pdeque *pd)
 		command(pd, "rra"); // 1 2 3
 	}
 }
+
