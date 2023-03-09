@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/08 22:26:50 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/09 22:25:06 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,115 @@
 
 void	push_swap(t_pdeque *pd)
 {
-	int		*b_cmd_cnt;
-	int		*count_ra_arr;
+	int		*count_ras;
+	int		*count_rbs;
+
+	while (pd->a->cnt > 3)
+		command(pd, "pb");
+	while (1)
+	{
+		sort_three(pd);
+		count_ras = (int *)malloc(sizeof(int) * pd->b->cnt);
+		count_rbs = (int *)malloc(sizeof(int) * pd->b->cnt);
+		get_count(pd, count_ras, count_rbs);
+		execute_cmd(pd, count_ras, count_rbs);
+		free(count_ras);
+		free(count_rbs);
+		if (pd->b->cnt == 0) // b원소 다 옮겼으면 루프 탈출
+			break ;
+	}
+}
+
+void	get_count(t_pdeque *pd, int *count_ras, int *count_rbs)
+{
+	t_node	*tmp;
 	int		i;
 
 	i = 0;
-	while (pd->a->cnt > 3)
-		command(pd, "pb");
-	sort_three(pd);
-	while (1) // b->a로 다 옮길 때까지 무한 루프
+	tmp = pd->b->front;
+	while (tmp)
 	{
-		b_cmd_cnt = (int *)malloc(sizeof(int) * pd->b->cnt); // b 원소 수만큼 커맨드 수 저장할 배열
-		count_ra_arr = (int *)malloc(sizeof(int) * pd->b->cnt); // b 원소 수만큼 ra 수 저장할 배열
-		get_cmd_cnt(pd, b_cmd_cnt, count_ra_arr); // b 모든 원소에 대해 커맨드 수 계산
-		execute_cmd(pd, b_cmd_cnt, count_ra_arr); // 커맨드 수가 가장 작은 원소에 대해 커맨드 실행
-		if (pd->b->cnt == 0) // 다 옮겼으면 루프 탈출
-			break ;
-		free(b_cmd_cnt);
-		free(count_ra_arr);
+		count_ras[i] = get_count_ra(pd, tmp->num); // b의 원소 하나하나에 대해 ra 수 계산(count_ra값이 음수: a 총 원소 수에 더해준 값만큼 rra해야함)
+		count_rbs[i] = get_count_rb(pd, tmp->num); // b의 원소 하나하나에 대해 rb 수 계산(count_rb값이 음수: b 총 원소 수에 더해준 값만큼 rrb해야함)
+		i++;
+		tmp = tmp->next;
 	}
 }
+
+void	execute_cmd(t_pdeque *pd, int *count_ras, int *count_rbs)
+{
+	// 먼저 count_ra, count_rb 값을 합한 것이 가장 작은 index를 찾는다.
+	int		i;
+	int		ra_rb[2];
+	int		*cmd_cnt;
+	int		min;
+	int		min_idx;
+
+	i = 0;
+	cmd_cnt = (int *)malloc(sizeof(int) * pd->b->cnt);
+	while (i < pd->b->cnt)
+	{
+		if (count_ras[i] < 0)
+			ra_rb[0] = pd->a->cnt + count_ras[i];
+		else
+			ra_rb[0] = count_ras[i];
+		if (count_rbs[i] < 0)
+			ra_rb[1] = pd->b->cnt + count_rbs[i];
+		else
+			ra_rb[1] = count_rbs[i];
+		cmd_cnt[i] = ra_rb[0] + ra_rb[1];
+		i++;
+	}
+	// find minimum value's index in cmd_cnt
+	min = cmd_cnt[0];
+	min_idx = 0;
+	i = 1;
+	while (i < pd->b->cnt)
+	{
+		if (cmd_cnt[i] < min)
+		{
+			min = cmd_cnt[i];
+			min_idx = i;
+		}
+		i++;
+	}
+	free(cmd_cnt);
+	// execute commands for the element in b with minimum value's index
+	// count_ras[min_idx], count_rbs[min_idx] 값에 따라 커맨드 실행
+	// 둘 다 양수면 둘 중 하나가 0 이 될 때까지 rr (rr할 때마다 count_ra, count_rb 값도 같이 1 씩 감소시켜줘야)
+	// -> 둘 다 0이 되면 그냥 pa
+	// -> 둘 중 하나 0이 되면 남은 count_ra/rb 수만큼 ra/rb 실행
+
+	// 둘 다 음수면 둘 중 하나가 0이 될 때 까지 rrr (rrr할 때마다 count_ra, count_rb 값도 같이 1 씩 증가시켜줘야),
+	// -> 둘 다 0이 되면 그냥 pa
+	// -> 둘 중 하나 0이 되면 남은 count_ra/rb값 + a/b 총 원소 수 만큼 ra/rb 실행
+	
+	// 부호 다르면 그냥 따로 count_ra/rb 수만큼 ra/rb 실행
+	
+	// 모든 경우에 최종적으로 pa 실행
+
+}
+
+// void	push_swap(t_pdeque *pd)
+// {
+// 	int		*b_cmd_cnt;
+// 	int		*count_ra_arr;
+
+// 	while (pd->a->cnt > 3)
+// 		command(pd, "pb");
+// 	sort_three(pd);
+// 	while (1) // b->a로 다 옮길 때까지 무한 루프
+// 	{
+// 		b_cmd_cnt = (int *)malloc(sizeof(int) * pd->b->cnt); // b 원소 수만큼 커맨드 수 저장할 배열
+// 		count_ra_arr = (int *)malloc(sizeof(int) * pd->b->cnt); // b 원소 수만큼 ra 수 저장할 배열
+// 		get_cmd_cnt(pd, b_cmd_cnt, count_ra_arr); // b 모든 원소에 대해 커맨드 수 계산
+// 		execute_cmd(pd, b_cmd_cnt, count_ra_arr); // 커맨드 수가 가장 작은 원소에 대해 커맨드 실행
+// 		if (pd->b->cnt == 0) // 다 옮겼으면 루프 탈출
+// 			break ;
+// 		free(b_cmd_cnt);
+// 		free(count_ra_arr);
+// 	}
+// }
 
 void	sort_three(t_pdeque *pd)
 {
@@ -70,30 +159,28 @@ void	sort_three(t_pdeque *pd)
 	}
 }
 
-void	get_cmd_cnt(t_pdeque *pd, int *b_cmd_cnt, int *count_ra_arr)
-{
-	int		count_ra;
-	int		count_rb;
-	int		i;
-	int		*is_rrab;
+// void	get_cmd_cnt(t_pdeque *pd, int *b_cmd_cnt, int *count_ra_arr)
+// {
+// 	int		count_ra;
+// 	int		count_rb;
+// 	int		i;
+// 	int		*is_rrab;
 
-	count_ra = 0;
-	count_rb = 0;
-	i = 0;
-	is_rrab = (int *)malloc(sizeof(int) * pd->b->cnt * 2);
-	while (i < pd->b->cnt)
-	{
-		count_ra = get_count_ra(pd, pd->b->front);//, is_rrab);
-		count_rb = get_count_rb(pd, pd->b->front);//, is_rrab);
-		
-		// from here
-		// count_ra, count_rb is minus if rra/rrb is used!
-		
-		b_cmd_cnt[i] = count_ra + count_rb; // 확인
-		count_ra_arr[i] = count_ra;
-		i++;
-	}
-}
+// 	count_ra = 0;
+// 	count_rb = 0;
+// 	i = 0;
+// 	is_rrab = (int *)malloc(sizeof(int) * pd->b->cnt * 2);
+// 	while (i < pd->b->cnt)
+// 	{
+// 		count_ra = get_count_ra(pd, pd->b->front); // ra 몇 번 해야하는지 계산, rra인 경우는 음수로 리턴
+// 		count_rb = get_count_rb(pd, pd->b->front); // rb 몇 번 해야하는지 계산, rrb인 경우는 음수로 리턴
+// 		// from here
+// 		// count_ra, count_rb is minus if rra/rrb is used!
+// 		b_cmd_cnt[i] = count_ra + count_rb; // 확인
+// 		count_ra_arr[i] = count_ra;
+// 		i++;
+// 	}
+// }
 
 int	get_count_ra(t_pdeque	*pd, t_node *cur_b)//, int *is_rrab)
 {
