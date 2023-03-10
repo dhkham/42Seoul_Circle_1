@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 20:16:50 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/10 20:03:13 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ enum e_rear
 t_pdeque	*pd_init(void);
 void		pd_parse(t_pdeque *pd, int argc, char **argv);
 void		push_swap(t_pdeque *pd);
-void		bubblesort(int *tmp_arr, int a_len);
-void		quick_sort(t_pdeque *pd, int pivot1, int pivot2);
 void		sort_three(t_pdeque *pd);
+void		get_count(t_pdeque *pd, int *count_ras, int *count_rbs);
+void		execute_cmd(t_pdeque *pd, int *count_ras, int *count_rbs);
+int			get_count_ra(t_pdeque	*pd, t_node *cur_b);
+int			get_count_rb(t_pdeque	*pd, t_node *cur_b);
 t_node		*create_node(int num);
 void		insert_front(t_deque *deque, int num);
 void		insert_rear(t_deque *deque, int num);
