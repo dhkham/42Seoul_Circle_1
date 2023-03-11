@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/11 19:10:34 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 21:09:01 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ enum e_rear
 
 t_pdeque	*pd_init(void);
 void		pd_parse(t_pdeque *pd, int argc, char **argv);
+void		check_duplicate(t_pdeque *pd, int num);
 void		push_swap(t_pdeque *pd);
 void		sort_two(t_pdeque *pd);
 void		sort_three(t_pdeque *pd);

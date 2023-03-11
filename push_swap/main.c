@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 21:16:20 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 21:24:56 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	main(int argc, char **argv)
 	t_pdeque	*pd;
 
 	if (argc < 2)
-		exit(-1);
+	{
+		ft_putstr_fd("Error\n", 2);
+		exit(1);
+	}
 	pd = pd_init();
 	pd_parse(pd, argc, argv);
 	push_swap(pd);
@@ -78,8 +81,34 @@ void	pd_parse(t_pdeque *pd, int argc, char **argv)
 	{
 		num = ft_atoi(argv[i]);
 		if (num == 0 && ft_strncmp(argv[i], "0", 1) != 0)
-			exit(-1);
+		{
+			ft_putstr_fd("Error\n", 2);
+			exit(1);
+		}
+		check_duplicate(pd, num);
 		insert_rear(pd->a, num);
 		i++;
 	}
 }
+
+void	check_duplicate(t_pdeque *pd, int num)
+{
+	t_node	*tmp;
+
+	tmp = pd->a->front;
+	while (tmp)
+	{
+		if (tmp->num == num)
+		{
+			ft_putstr_fd("Error\n", 2);
+			exit(1);
+		}
+		tmp = tmp->next;
+	}
+}
+// 2 1 3 같은 형식이아닌 "2 1 3"처럼 하나의 문자열로 들어오는것도 받아줘야함
+// 2 "1 3" 6 5 같이 섞여 들어와도 받아줘야함
+// 음수가 들어와도 받아줘야함
+// 숫자 이외의 문자가 들어올 시 에러 (o)
+// 아무런 값이 들어오지 않을 시 에러 (o)
+// 중복된 값이 들어올 시 에러 (o)

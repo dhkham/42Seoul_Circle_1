@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:18:15 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/11 19:55:31 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 20:52:44 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	command(t_pdeque *pd, char *cmd)
 		return (rotate(pd->b, REAR));
 	else if (ft_strncmp(cmd, "rrr", 4) == 0)
 		return (rotate(pd->a, REAR) && rotate(pd->b, REAR));
-	ft_putstr_fd("Error", 2);
+	ft_putstr_fd("Error\n", 2);
 	exit(-1);
 }
 
