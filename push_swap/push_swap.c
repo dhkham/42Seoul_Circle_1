@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/10 22:25:11 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 18:29:58 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,13 @@ void	push_swap(t_pdeque *pd)
 	while (pd->a->cnt > 3)
 		command(pd, "pb");
 	sort_three(pd);
-	//while (1)
-	for (int i = 0; i < 3; i++)
+	while (1)
 	{
-		
+
 		count_ras = (int *)malloc(sizeof(int) * pd->b->cnt);
 		count_rbs = (int *)malloc(sizeof(int) * pd->b->cnt);
 
 		get_count(pd, count_ras, count_rbs);
-
 
 		for (int i = 0; i < pd->b->cnt; i++)
 			printf("c_ra%d:%d\n", i, count_ras[i]);
@@ -66,9 +64,32 @@ void	push_swap(t_pdeque *pd)
 			cur_b = cur_b->next;
 		}
 
-
 		if (pd->b->cnt == 0) // b원소 다 옮겼으면 루프 탈출
+		{
+			// loop thru deque a and find element that is smaller than the previous element
+			// if found, use "rra" to move all elements below including itself to the front
+			// e.g., a: 3 5 6 8 9 1 2 => use "rra" twice to move 1 and 2 to the front
+
+			t_node *cur_a1 = pd->a->front;
+			while (cur_a1->next)
+			{
+				if (cur_a1->num > cur_a1->next->num)
+				{
+					command(pd, "rra");
+					cur_a1 = pd->a->front;
+				}
+				else
+					cur_a1 = cur_a1->next;
+			}
+			// use loop and print all in a and b
+			t_node *cur_a2 = pd->a->front;
+			while (cur_a2)
+			{
+				printf("final a:%d\n", cur_a2->num);
+				cur_a2 = cur_a2->next;
+			}
 			break ;
+		}
 	}
 }
 
@@ -81,21 +102,21 @@ void	sort_three(t_pdeque *pd)
 	a = pd->a->front->num;
 	b = pd->a->front->next->num;
 	c = pd->a->rear->num;
-	if (a < b && b > c && c > a) // a: 1, b: 3, c: 2
+	if (a < b && b > c && c > a)
 	{
-		command(pd, "sa"); // 3 1 2
-		command(pd, "ra"); // 1 2 3
+		command(pd, "sa");
+		command(pd, "ra");
 	}
-	else if (a > b && b < c && c > a) // a: 2, b: 1, c: 3
-		command(pd, "sa"); // 1 2 3
-	else if (a < b && b > c && c < a) // a: 2, b: 3, c: 1
-		command(pd, "rra"); // 1 2 3
-	else if (a > b && b < c && c < a) // a: 3, b: 1, c: 2
-		command(pd, "ra"); // 1 2 3
-	else if (a > b && b > c) // a: 3, b: 2, c: 1
+	else if (a > b && b < c && c > a)
+		command(pd, "sa");
+	else if (a < b && b > c && c < a)
+		command(pd, "rra");
+	else if (a > b && b < c && c < a)
+		command(pd, "ra");
+	else if (a > b && b > c)
 	{
-		command(pd, "sa"); // 2 3 1
-		command(pd, "rra"); // 1 2 3
+		command(pd, "sa");
+		command(pd, "rra");
 	}
 }
 
@@ -121,22 +142,29 @@ int	get_count_ra(t_pdeque	*pd, t_node *cur_b)
 	t_node	*tmp;
 
 	count_ra = 0;
-	tmp = pd->a->front;	// use temporary pointer to iterate through a
+	tmp = pd->a->front;	//use temporary pointer to iterate through a
 
 	// a의 첫 두 원소 사이에 b의 원소가 들어가도록 ra 수 계산
 	// loop thru elements of a and find where to insert b's element
 	// if a: 6,8,9,1,5 and b: 2,3 then the result should be a:6 8 9 1 2 5 b:3
-	
-
-
-
-	// while (tmp && tmp->num < cur_b->num) // 1 < 9
-	// {
-	// 	count_ra++;
-	// 	tmp = tmp->next;
-	// }
+	// tmp->num < cur_b->num && tmp->next->num > cur_b->num
+	while (1)
+	{
+		if (tmp->next == NULL)
+		{
+			count_ra++;
+			break ;
+		}
+		if (tmp->num < cur_b->num && tmp->next->num > cur_b->num)
+		{
+			count_ra++;
+			break ;
+		}
+		count_ra++;
+		tmp = tmp->next;
+	}
 	if (count_ra >= pd->a->cnt / 2 + 1)
-		count_ra = count_ra * -1;	//is_rrab[0] = 1; // if count_ra is bigger than half of a, use rra instead of ra
+		count_ra = count_ra * -1;
 	return (count_ra);
 }
 
