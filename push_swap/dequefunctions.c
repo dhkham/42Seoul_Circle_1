@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:13 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/06 21:09:43 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:54:39 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_node	*create_node(int num)
 	return (node);
 }
 
-//insert_front
 void	insert_front(t_deque *deque, int num)
 {
 	t_node	*node;
@@ -60,7 +59,6 @@ void	insert_front(t_deque *deque, int num)
 	deque->cnt++;
 }
 
-//insert_rear
 void	insert_rear(t_deque *deque, int num)
 {
 	t_node	*node;

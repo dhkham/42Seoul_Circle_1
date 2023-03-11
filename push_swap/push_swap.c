@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/11 18:29:58 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:54:18 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,24 @@ void	push_swap(t_pdeque *pd)
 {
 	int		*count_ras;
 	int		*count_rbs;
+	t_node	*cur_a;
 
 	while (pd->a->cnt > 3)
 		command(pd, "pb");
-	sort_three(pd);
 	while (1)
 	{
-
+		if (pd->a->cnt == 1)
+			break ;
+		else if (pd->a->cnt == 2)
+		{
+			if (pd->a->front->num > pd->a->front->next->num)
+				command(pd, "sa");
+			break ;
+		}
+		else if (pd->a->cnt == 3)
+			sort_three(pd);
 		count_ras = (int *)malloc(sizeof(int) * pd->b->cnt);
 		count_rbs = (int *)malloc(sizeof(int) * pd->b->cnt);
-
 		get_count(pd, count_ras, count_rbs);
 
 		for (int i = 0; i < pd->b->cnt; i++)
@@ -43,54 +51,43 @@ void	push_swap(t_pdeque *pd)
 			printf("c_rb%d:%d\n", i, count_rbs[i]);
 
 		execute_cmd(pd, count_ras, count_rbs);
+
 		free(count_ras);
 		free(count_rbs);
 
-		// if the first element in a is larger than the second element, use "ra"
-		if (pd->a->front->num > pd->a->front->next->num)
+		if (pd->a->front->num > pd->a->front->next->num) // if the first element in a is larger than the second element, use "ra"
 			command(pd, "ra");
-
-		// use loop and print all in a and b
-		t_node *cur_a = pd->a->front;
-		while (cur_a)
+		if (pd->b->cnt == 0) // b원소 다 옮겼으면 최종 정렬 후 루프 탈출
 		{
-			printf("a:%d\n", cur_a->num);
-			cur_a = cur_a->next;
-		}
-		t_node *cur_b = pd->b->front;
-		while (cur_b)
-		{
-			printf("b:%d\n", cur_b->num);
-			cur_b = cur_b->next;
-		}
-
-		if (pd->b->cnt == 0) // b원소 다 옮겼으면 루프 탈출
-		{
-			// loop thru deque a and find element that is smaller than the previous element
-			// if found, use "rra" to move all elements below including itself to the front
-			// e.g., a: 3 5 6 8 9 1 2 => use "rra" twice to move 1 and 2 to the front
-
-			t_node *cur_a1 = pd->a->front;
-			while (cur_a1->next)
+			cur_a = pd->a->front;
+			while (cur_a->next)
 			{
-				if (cur_a1->num > cur_a1->next->num)
+				if (cur_a->num > cur_a->next->num)
 				{
 					command(pd, "rra");
-					cur_a1 = pd->a->front;
+					cur_a = pd->a->front;
 				}
 				else
-					cur_a1 = cur_a1->next;
-			}
-			// use loop and print all in a and b
-			t_node *cur_a2 = pd->a->front;
-			while (cur_a2)
-			{
-				printf("final a:%d\n", cur_a2->num);
-				cur_a2 = cur_a2->next;
+					cur_a = cur_a->next;
 			}
 			break ;
 		}
 	}
+	// temp
+	// use loop and print all in a and b
+	t_node *cur_a2 = pd->a->front;
+	while (cur_a2)
+	{
+		printf("final a:%d\n", cur_a2->num);
+		cur_a2 = cur_a2->next;
+	}
+	
+}
+
+void	sort_two(t_pdeque *pd)
+{
+	if (pd->a->front->num > pd->a->front->next->num)
+		command(pd, "sa");
 }
 
 void	sort_three(t_pdeque *pd)
@@ -102,18 +99,20 @@ void	sort_three(t_pdeque *pd)
 	a = pd->a->front->num;
 	b = pd->a->front->next->num;
 	c = pd->a->rear->num;
-	if (a < b && b > c && c > a)
+	if (a < b && b > c && c > a) // a: 1 b:3 c:2 
 	{
 		command(pd, "sa");
 		command(pd, "ra");
 	}
-	else if (a > b && b < c && c > a)
+	else if (a > b && b < c && c > a) // a: 2 b:1 c:3
+	{
 		command(pd, "sa");
-	else if (a < b && b > c && c < a)
+	}
+	else if (a < b && b > c && c < a) // a: 2 b:3 c:1
 		command(pd, "rra");
-	else if (a > b && b < c && c < a)
+	else if (a > b && b < c && c < a) // a: 3 b:1 c:2
 		command(pd, "ra");
-	else if (a > b && b > c)
+	else if (a > b && b > c) // a: 3 b:2 c:1
 	{
 		command(pd, "sa");
 		command(pd, "rra");

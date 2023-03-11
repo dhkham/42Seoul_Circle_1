@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:27:23 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/10 20:03:13 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/11 19:10:34 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ enum e_rear
 t_pdeque	*pd_init(void);
 void		pd_parse(t_pdeque *pd, int argc, char **argv);
 void		push_swap(t_pdeque *pd);
+void		sort_two(t_pdeque *pd);
 void		sort_three(t_pdeque *pd);
 void		get_count(t_pdeque *pd, int *count_ras, int *count_rbs);
 void		execute_cmd(t_pdeque *pd, int *count_ras, int *count_rbs);
