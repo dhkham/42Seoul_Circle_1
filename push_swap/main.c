@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:17:03 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/11 21:52:37 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/12 18:24:40 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,27 @@ void	pd_parse(t_pdeque *pd, int argc, char **argv)
 {
 	int		i;
 	int		num;
-	char	**split_arr;
+	//char	**split_arr;
 
 	i = 1;
 	while (i < argc)
 	{
 		// 2 "1 3" 6 5 같이 섞여 들어와도 받아줘야함
-		if (ft_strchr(argv[i], ' '))
-		{
-			// printf("hello\n");
-			// split_arr = ft_split(argv[i], ' ');
-			// // print all elements of array
-			// int j = 0;
-			// while (split_arr[j])
-			// {
-			// 	printf("%s\n", split_arr[j]);
-			// 	j++;
-			// }
-			// pd_parse(pd, argc, split_arr);
-			// // pd_parse(pd, argc, split_arr);
-			// // continue ;
-		}
+		// if (ft_strchr(argv[i], ' '))
+		// {
+		// 	// printf("hello\n");
+		// 	// split_arr = ft_split(argv[i], ' ');
+		// 	// // print all elements of array
+		// 	// int j = 0;
+		// 	// while (split_arr[j])
+		// 	// {
+		// 	// 	printf("%s\n", split_arr[j]);
+		// 	// 	j++;
+		// 	// }
+		// 	// pd_parse(pd, argc, split_arr);
+		// 	// // pd_parse(pd, argc, split_arr);
+		// 	// // continue ;
+		// }
 		num = ft_atoi(argv[i]);
 		if (num == 0 && ft_strncmp(argv[i], "0", 1) != 0)
 		{

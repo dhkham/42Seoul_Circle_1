@@ -6,7 +6,7 @@
 /*   By: dkham <dkham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 21:36:24 by dkham             #+#    #+#             */
-/*   Updated: 2023/03/11 19:54:18 by dkham            ###   ########.fr       */
+/*   Updated: 2023/03/12 21:15:39 by dkham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	push_swap(t_pdeque *pd)
 
 	while (pd->a->cnt > 3)
 		command(pd, "pb");
+	//for (int i = 0; i < 5; i++)
 	while (1)
 	{
 		if (pd->a->cnt == 1)
@@ -45,10 +46,10 @@ void	push_swap(t_pdeque *pd)
 		count_rbs = (int *)malloc(sizeof(int) * pd->b->cnt);
 		get_count(pd, count_ras, count_rbs);
 
-		for (int i = 0; i < pd->b->cnt; i++)
-			printf("c_ra%d:%d\n", i, count_ras[i]);
-		for (int i = 0; i < pd->b->cnt; i++)
-			printf("c_rb%d:%d\n", i, count_rbs[i]);
+		// for (int i = 0; i < pd->b->cnt; i++)
+		// 	printf("c_ra%d:%d\n", i, count_ras[i]);
+		// for (int i = 0; i < pd->b->cnt; i++)
+		// 	printf("c_rb%d:%d\n", i, count_rbs[i]);
 
 		execute_cmd(pd, count_ras, count_rbs);
 
@@ -81,14 +82,13 @@ void	push_swap(t_pdeque *pd)
 		printf("final a:%d\n", cur_a2->num);
 		cur_a2 = cur_a2->next;
 	}
-	
 }
 
-void	sort_two(t_pdeque *pd)
-{
-	if (pd->a->front->num > pd->a->front->next->num)
-		command(pd, "sa");
-}
+// void	sort_two(t_pdeque *pd)
+// {
+// 	if (pd->a->front->num > pd->a->front->next->num)
+// 		command(pd, "sa");
+// }
 
 void	sort_three(t_pdeque *pd)
 {
@@ -153,6 +153,14 @@ int	get_count_ra(t_pdeque	*pd, t_node *cur_b)
 		{
 			count_ra++;
 			break ;
+		}
+		if (tmp->num > tmp->next->num)
+		{
+			if (tmp->num < cur_b->num && tmp->next->num < cur_b->num)
+			{
+				count_ra++;
+				break ;
+			}
 		}
 		if (tmp->num < cur_b->num && tmp->next->num > cur_b->num)
 		{
@@ -291,7 +299,7 @@ void	execute_cmd(t_pdeque *pd, int *count_ras, int *count_rbs)
 				count_ras[min_idx]--;
 			}
 		}
-		else
+		else if (count_ras[min_idx] < 0) // 추가
 		{
 			count_ras[min_idx] = pd->a->cnt + count_ras[min_idx];
 			while (count_ras[min_idx] > 0)
@@ -308,7 +316,7 @@ void	execute_cmd(t_pdeque *pd, int *count_ras, int *count_rbs)
 				count_rbs[min_idx]--;
 			}
 		}
-		else
+		else if (count_rbs[min_idx] < 0) // 추가
 		{
 			count_rbs[min_idx] = pd->b->cnt + count_rbs[min_idx];
 			while (count_rbs[min_idx] > 0)
